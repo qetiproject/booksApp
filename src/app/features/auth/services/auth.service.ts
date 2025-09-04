@@ -6,6 +6,7 @@ import { User } from "../types/user";
 import { environment } from "../../../../environments/environment";
 
 const USER_STORAGE_KEY = 'user';
+const apiRoot ='http://localhost:9000/api';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,7 @@ export class AuthService {
   }
 
   async login(email: string, password: string): Promise<User> {
-    const login$ = this.http.post<User>(`${environment.apiRoot}/login`, {
+    const login$ = this.http.post<User>(`${apiRoot}/login`, {
       email, password
     });
 

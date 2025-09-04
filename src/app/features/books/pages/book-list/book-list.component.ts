@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { BookService } from '../../services/book.service';
 
 @Component({
   selector: 'book-list',
@@ -9,4 +10,10 @@ import { Component } from '@angular/core';
 })
 export class BookListComponent {
 
+  bookService = inject(BookService);
+
+  async searchBooks(name: string) {
+    const books = await this.bookService.searchBooks(name);
+    console.log(books)
+  }
 }
