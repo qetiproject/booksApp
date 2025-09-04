@@ -1,5 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { BookService } from '../../services/book.service';
+import { tap } from 'rxjs';
+import { SearchBooksView } from '../../types/book';
 
 @Component({
   selector: 'book-list',
@@ -10,10 +12,21 @@ import { BookService } from '../../services/book.service';
 })
 export class BookListComponent {
 
+  #books = signal<SearchBooksView[]>([]);
   bookService = inject(BookService);
 
-  async searchBooks(name: string) {
-    const books = await this.bookService.searchBooks(name);
-    console.log(books)
+  searchBooks(name: string) {
+    this.bookService.searchBooks(name)
+      .pipe(tap(books => this.#books.set(books)))
+      .subscribe(x => console.log(x));
+  }
+
+  get books() {
+    return this.#books();
+  }
+
+
+  getBooks() {
+
   }
 }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
+import { BookData, BookResult, SearchBooksView } from '../types/book';
 
 const bookApiBase ='https://www.googleapis.com/books/v1/volumes';
 @Injectable({
@@ -10,9 +11,15 @@ export class BookService {
 
   http = inject(HttpClient);
 
-  async searchBooks(name: string): Promise<any[]> {
-    const books$ = await this.http.get<any[]>(`${bookApiBase}/?q=${name}`);
-    const response = await firstValueFrom(books$)
-    return response
+  searchBooks(name: string): Observable<SearchBooksView[]> {
+    return this.http.get<BookResult>(`${bookApiBase}?q=${name}`).pipe(
+      map(response => response.items || []),
+      map(items => items.map(item => ({
+        title: item.volumeInfo.title,
+        authors: item.volumeInfo.authors || [],
+        imageLinks: item.volumeInfo.imageLinks || { thumbnail: '', smallThumbnail: '' },
+        language: item.volumeInfo.language || ''
+      })))
+    );
   }
 }
