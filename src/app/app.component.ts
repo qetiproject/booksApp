@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
-import { AuthService } from './features/auth/services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
+import { AuthService } from './features/auth/services/auth.service';
 
 @Component({
     selector: 'app-root',
