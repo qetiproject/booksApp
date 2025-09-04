@@ -6,7 +6,8 @@ import cors from "cors";
 
 const app: Application = express();
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors({ origin: true }));
 
 app.route("/api/login").post(loginUser);
