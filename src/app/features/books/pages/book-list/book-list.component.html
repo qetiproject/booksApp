@@ -1,9 +1,18 @@
 <p>book-list works!</p>
 <input type="text" [formControl]="searchControl" placeholder="Search..." />
-<ul>
+<!-- <ul>
   @for (book of searchValue$ | async; track book.title) {
     <li >
       {{ book.title }} by {{ book.authors[0] }}
+    </li>
+  }
+</ul> -->
+
+
+<ul>
+  @for (item of searchSignal(); track item.title) {
+    <li>
+      {{ item.title }} by {{ item.authors[0] }}
     </li>
   }
 </ul>
