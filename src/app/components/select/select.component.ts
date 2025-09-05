@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef, Input } from '@angular/core';
-import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 
 export interface SelectOption {
@@ -11,7 +11,7 @@ export interface SelectOption {
 @Component({
   selector: 'app-select',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatSelectModule],
+  imports: [CommonModule, MatSelectModule],
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.css'],
   providers: [
@@ -23,16 +23,15 @@ export interface SelectOption {
   ]
 })
 export class SelectComponent implements ControlValueAccessor {
-  @Input() options: SelectOption[] = [];
+  @Input() options: SelectOption[]= [];
   @Input() label = '';
-  @Input() multi = false;
 
-  value: string | number | unknown;
+  value: string | number | unknown = null;
   disabled = false;
-  selectedCategoryControl = new FormControl('');
-  
+
+  // ControlValueAccessor callbacks
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange = (_: unknown) => {};
+  onChange = (_: string | number | unknown) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = () => {};
 
@@ -40,6 +39,7 @@ export class SelectComponent implements ControlValueAccessor {
     this.value = value;
   }
 
+   
   registerOnChange(fn: never): void {
     this.onChange = fn;
   }
@@ -48,12 +48,12 @@ export class SelectComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
+  setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  selectOption(option: SelectOption) {
-    this.value = option.value;
+  selectOption(value: string | number | unknown) {
+    this.value = value;
     this.onChange(this.value);
     this.onTouched();
   }
