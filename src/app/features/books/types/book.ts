@@ -1,5 +1,5 @@
 export interface BookResult {
-  items: Array<BookData>;
+  items: BookData[];
   totalItems: number;
 }
 
@@ -20,7 +20,7 @@ export interface AccessInfo {
 
 export interface VolumeInfo {
   title: string;
-  authors: Array<string>;
+  authors: string[];
   language: string;
   imageLinks: {
     thumbnail: string;
@@ -39,9 +39,9 @@ export interface Pdf {
   isAvailable: boolean;
 }
 
-export type SearchBooksView = {
+export interface SearchBooksView {
   title: string;
-  authors: Array<string>;
+  authors: string[];
   language: string;
      imageLinks: {
     thumbnail: string;
@@ -93,3 +93,10 @@ export type SearchBooksView = {
 // }
 
 
+export enum BookCategories {
+  Fiction = 'Fiction',
+  Science = 'Science',
+  Computers = 'Computers',
+  BusinessEconomics = 'Business & Economics',
+  Character = 'Character'
+}

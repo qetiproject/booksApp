@@ -1,10 +1,30 @@
-<p>book-list works!</p>
-<input type="text" [formControl]="searchControl" placeholder="Search..." />
 
-<ul>
+<mat-form-field appearance="outline" class="w-full">
+    <mat-icon matPrefix>search</mat-icon>
+    <input 
+      matInput 
+      placeholder="Search books..." 
+      name="search" 
+      [formControl]="searchControl" 
+    />
+    @if (searchControl.value) {
+      <button 
+        matSuffix 
+        mat-icon-button 
+        type="button" 
+        aria-label="Clear" 
+        (click)="searchControl.setValue('')">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </mat-form-field>
+
+  <ul>
   @for (item of results(); track item.title) {
     <li>
       {{ item.title }} by {{ item.authors[0] }}
     </li>
   }
 </ul>
+
+<app-book-category-dropdown></app-book-category-dropdown>

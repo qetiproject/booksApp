@@ -1,15 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal, WritableSignal } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { catchError, of } from 'rxjs';
 import { debouncedSignal } from '../../../../utils/debouncedSignal';
+import { BookCategoryDropdownComponent } from "../../components/book-category-dropdown/book-category-dropdown.component";
 import { BookService } from '../../services/book.service';
 import { SearchBooksView } from '../../types/book';
 
 @Component({
-  selector: 'book-list',
+  selector: 'app-book-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatButtonModule, FormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, BookCategoryDropdownComponent],
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss']
 })
@@ -42,7 +47,7 @@ export class BookListComponent{
         return;
       }
 
-      const sub = this.bookService.searchBooks(q).pipe(
+      const sub = this.bookService.searchBooksByName(q).pipe(
         catchError(() => of([]))
       ).subscribe(res => this.results.set(res));
 
