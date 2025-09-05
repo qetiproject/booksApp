@@ -1,32 +1,34 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { BookService } from '../../services/book.service';
-import { tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, Subject, switchMap, tap } from 'rxjs';
 import { SearchBooksView } from '../../types/book';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'book-list',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './book-list.component.html',
-  styleUrl: './book-list.component.scss'
+  styleUrls: ['./book-list.component.scss']
 })
-export class BookListComponent {
+export class BookListComponent implements OnInit{
 
-  #books = signal<SearchBooksView[]>([]);
-  bookService = inject(BookService);
+  private bookService = inject(BookService);
+  searchValue$!: Observable<SearchBooksView[]>;
+  searchControl = new FormControl('');
 
-  searchBooks(name: string) {
-    this.bookService.searchBooks(name)
-      .pipe(tap(books => this.#books.set(books)))
-      .subscribe(x => console.log(x));
+  searchBooks() {
+    this.searchValue$ = this.searchControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((query) => query ? this.bookService.searchBooks(query) : [])
+    )
   }
 
-  get books() {
-    return this.#books();
+  ngOnInit(): void {
+    this.searchBooks();
   }
 
 
-  getBooks() {
-
-  }
 }

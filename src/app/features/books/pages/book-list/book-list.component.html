@@ -1,5 +1,9 @@
 <p>book-list works!</p>
-<button (click)="searchBooks('angular')">search books</button>
-@for (book of books; track book.title) {
-  <div>{{ book.title }}</div>
-}
+<input type="text" [formControl]="searchControl" placeholder="Search..." />
+<ul>
+  @for (book of searchValue$ | async; track book.title) {
+    <li >
+      {{ book.title }} by {{ book.authors[0] }}
+    </li>
+  }
+</ul>

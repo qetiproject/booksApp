@@ -13,8 +13,7 @@ export class BookService {
 
   searchBooks(name: string): Observable<SearchBooksView[]> {
     return this.http.get<BookResult>(`${bookApiBase}?q=${name}`).pipe(
-      map(response => response.items || []),
-      map(items => items.map(item => ({
+      map(response => response.items.map(item => ({
         title: item.volumeInfo.title,
         authors: item.volumeInfo.authors || [],
         imageLinks: item.volumeInfo.imageLinks || { thumbnail: '', smallThumbnail: '' },
