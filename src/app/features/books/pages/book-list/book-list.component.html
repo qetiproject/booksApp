@@ -10,7 +10,7 @@
 
 
 <ul>
-  @for (item of searchSignal(); track item.title) {
+  @for (item of results(); track item.title) {
     <li>
       {{ item.title }} by {{ item.authors[0] }}
     </li>

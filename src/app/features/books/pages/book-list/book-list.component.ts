@@ -5,6 +5,7 @@ import { catchError, debounceTime, distinctUntilChanged, filter, map, Observable
 import { SearchBooksView } from '../../types/book';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { debouncedSignal } from '../../../../utils/debouncedSignal';
 
 @Component({
   selector: 'book-list',
@@ -13,54 +14,40 @@ import { CommonModule } from '@angular/common';
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss']
 })
-export class BookListComponent implements OnInit{
+export class BookListComponent{
 
   private bookService = inject(BookService);
-  searchValue$!: Observable<SearchBooksView[]>;
   searchControl = new FormControl('');
 
-  private searchResultSignal = signal<SearchBooksView[]>([]);
+  // 1️⃣ query სიგნალი (writable)
+  query: WritableSignal<string> = signal('');
 
-  searchSignal = computed(() => this.searchResultSignal());
+  // 2️⃣ debounce
+  debouncedQuery = debouncedSignal(this.query, 400);
 
+  // 3️⃣ შედეგები
+  results: WritableSignal<SearchBooksView[]> = signal([]);
 
-  searchBooks() {
-    this.searchValue$ = this.searchControl.valueChanges.pipe(
-      startWith(''), // საწყისი მნიშვნელობა
-      debounceTime(300), // 300მწმ-ის შემდეგ იწყებს ძებნას,
-      map(value => value?.trim() || ''), // დამატებით ვწმინდავთ სივრცეებს
-      distinctUntilChanged(),
-      filter(value => value.length > 0), // ვფილტრავთ ცარიელ მნიშვნელობებს
-      switchMap(query =>
-      this.bookService.searchBooks(query).pipe(
-        catchError(err => {
-          console.error('Search error', err);
-          return of([]); // თუ error, სტრიმი არ წყდება
-        })
-      )
-    ));
+  constructor() {
+    // FormControl → Signal binding
+    this.searchControl.valueChanges.subscribe(value => {
+      this.query.set(value?.trim() || '');
+    });
+
+    // Effect რეაგირებს debouncedQuery-ზე
+    effect((onCleanup) => {
+      const q = this.debouncedQuery();
+
+      if (!q || q.length < 3) {
+        this.results.set([]);
+        return;
+      }
+
+      const sub = this.bookService.searchBooks(q).pipe(
+        catchError(() => of([]))
+      ).subscribe(res => this.results.set(res));
+
+      onCleanup(() => sub.unsubscribe());
+    });
   }
-
-
-  searchWithSignals() {
-    this.searchControl.valueChanges.pipe(
-      startWith(''), // საწყისი მნიშვნელობა
-      debounceTime(300), // 300მწმ-ის შემდეგ იწყებს ძებნას,
-      map(value => value?.trim() || ''), // დამატებით ვწმინდავთ სივრცეებს
-      distinctUntilChanged(),
-      filter(value => value.length > 0), // ვფილტრავთ ცარიელ მნიშვნელობებს
-      switchMap(query =>
-      this.bookService.searchBooks(query).pipe(
-        catchError(err => {
-          console.error('Search error', err);
-          return of([]); // თუ error, სტრიმი არ წყდება
-        })
-      ))
-    ).subscribe(res => this.searchResultSignal.set(res));
-  }
-  ngOnInit(): void {
-    this.searchWithSignals();
-  }
-
-
 }
