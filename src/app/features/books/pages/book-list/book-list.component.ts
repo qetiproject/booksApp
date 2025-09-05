@@ -1,11 +1,10 @@
-import { computed, effect } from '@angular/core';
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
-import { BookService } from '../../services/book.service';
-import { catchError, debounceTime, distinctUntilChanged, filter, map, Observable, of, startWith, Subject, switchMap, tap } from 'rxjs';
-import { SearchBooksView } from '../../types/book';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Component, effect, inject, signal, WritableSignal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { catchError, of } from 'rxjs';
 import { debouncedSignal } from '../../../../utils/debouncedSignal';
+import { BookService } from '../../services/book.service';
+import { SearchBooksView } from '../../types/book';
 
 @Component({
   selector: 'book-list',
