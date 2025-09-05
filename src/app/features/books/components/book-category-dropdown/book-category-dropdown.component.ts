@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
 import { BookCategories } from '../../types/book';
 
 @Component({
   selector: 'app-book-category-dropdown',
   standalone: true,
-  imports: [CommonModule, MatSelectModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FormsModule],
   templateUrl: './book-category-dropdown.component.html',
   styleUrls: ['./book-category-dropdown.component.css']
 })

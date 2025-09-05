@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, Observable, shareReplay } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import { BookResult, SearchBooksView } from '../types/book';
-
-const bookApiBase ='https://www.googleapis.com/books/v1/volumes';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +11,8 @@ export class BookService {
 
   http = inject(HttpClient);
 
-  bookCategories: WritableSignal<unknown[]> = signal([]);
-
   searchBooksByName(name: string): Observable<SearchBooksView[]> {
-    return this.http.get<BookResult>(`${bookApiBase}?q=${name}`).pipe(
+    return this.http.get<BookResult>(`${environment.bookApiBase}?q=${name}`).pipe(
       map(response => {
         const items = response.items || [];
         return items.map(item => ({
