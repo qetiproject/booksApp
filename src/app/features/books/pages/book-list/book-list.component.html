@@ -1,7 +1,4 @@
-
-<!-- <app-debounce-search (searchValue)="onSearchEvent($event)"/> -->
-
-<ul>
+<!-- <ul>
   @if (searchResults()) {
     @for (item of searchResults(); track item.title) {
     <li>
@@ -17,7 +14,12 @@
   }
 }
   </ul>
-  
+ -->
 
+ 
 
-
+<div class="book-list-container">
+  @for (item of searchResults(); track item.title) {
+      <app-book-card [book]="item"></app-book-card>
+  }
+</div>

@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, inject, input, signal, WritableSignal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { catchError, of, Subscription } from 'rxjs';
+import { BookCardComponent } from '../../components/book-card/book-card.component';
 import { BookService } from '../../services/book.service';
 import { BooksView } from '../../types/book';
 
 @Component({
   selector: 'app-book-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, BookCardComponent],
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss']
 })
@@ -49,8 +50,7 @@ export class BookListComponent{
       this.#querySub.unsubscribe();
     }
     this.#querySub = this.bookService.searchBooksByName(query).pipe(catchError(() => of([])))
-      .subscribe(res => this.searchResults.set(res));
-  }
+      .subscribe(res => this.searchResults.set(res));  }
 
   booksByCategory() {
     const category = this.categorySelected();

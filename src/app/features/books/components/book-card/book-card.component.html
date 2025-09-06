@@ -1,1 +1,21 @@
-<p>book-card works!</p>
+<mat-card class="book-card">
+  <mat-card-header>
+    <mat-card-title>{{ book()?.title }}</mat-card-title>
+    <mat-card-subtitle>{{ book()?.authors?.join(', ') }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <img mat-card-image 
+       [src]="book()?.imageLinks?.thumbnail || book()?.imageLinks?.smallThumbnail" 
+       alt="{{ book()?.title }}" />
+
+  <mat-card-content>
+    <p><strong>Language:</strong> {{ book()?.language }}</p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button color="primary">Details</button>
+    <button mat-icon-button color="warn">
+      <mat-icon>favorite</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
