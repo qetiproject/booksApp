@@ -39,7 +39,7 @@ export interface Pdf {
   isAvailable: boolean;
 }
 
-export interface SearchBooksView {
+export interface BooksView {
   title: string;
   authors: string[];
   language: string;

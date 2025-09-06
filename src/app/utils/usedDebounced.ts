@@ -1,7 +1,7 @@
 // //use debouncedSignal function
 //   #searchControlSignal = signal<string>(this.searchControl.value || '');
 
-//   #searchResultSignal = signal<SearchBooksView[]>([]);
+//   #searchResultSignal = signal<BooksView[]>([]);
 //   searchSignal = computed(() => this.#searchResultSignal());
 
 //   constructor() {

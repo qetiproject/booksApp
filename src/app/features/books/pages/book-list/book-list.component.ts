@@ -3,7 +3,7 @@ import { Component, effect, inject, input, signal, WritableSignal } from '@angul
 import { ReactiveFormsModule } from '@angular/forms';
 import { catchError, of, Subscription } from 'rxjs';
 import { BookService } from '../../services/book.service';
-import { SearchBooksView } from '../../types/book';
+import { BooksView } from '../../types/book';
 
 @Component({
   selector: 'app-book-list',
@@ -16,8 +16,8 @@ export class BookListComponent{
 
   private bookService = inject(BookService);
 
-  searchResults: WritableSignal<SearchBooksView[]> = signal([]);
-  categoryBooksResults: WritableSignal<SearchBooksView[]> = signal([]);
+  searchResults: WritableSignal<BooksView[]> = signal([]);
+  categoryBooksResults: WritableSignal<BooksView[]> = signal([]);
   searchQuery = input<string>('');
   categorySelected = input<string | null>('');
   #querySub: Subscription | null = null;
