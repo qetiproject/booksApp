@@ -1,31 +1,32 @@
 import { CommonModule } from '@angular/common';
 import { Component, output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectComponent } from '../../../../components/select/select.component';
-import { BookCategories } from '../../types/book';
+import { SelectModel } from '../../../../types/common';
+import { BookCategories, } from '../../types/book';
 
-export interface Category  {
-  label: string;
-  value: string;
-}
 @Component({
   selector: 'app-book-category-dropdown',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, FormsModule, SelectComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SelectComponent],
   templateUrl: './book-category-dropdown.component.html',
   styleUrls: ['./book-category-dropdown.component.css']
 })
 export class BookCategoryDropdownComponent {
 
-  readonly categories: Category[] = Object.values(BookCategories).map(category => ({
+  readonly categories: SelectModel[] = Object.values(BookCategories).map(category => ({
     label: category,
     value: category
   }));
-  category = new FormControl('');
+  category = new FormControl<string | null>(null);
 
   categorySelected = output<string | null>();
 
   constructor() {
-    this.category.valueChanges.subscribe(x => {this.categorySelected.emit(x)})
+    this.category.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(x => {this.categorySelected.emit(x)})
   }
+  
 }
