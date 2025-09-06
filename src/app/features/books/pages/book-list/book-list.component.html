@@ -2,11 +2,22 @@
 <!-- <app-debounce-search (searchValue)="onSearchEvent($event)"/> -->
 
 <ul>
-  @for (item of results(); track item.title) {
+  @if (searchResults()) {
+    @for (item of searchResults(); track item.title) {
+    <li>
+      {{ item.title }} by {{ item.authors[0] }}
+    </li>
+    }
+  } 
+  @if (categoryBooksResults()) {
+      @for (item of categoryBooksResults(); track item.title) {
     <li>
       {{ item.title }} by {{ item.authors[0] }}
     </li>
   }
-</ul>
+}
+  </ul>
+  
+
 
 

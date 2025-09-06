@@ -16,10 +16,12 @@ export class BookListComponent{
 
   private bookService = inject(BookService);
 
-  results: WritableSignal<SearchBooksView[]> = signal([]);
+  searchResults: WritableSignal<SearchBooksView[]> = signal([]);
+  categoryBooksResults: WritableSignal<SearchBooksView[]> = signal([]);
   searchQuery = input<string>('');
   categorySelected = input<string | null>('');
-  #sub: Subscription | null = null;
+  #querySub: Subscription | null = null;
+  #categorySub: Subscription | null = null;
 
   constructor() {
     // Effect რეაგირებს debouncedQuery-ზე
@@ -27,37 +29,44 @@ export class BookListComponent{
       this.searchBooksByName();
       this.booksByCategory();
       // Cleanup on next effect run
-      onCleanup(() => this.#sub?.unsubscribe());
+      onCleanup(() => {
+        this.#querySub?.unsubscribe();
+        this.#categorySub?.unsubscribe();
+      });
     });
   }
 
   searchBooksByName() {
     const query = this.searchQuery();
     if (!query || query.length < 3) {
-      this.results.set([]);
+      this.searchResults.set([]);
       return;
     }
+    this.categoryBooksResults.set([]);
+
     // ჩაკეტე წინა subscription, თუ არსებობს
-    if (this.#sub) {
-      this.#sub.unsubscribe();
+    if (this.#querySub) {
+      this.#querySub.unsubscribe();
     }
-    this.#sub = this.bookService.searchBooksByName(query).pipe(catchError(() => of([])))
-      .subscribe(res => this.results.set(res));
+    this.#querySub = this.bookService.searchBooksByName(query).pipe(catchError(() => of([])))
+      .subscribe(res => this.searchResults.set(res));
   }
 
   booksByCategory() {
     const category = this.categorySelected();
     if(!category) {
-      this.results.set([]);
+      this.categoryBooksResults.set([]);
       return;
     }
-    if(this.#sub) {
-      this.#sub.unsubscribe();
+
+    this.searchResults.set([]);
+    
+    if(this.#categorySub) {
+      this.#categorySub.unsubscribe();
     }
 
-    console.log(category, "category")
-    this.#sub = this.bookService.loadBooksByCategory(category).pipe(catchError(() => of([])))
-      .subscribe(res => this.results.set(res));
+    this.#categorySub = this.bookService.loadBooksByCategory(category).pipe(catchError(() => of([])))
+      .subscribe(res => this.categoryBooksResults.set(res));
   }
 
 }
