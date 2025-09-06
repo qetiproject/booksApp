@@ -10,7 +10,7 @@ import { BooksView } from '../../types/book';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './book-card.component.html',
-  styleUrl: './book-card.component.scss'
+  styleUrls: ['./book-card.component.scss']
 })
 export class BookCardComponent {
   book = input<BooksView | null>(null);

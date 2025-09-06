@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, input, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 
-export interface SelectOption {
+export interface SelectOption<T = unknown> {
   label: string;
-  value: string | number | unknown;
+  value: T;
 }
 
 @Component({
@@ -23,10 +23,10 @@ export interface SelectOption {
   ]
 })
 export class SelectComponent implements ControlValueAccessor {
-  @Input() options: SelectOption[]= [];
-  @Input() label = '';
+  options = input<SelectOption[]>([]);
+  label = input<string>('');
 
-  value: string | number | unknown = null;
+  value = signal<string | number | unknown>(null);
   disabled = false;
 
   // ControlValueAccessor callbacks
@@ -36,7 +36,7 @@ export class SelectComponent implements ControlValueAccessor {
   onTouched = () => {};
 
   writeValue(value: string | number | unknown): void {
-    this.value = value;
+    this.value.set(value);
   }
    
   registerOnChange(fn: never): void {
@@ -52,7 +52,7 @@ export class SelectComponent implements ControlValueAccessor {
   }
 
   selectOption(value: string | number | unknown) {
-    this.value = value;
+    this.value.set(value);
     this.onChange(this.value);
     this.onTouched();
   }
