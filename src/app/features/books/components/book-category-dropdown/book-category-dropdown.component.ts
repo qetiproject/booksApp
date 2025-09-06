@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectComponent } from '../../../../components/select/select.component';
 import { BookCategories } from '../../types/book';
@@ -16,10 +16,16 @@ export interface Category  {
   styleUrls: ['./book-category-dropdown.component.css']
 })
 export class BookCategoryDropdownComponent {
+
   readonly categories: Category[] = Object.values(BookCategories).map(category => ({
     label: category,
     value: category
   }));
   category = new FormControl('');
 
+  categorySelected = output<string | null>();
+
+  constructor() {
+    this.category.valueChanges.subscribe(x => {this.categorySelected.emit(x)})
+  }
 }

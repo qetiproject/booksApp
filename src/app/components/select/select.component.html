@@ -1,26 +1,14 @@
-<!-- <mat-form-field appearance="outline" class="w-full">
-  <mat-label>Choose Category</mat-label>
-  <mat-select [formControl]="selectedCategoryControl">
-    @for (category of selectOption(); track category) {
-      <mat-option [value]="category" >{{category}}</mat-option>
-    }
-  </mat-select>
-</mat-form-field> -->
-
-
 <mat-form-field appearance="outline" class="w-full">
   <mat-label>{{ label }}</mat-label>
   <mat-select
     [value]="value"
-    [multiple]="multi"
     (selectionChange)="selectOption($event.value)"
     [disabled]="disabled"
   >
   @for ( option of options; track option.value) {
-    <mat-option >
+    <mat-option [value]="option.value">
       {{ option.label }}
     </mat-option>
   }
-    
   </mat-select>
 </mat-form-field>

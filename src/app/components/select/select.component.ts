@@ -38,7 +38,6 @@ export class SelectComponent implements ControlValueAccessor {
   writeValue(value: string | number | unknown): void {
     this.value = value;
   }
-
    
   registerOnChange(fn: never): void {
     this.onChange = fn;

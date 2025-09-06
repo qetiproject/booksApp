@@ -54,4 +54,13 @@ export class BookListComponent{
       onCleanup(() => sub.unsubscribe());
     });
   }
+
+  onCategorySelectedEvent(value: string | null) {
+    console.log(value, "value")
+  }
+
+  loadBooksByCategory(category: string) {
+    
+  }
+
 }
