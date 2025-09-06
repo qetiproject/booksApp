@@ -25,4 +25,18 @@ export class BookService {
     );
   }
 
+  loadBooksByCategory(category: string): Observable<SearchBooksView[]> {
+    return this.http.get<BookResult>(`${environment.bookApiBase}?q=${category}`).pipe(
+      map(response => {
+        const items = response.items || [];
+        return items.map(item => ({
+          title: item.volumeInfo.title,
+          authors: item.volumeInfo.authors || [],
+          imageLinks: item.volumeInfo.imageLinks || { thumbnail: '', smallThumbnail: '' },
+          language: item.volumeInfo.language || ''
+        }));
+      }), shareReplay(1)
+      
+    )
+  }
 }

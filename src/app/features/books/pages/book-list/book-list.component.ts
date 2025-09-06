@@ -59,8 +59,4 @@ export class BookListComponent{
     console.log(value, "value")
   }
 
-  loadBooksByCategory(category: string) {
-    
-  }
-
 }
