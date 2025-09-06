@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, output, signal, WritableSignal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,14 +28,21 @@ export class DebounceSearchComponent {
 
   constructor() {
     // FormControl → Signal binding
-    this.searchControl.valueChanges.subscribe(value => {
-      this.query.set(value?.trim() || '');
+    this.searchControl.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(value => {
+        this.query.set(value?.trim() || '');
     });
+
     
     // Effect უშვებს debounce-ს
     effect(() => {
       this.searchValue.emit(this.debouncedQuery());
     });
+  }
+
+  clear() {
+    this.searchControl.setValue('');
   }
 
 }

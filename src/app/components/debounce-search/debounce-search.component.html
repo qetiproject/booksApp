@@ -5,14 +5,15 @@
       placeholder="Search books..." 
       name="search" 
       [formControl]="searchControl" 
+      aria-label="Search books"
     />
     @if (searchControl.value) {
       <button 
         matSuffix 
         mat-icon-button 
         type="button" 
-        aria-label="Clear" 
-        (click)="searchControl.setValue('')">
+        aria-label="Clear search"
+        (click)="clear()">
         <mat-icon>close</mat-icon>
       </button>
     }
