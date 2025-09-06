@@ -22,28 +22,28 @@ export interface SelectOption<T = unknown> {
     }
   ]
 })
-export class SelectComponent implements ControlValueAccessor {
-  options = input<SelectOption[]>([]);
+export class SelectComponent<T = unknown> implements ControlValueAccessor {
+  options = input<SelectOption<T>[]>([]);
   label = input<string>('');
 
-  value = signal<string | number | unknown>(null);
+  value = signal<T | null>(null);
   disabled = false;
 
   // ControlValueAccessor callbacks
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange = (_: string | number | unknown) => {};
+  onChange = (_: T | null) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = () => {};
 
-  writeValue(value: string | number | unknown): void {
+  writeValue(value: T | null): void {
     this.value.set(value);
   }
    
-  registerOnChange(fn: never): void {
+  registerOnChange(fn: (value: T | null) => void): void {
     this.onChange = fn;
   }
-
-  registerOnTouched(fn: never): void {
+  
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
@@ -51,9 +51,10 @@ export class SelectComponent implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  selectOption(value: string | number | unknown) {
+  selectOption(value: T | null) {
     this.value.set(value);
-    this.onChange(this.value);
+    const val = this.value();
+    this.onChange(val);
     this.onTouched();
   }
 }

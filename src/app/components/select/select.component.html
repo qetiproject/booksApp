@@ -4,6 +4,7 @@
     [value]="value()"
     (selectionChange)="selectOption($event.value)"
     [disabled]="disabled"
+    aria-label="{{ label() }}"
   >
   @for ( option of options(); track option.value) {
     <mat-option [value]="option.value">
