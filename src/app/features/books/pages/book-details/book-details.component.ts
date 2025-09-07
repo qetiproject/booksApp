@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { BackButtonComponent } from '../../../../components/back-button/back-button.component';
 import { BookDetails } from '../../types/book';
 
 @Component({
@@ -15,7 +16,9 @@ import { BookDetails } from '../../types/book';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatChipsModule],
+    MatChipsModule,
+    BackButtonComponent
+  ],
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.scss'],
    animations: [
