@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable, shareReplay } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { SkipLoading } from '../../loading/skip-loading.component';
 import { BookData, BookDetails, BookResult, BooksView } from '../types/book';
 
 @Injectable({
@@ -42,8 +43,13 @@ export class BookService {
     )
   }
 
+  // {
+  //     context: new HttpContext().set(SkipLoading, true)
+  //   }
   bookById(id: string): Observable<BookDetails> {
-    return this.http.get<BookData>(`${environment.bookApiBase}/${id}`).pipe(
+    return this.http.get<BookData>(`${environment.bookApiBase}/${id}`, {
+      context: new HttpContext().set(SkipLoading, true)
+    }).pipe(
       map(response => {
         const saleInfo = response.saleInfo;
         const volumeInfo = response.volumeInfo;

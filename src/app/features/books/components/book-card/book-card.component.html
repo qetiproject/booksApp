@@ -5,7 +5,7 @@
   </mat-card-header>
 
   <img mat-card-image 
-       [src]="book().imageLinks?.thumbnail || book()?.imageLinks?.smallThumbnail" 
+       [src]="book().imageLinks.thumbnail || book().imageLinks.smallThumbnail" 
        alt="{{ book().title }}" />
 
   <mat-card-content>

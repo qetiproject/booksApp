@@ -1,17 +1,17 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BookDetails } from '../../types/book';
 
 @Component({
   selector: 'app-book-details',
   standalone: true,
-  imports: [CommonModule,   RouterModule,
+  imports: [CommonModule, RouterModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -42,5 +42,18 @@ export class BookDetailsComponent{
     || this.book()?.volumeInfo.imageLinks.smallThumbnail 
   );
 
+  location = inject(Location)
+  router = inject(Router);
 
+  // goBack() {
+  //   this.location.back();
+  // }
+
+  goBack() {
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      this.router.navigate(['/books']); // fallback page
+    }
+  }
 }
