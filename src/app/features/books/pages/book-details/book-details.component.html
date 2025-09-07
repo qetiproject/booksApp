@@ -1,0 +1,34 @@
+<mat-card class="book-details-card">
+  <img mat-card-image [src]="book()?.volumeInfo?.imageLinks?.thumbnail || book()?.volumeInfo?.imageLinks?.smallThumbnail" alt="{{ book()?.volumeInfo?.title }}">
+
+  <mat-card-header>
+    <mat-card-title>{{ book()?.volumeInfo?.title }}</mat-card-title>
+    <mat-card-subtitle>{{ book()?.volumeInfo?.authors?.join(', ') }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p><strong>Publisher:</strong> {{ book()?.volumeInfo?.publisher }}</p>
+    <p><strong>Published Date:</strong> {{ book()?.volumeInfo?.publishedDate }}</p>
+    <p>{{ book()?.volumeInfo?.description }}</p>
+    <mat-chip-set>
+        @for (c of book()?.volumeInfo?.categories; track c) {
+           <mat-chip >{{ c }}</mat-chip>
+        }
+     
+    </mat-chip-set>
+    <p><strong>Pages:</strong> {{ book()?.volumeInfo?.pageCount }}</p>
+    <p><strong>Language:</strong> {{ book()?.volumeInfo?.language }}</p>
+    <p><strong>Print Type:</strong> {{ book()?.volumeInfo?.printType }}</p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <a mat-button color="primary" *ngIf="book()?.saleInfo?.isEbook && book()?.saleInfo?.buyLink" [href]="book()?.saleInfo?.buyLink" target="_blank">Buy / Preview</a>
+    <button mat-icon-button color="warn">
+      <mat-icon>favorite</mat-icon>
+    </button>
+  </mat-card-actions>
+
+  <mat-card-footer>
+    <a mat-button color="accent" [href]="book()?.volumeInfo?.previewLink" target="_blank">Open in Google Books</a>
+  </mat-card-footer>
+</mat-card>

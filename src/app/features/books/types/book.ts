@@ -4,6 +4,7 @@ export interface BookResult {
 }
 
 export interface BookData {
+  id: string;
   accessInfo: AccessInfo;
   searchInfo: {
     textSnippet: string;
@@ -26,6 +27,13 @@ export interface VolumeInfo {
     thumbnail: string;
     smallThumbnail: string;
   };
+  publisher?: string;
+  publishedDate?: string;
+  description?: string;
+  pageCount?: number;
+  printType?: string;
+  categories?: string[];
+  previewLink?: string;
 }
 
 export interface SaleInfo {
@@ -37,9 +45,11 @@ export interface SaleInfo {
 
 export interface Pdf {
   isAvailable: boolean;
+  webReaderLink?: string;
 }
 
 export interface BooksView {
+  id: string;
   title: string;
   authors: string[];
   language: string;
@@ -49,6 +59,11 @@ export interface BooksView {
   };
 }
 
+export interface BookDetails {
+    id: string;
+    saleInfo: SaleInfo;
+    volumeInfo: VolumeInfo;
+}
 
 // -------------------------------------------------------------------
 
