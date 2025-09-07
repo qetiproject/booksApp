@@ -1,20 +1,31 @@
 import { inject } from "@angular/core";
-import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular/router";
+import { ActivatedRouteSnapshot, ResolveFn, Router } from "@angular/router";
 import { firstValueFrom } from "rxjs";
 import { BookService } from "../../services/book.service";
+import { BookDetails } from "../../types/book";
 
-export const BookDetailsResolver: ResolveFn<unknown > =
-    async (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const BookDetailsResolver: ResolveFn<BookDetails > =
+    async (route: ActivatedRouteSnapshot) => {
         const bookId = route.paramMap.get("id");
-        if(!bookId) return null;
-        
         const bookService = inject(BookService);
+        const router = inject(Router);
+
+        if(!bookId) {
+            router.navigate(['/books']);
+            return Promise.reject("No BookId"); // not happen resolve
+        }
 
         try{
-            return await firstValueFrom(bookService.bookById(bookId));
+            const book = await firstValueFrom(bookService.bookById(bookId));
+            if(!book) {
+                router.navigate(['/books']);
+                return Promise.reject("Book not found");
+            }
+            return book;
         }
         catch(err) {
-            return err;
+            router.navigate(['/books'])
+            return Promise.reject(err);
         }
        
     }

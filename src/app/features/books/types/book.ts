@@ -65,6 +65,11 @@ export interface BookDetails {
     volumeInfo: VolumeInfo;
 }
 
+export interface BookDetailsRouteData {
+  book: BookDetails;
+}
+
+
 // -------------------------------------------------------------------
 
 // export type BookWithId = BookBody & { id: string };

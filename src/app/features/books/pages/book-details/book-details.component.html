@@ -1,39 +1,62 @@
-@if (error()) {
-  <div>{{ error() }}</div>
-}
-<div ></div>
+@if(book()){
+  <mat-card class="book-details-card" @fadeInOut>
+  <!-- Thumbnail -->
+  <img mat-card-image 
+       [src]="thumbnail()" 
+       [alt]="book().volumeInfo.title">
 
-<mat-card class="book-details-card" @fadeInOut>
-  <img mat-card-image [src]="book()?.volumeInfo?.imageLinks?.thumbnail || book()?.volumeInfo?.imageLinks?.smallThumbnail" alt="{{ book()?.volumeInfo?.title }}">
-
+  <!-- Title -->
   <mat-card-header>
-    <mat-card-title>{{ book()?.volumeInfo?.title }}</mat-card-title>
-    <mat-card-subtitle>{{ authorist() }}</mat-card-subtitle>
+    <mat-card-title>{{ book().volumeInfo.title }}</mat-card-title>
   </mat-card-header>
 
+  <!-- Authors -->
+  <mat-chip-set>
+    @for ( author of authorList(); track author) {
+      <mat-chip >
+        {{ author }}
+      </mat-chip>
+    }
+  </mat-chip-set>
+
+  <!-- Book Info -->
   <mat-card-content>
-    <p><strong>Publisher:</strong> {{ book()?.volumeInfo?.publisher }}</p>
-    <p><strong>Published Date:</strong> {{ book()?.volumeInfo?.publishedDate }}</p>
-    <p>{{ book()?.volumeInfo?.description }}</p>
+    <p><strong>Publisher:</strong> {{ book().volumeInfo.publisher }}</p>
+    <p><strong>Published Date:</strong> {{ book().volumeInfo.publishedDate }}</p>
+    <p>{{ book().volumeInfo.description }}</p>
+
+    <!-- Categories -->
     <mat-chip-set>
-        @for (c of book()?.volumeInfo?.categories; track c) {
-           <mat-chip >{{ c }}</mat-chip>
-        }
-     
+      @for ( category of categoryList(); track category) {
+        <mat-chip>
+          {{ category }}
+        </mat-chip>
+      }
     </mat-chip-set>
-    <p><strong>Pages:</strong> {{ book()?.volumeInfo?.pageCount }}</p>
-    <p><strong>Language:</strong> {{ book()?.volumeInfo?.language }}</p>
-    <p><strong>Print Type:</strong> {{ book()?.volumeInfo?.printType }}</p>
+
+    <p><strong>Pages:</strong> {{ book().volumeInfo.pageCount }}</p>
+    <p><strong>Language:</strong> {{ book().volumeInfo.language }}</p>
+    <p><strong>Print Type:</strong> {{ book().volumeInfo.printType }}</p>
   </mat-card-content>
 
+  <!-- Actions -->
   <mat-card-actions>
-    <a mat-button color="primary" *ngIf="book()?.saleInfo?.isEbook && book()?.saleInfo?.buyLink" [href]="book()?.saleInfo?.buyLink" target="_blank">Buy / Preview</a>
+    <a mat-button color="primary" 
+       *ngIf="book().saleInfo.isEbook && book().saleInfo.buyLink"
+       [href]="book().saleInfo.buyLink" target="_blank">
+      Buy / Preview
+    </a>
     <button mat-icon-button color="warn">
       <mat-icon>favorite</mat-icon>
     </button>
   </mat-card-actions>
 
+  <!-- Footer -->
   <mat-card-footer>
-    <a mat-button color="accent" [href]="book()?.volumeInfo?.previewLink" target="_blank">Open in Google Books</a>
+    <a mat-button color="accent" 
+       [href]="book().volumeInfo.previewLink" target="_blank">
+      Open in Google Books
+    </a>
   </mat-card-footer>
 </mat-card>
+}

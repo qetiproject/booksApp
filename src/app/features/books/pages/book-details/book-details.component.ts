@@ -1,11 +1,11 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BookDetails } from '../../types/book';
 
 @Component({
@@ -30,27 +30,17 @@ import { BookDetails } from '../../types/book';
     ])
   ]
 })
-export class BookDetailsComponent implements OnInit{
+export class BookDetailsComponent{
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
 
-  book: WritableSignal<BookDetails | null> = signal(null);
-  error: WritableSignal<string | null> = signal(null);
+  book: WritableSignal<BookDetails> = signal(this.route.snapshot.data['book']);
 
-  authorist = computed(() => {
-    const currentBook = this.book();
-    return currentBook?.volumeInfo?.authors;
-  })
-  ngOnInit(): void {
-    const loadedBook = this.route.snapshot.data['book'] as BookDetails | null;
+  authorList = computed(() => this.book()?.volumeInfo.authors ?? []);
+  categoryList = computed(() => this.book()?.volumeInfo.categories ?? []);
+  thumbnail = computed(() => 
+    this.book()?.volumeInfo.imageLinks.thumbnail 
+    || this.book()?.volumeInfo.imageLinks.smallThumbnail 
+  );
 
-    if (!loadedBook) {
-      this.error.set('Sorry, this book could not be loaded.');
-      this.router.navigate(['/home']);
-      return;
-    }
-
-    this.book.set(loadedBook);
-  }
 
 }
