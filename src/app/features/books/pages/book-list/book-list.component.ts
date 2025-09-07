@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { catchError, combineLatest, map, of, startWith, switchMap } from 'rxjs';
+import { catchError, of, switchMap } from 'rxjs';
 import { BookCardComponent } from '../../components/book-card/book-card.component';
 import { BookService } from '../../services/book.service';
 import { BooksView } from '../../types/book';
@@ -26,43 +26,42 @@ export class BookListComponent {
   private categorySelected$ = toObservable(this.categorySelected);
 
   // result
-  result: WritableSignal<BooksView[]> = signal([]);
-
+  searchedBooks: WritableSignal<BooksView[]> = signal([]);
+  loadBooksByCategory: WritableSignal<BooksView[]> = signal([]);
 
   constructor() {
-    this.loadBooks()
+    this.searchData();
+    this.booksByCategory();
   }
 
-  private searchData(query: string ) {
-    return query && query.length >= 3
-      ? this.bookService.searchBooksByName(query).pipe(
-          catchError(() => of([])),
-          startWith([])
-        )
-      : of([]);
+  private searchData() {
+    this.searchQuery$
+      .pipe(
+        switchMap(query => 
+          query && query.length >= 3
+          ? this.bookService.searchBooksByName(query).pipe(
+             catchError(() => of([]))
+          )
+          : of([])
+        ),
+        takeUntilDestroyed(),
+      )
+      .subscribe(result => this.searchedBooks.set(result));
   }
 
-  private booksByCategory(category: string | null) {
-    return category
-      ? this.bookService.loadBooksByCategory(category).pipe(
-          catchError(() => of([])),
-          startWith([])
-        )
-      : of([]);
-  }
-
-  private loadBooks() {
-    combineLatest([this.searchQuery$, this.categorySelected$])
-    .pipe(
-      switchMap(([query, category]) =>
-        combineLatest([
-          this.searchData(query),
-          this.booksByCategory(category)
-        ])
-      ),
-      map(([searchBooks, categoryBooks]) => [...categoryBooks, ...searchBooks]),
-      takeUntilDestroyed()
-    )
-    .subscribe(res => this.result.set(res));
+  private booksByCategory() {
+    this.categorySelected$
+      .pipe(
+        switchMap(category =>
+          category 
+            ? this.bookService.loadBooksByCategory(category)
+              .pipe(
+                catchError(() => of([]))
+              )
+            : of([])
+        ),
+        takeUntilDestroyed()
+      )
+      .subscribe(result => this.loadBooksByCategory.set(result))
   }
 }

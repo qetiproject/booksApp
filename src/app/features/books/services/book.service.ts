@@ -25,7 +25,7 @@ export class BookService {
     );
   }
 
-  loadBooksByCategory(category: string): Observable<BooksView[]> {
+  loadBooksByCategory(category: string | null): Observable<BooksView[]> {
     return this.http.get<BookResult>(`${environment.bookApiBase}?q=${category}`).pipe(
       map(response => {
         const items = response.items || [];

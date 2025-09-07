@@ -15,10 +15,13 @@ import { BookCategories, } from '../../types/book';
 })
 export class BookCategoryDropdownComponent {
 
-  readonly categories: SelectModel[] = Object.values(BookCategories).map(category => ({
-    label: category,
-    value: category
-  }));
+  readonly categories: SelectModel[] = [
+    { label: 'All', value: null},
+    ...Object.values(BookCategories).map(category => ({
+      label: category,
+      value: category
+    }))
+  ]
   category = new FormControl<string | null>(null);
 
   categorySelected = output<string | null>();
