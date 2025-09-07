@@ -3,9 +3,10 @@ import { Component, inject, input, signal, WritableSignal } from '@angular/core'
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { catchError, of, switchMap } from 'rxjs';
-import { BookCardComponent } from '../../components/book-card/book-card.component';
+import { MessagesService } from '../../../../core/services/messages.service';
 import { BookService } from '../../services/book.service';
 import { BooksView } from '../../types/book';
+import { BookCardComponent } from '../book-card/book-card.component';
 
 @Component({
   selector: 'app-book-list',
@@ -17,6 +18,7 @@ import { BooksView } from '../../types/book';
 export class BookListComponent {
 
   private bookService = inject(BookService);
+  private messageService = inject(MessagesService)
 
   // inputs
   searchQuery = input<string>('');
@@ -40,8 +42,14 @@ export class BookListComponent {
         switchMap(query => 
           query && query.length >= 3
           ? this.bookService.searchBooksByName(query).pipe(
-             catchError(() => of([]))
-          )
+             catchError(err => {
+                this.messageService.showMessage(
+                  'Error searching books',
+                  'error'
+                );
+                return of([]);
+              }),
+            )
           : of([])
         ),
         takeUntilDestroyed(),
@@ -56,7 +64,13 @@ export class BookListComponent {
           category 
             ? this.bookService.loadBooksByCategory(category)
               .pipe(
-                catchError(() => of([]))
+                catchError(err => {
+                  this.messageService.showMessage(
+                    'Error searching books',
+                    'error'
+                  );
+                  return of([]);
+              }),
               )
             : of([])
         ),
