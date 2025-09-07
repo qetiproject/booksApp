@@ -1,9 +1,14 @@
+@if (error()) {
+  <div>{{ error() }}</div>
+}
+<div ></div>
+
 <mat-card class="book-details-card">
   <img mat-card-image [src]="book()?.volumeInfo?.imageLinks?.thumbnail || book()?.volumeInfo?.imageLinks?.smallThumbnail" alt="{{ book()?.volumeInfo?.title }}">
 
   <mat-card-header>
     <mat-card-title>{{ book()?.volumeInfo?.title }}</mat-card-title>
-    <mat-card-subtitle>{{ book()?.volumeInfo?.authors?.join(', ') }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ authorist() }}</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>

@@ -13,7 +13,7 @@ export const routes: Routes = [
   }, 
   {
     path: 'books',
-    children: bookRoutes
+    children: bookRoutes,
   },
   {
     path: '**',

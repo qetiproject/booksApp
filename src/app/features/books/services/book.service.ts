@@ -44,32 +44,37 @@ export class BookService {
 
   bookById(id: string): Observable<BookDetails> {
     return this.http.get<BookData>(`${environment.bookApiBase}/${id}`).pipe(
-      map(response => ({
-        id: response.id,
-        saleInfo: {
-          buyLink: response.saleInfo.buyLink,
-          isEbook: response.saleInfo.isEbook,
-          saleability: response.saleInfo.saleability
-        },
-        volumeInfo: {
-          title: response.volumeInfo.title,
-          authors: response.volumeInfo.authors || [],
-          language: response.volumeInfo.language,
-          imageLinks: {
-            thumbnail: response.volumeInfo.imageLinks.thumbnail,
-            smallThumbnail: response.volumeInfo.imageLinks.smallThumbnail
+      map(response => {
+        const saleInfo = response.saleInfo;
+        const volumeInfo = response.volumeInfo;
+        return { 
+          id: response.id,
+          saleInfo: {
+            buyLink: saleInfo?.buyLink || '',
+            isEbook: saleInfo?.isEbook || false,
+            saleability: saleInfo?.saleability || ''
           },
-          publisher: response.volumeInfo.publisher,
-          publishedDate: response.volumeInfo.publishedDate,
-          description: response.volumeInfo.description,
-          pageCount: response.volumeInfo.pageCount,
-          printType: response.volumeInfo.printType,
-          categories: response.volumeInfo.categories || [],
-          previewLink: response.volumeInfo.previewLink
-        }
-      }))
+          volumeInfo: {
+            title: volumeInfo?.title || '',
+            authors: volumeInfo?.authors || [],
+            language: volumeInfo?.language || '',
+            imageLinks: {
+              thumbnail: volumeInfo?.imageLinks?.thumbnail || '',
+              smallThumbnail: volumeInfo?.imageLinks?.smallThumbnail || ''
+            },
+            publisher: volumeInfo?.publisher || '',
+            publishedDate: volumeInfo?.publishedDate || '',
+            description: volumeInfo?.description || '',
+            pageCount: volumeInfo?.pageCount || 0,
+            printType: volumeInfo?.printType || '',
+            categories: volumeInfo?.categories || [],
+            previewLink: volumeInfo?.previewLink || ''
+          }
+        };
+      })
     );
   }
+
 
 
 }
