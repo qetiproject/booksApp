@@ -1,5 +1,5 @@
 <div class="book-list-container">
-  @for (item of searchResults(); track item.title) {
+  @for (item of result(); track item.title) {
       <app-book-card [book]="item"></app-book-card>
   }
 </div>

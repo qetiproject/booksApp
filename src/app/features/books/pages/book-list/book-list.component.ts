@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, input, signal, WritableSignal } from '@angular/core';
+import { Component, inject, input, signal, WritableSignal } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { catchError, of, Subscription } from 'rxjs';
+import { catchError, combineLatest, map, of, startWith, switchMap } from 'rxjs';
 import { BookCardComponent } from '../../components/book-card/book-card.component';
 import { BookService } from '../../services/book.service';
 import { BooksView } from '../../types/book';
@@ -13,60 +14,55 @@ import { BooksView } from '../../types/book';
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss']
 })
-export class BookListComponent{
+export class BookListComponent {
 
   private bookService = inject(BookService);
 
-  searchResults: WritableSignal<BooksView[]> = signal([]);
-  categoryBooksResults: WritableSignal<BooksView[]> = signal([]);
+  // inputs
   searchQuery = input<string>('');
-  categorySelected = input<string | null>('');
-  #querySub: Subscription | null = null;
-  #categorySub: Subscription | null = null;
+  categorySelected = input<string | null>(null);
+
+  private searchQuery$ = toObservable(this.searchQuery);
+  private categorySelected$ = toObservable(this.categorySelected);
+
+  // result
+  result: WritableSignal<BooksView[]> = signal([]);
+
 
   constructor() {
-    // Effect რეაგირებს debouncedQuery-ზე
-    effect((onCleanup) => {
-      this.searchBooksByName();
-      this.booksByCategory();
-      // Cleanup on next effect run
-      onCleanup(() => {
-        this.#querySub?.unsubscribe();
-        this.#categorySub?.unsubscribe();
-      });
-    });
+    this.loadBooks()
   }
 
-  searchBooksByName() {
-    const query = this.searchQuery();
-    if (!query || query.length < 3) {
-      this.searchResults.set([]);
-      return;
-    }
-    this.categoryBooksResults.set([]);
-
-    // ჩაკეტე წინა subscription, თუ არსებობს
-    if (this.#querySub) {
-      this.#querySub.unsubscribe();
-    }
-    this.#querySub = this.bookService.searchBooksByName(query).pipe(catchError(() => of([])))
-      .subscribe(res => this.searchResults.set(res));  }
-
-  booksByCategory() {
-    const category = this.categorySelected();
-    if(!category) {
-      this.categoryBooksResults.set([]);
-      return;
-    }
-
-    this.searchResults.set([]);
-    
-    if(this.#categorySub) {
-      this.#categorySub.unsubscribe();
-    }
-
-    this.#categorySub = this.bookService.loadBooksByCategory(category).pipe(catchError(() => of([])))
-      .subscribe(res => this.categoryBooksResults.set(res));
+  private searchData(query: string ) {
+    return query && query.length >= 3
+      ? this.bookService.searchBooksByName(query).pipe(
+          catchError(() => of([])),
+          startWith([])
+        )
+      : of([]);
   }
 
+  private booksByCategory(category: string | null) {
+    return category
+      ? this.bookService.loadBooksByCategory(category).pipe(
+          catchError(() => of([])),
+          startWith([])
+        )
+      : of([]);
+  }
+
+  private loadBooks() {
+    combineLatest([this.searchQuery$, this.categorySelected$])
+    .pipe(
+      switchMap(([query, category]) =>
+        combineLatest([
+          this.searchData(query),
+          this.booksByCategory(category)
+        ])
+      ),
+      map(([searchBooks, categoryBooks]) => [...categoryBooks, ...searchBooks]),
+      takeUntilDestroyed()
+    )
+    .subscribe(res => this.result.set(res));
+  }
 }
