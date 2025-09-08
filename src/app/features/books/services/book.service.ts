@@ -3,8 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable, shareReplay } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { SkipLoading } from '../../loading/skip-loading.component';
-import { BookData, BookResult, BooksView } from '../types/book';
-import { BookDetails } from '../types/book-details';
+import { BookResult, BooksView } from '../types/book';
+import { BookDetails, BookDetailsResult } from '../types/book-details';
 
 @Injectable({
   providedIn: 'root'
@@ -48,27 +48,18 @@ export class BookService {
   //     context: new HttpContext().set(SkipLoading, true)
   //   }
   bookById(id: string): Observable<BookDetails> {
-    return this.http.get<BookData>(`${environment.bookApiBase}/${id}`, {
+    return this.http.get<BookDetailsResult>(`${environment.bookApiBase}/${id}`, {
       context: new HttpContext().set(SkipLoading, true)
     }).pipe(
       map(response => {
-        const saleInfo = response.saleInfo;
         const volumeInfo = response.volumeInfo;
         return { 
           id: response.id,
           saleInfo: {
-            buyLink: saleInfo?.buyLink || '',
-            isEbook: saleInfo?.isEbook || false,
-            saleability: saleInfo?.saleability || ''
+            ...response.saleInfo
           },
           volumeInfo: {
-            title: volumeInfo?.title || '',
-            authors: volumeInfo?.authors || [],
-            language: volumeInfo?.language || '',
-            imageLinks: {
-              thumbnail: volumeInfo?.imageLinks?.thumbnail || '',
-              smallThumbnail: volumeInfo?.imageLinks?.smallThumbnail || ''
-            },
+            ...response.volumeInfo,
             publisher: volumeInfo?.publisher || '',
             publishedDate: volumeInfo?.publishedDate || '',
             description: volumeInfo?.description || '',

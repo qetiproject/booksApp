@@ -1,5 +1,9 @@
 import { BookData, VolumeInfo } from "./book";
 
+export type BookDetailsResult = Pick<BookData, "id" | "accessInfo" | "searchInfo" | "saleInfo"> & {
+  volumeInfo: BookDetailsVolumeInfo;
+}
+
 export type BookDetails = Pick<BookData, "id" | "saleInfo"> & {
   volumeInfo: Partial<BookDetailsVolumeInfo>;
 };

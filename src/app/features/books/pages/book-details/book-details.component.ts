@@ -7,7 +7,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BackButtonComponent } from '../../../../components/back-button/back-button.component';
-import { BookDetails } from '../../types/book';
+import { BookDetails } from '../../types/book-details';
 
 @Component({
   selector: 'app-book-details',
@@ -38,11 +38,11 @@ export class BookDetailsComponent{
 
   book: WritableSignal<BookDetails> = signal(this.route.snapshot.data['book']);
 
-  authorList = computed(() => this.book()?.volumeInfo.authors ?? []);
-  categoryList = computed(() => this.book()?.volumeInfo.categories ?? []);
+  authorList = computed(() => this.book().volumeInfo.authors ?? []);
+  categoryList = computed(() => this.book().volumeInfo.categories ?? []);
   thumbnail = computed(() => 
-    this.book()?.volumeInfo.imageLinks.thumbnail 
-    || this.book()?.volumeInfo.imageLinks.smallThumbnail 
+    this.book().volumeInfo.imageLinks?.thumbnail 
+    || this.book().volumeInfo.imageLinks?.smallThumbnail 
   );
 
   location = inject(Location)
