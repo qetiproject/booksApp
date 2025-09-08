@@ -1,5 +1,5 @@
-export interface BookResult {
-  items: BookData[];
+export interface BookResult<T = BookData> {
+  items: T[];
   totalItems: number;
 }
 
@@ -27,13 +27,6 @@ export interface VolumeInfo {
     thumbnail: string;
     smallThumbnail: string;
   };
-  publisher?: string;
-  publishedDate?: string;
-  description?: string;
-  pageCount?: number;
-  printType?: string;
-  categories?: string[];
-  previewLink?: string;
 }
 
 export interface SaleInfo {
@@ -48,76 +41,19 @@ export interface Pdf {
   webReaderLink?: string;
 }
 
-export interface BooksView {
-  id: string;
-  title: string;
-  authors: string[];
-  language: string;
-     imageLinks: {
-    thumbnail: string;
-    smallThumbnail: string;
-  };
-}
+export type BooksView = Pick<BookData, 'id'> & {
+  title: VolumeInfo['title'];
+  authors: VolumeInfo['authors'];
+  language: VolumeInfo['language'];
+  imageLinks: VolumeInfo['imageLinks'];
+};
 
-export interface BookDetails {
-    id: string;
-    saleInfo: SaleInfo;
-    volumeInfo: VolumeInfo;
-}
+export const BookCategories  = {
+  Fiction: 'Fiction',
+  Science: 'Science',
+  Computers: 'Computers',
+  BusinessEconomics: 'Business & Economics',
+  Character: 'Character'
+}as const
 
-export interface BookDetailsRouteData {
-  book: BookDetails;
-}
-
-
-// -------------------------------------------------------------------
-
-// export type BookWithId = BookBody & { id: string };
-
-// export interface Book {
-//   accessInfo: {
-//     country: Country[];
-//     pdf: Pdf;
-//     webReaderLink: string;
-//   };
-//   textSnippet: string;
-//   volumeInfo: VolumeInfo;
-//   saleInfo: SaleInfo;
-// }
-
-
-
-// export interface BookListItem {
-//   data: BookWithId;
-//   book: BookResult;
-// }
-
-// export interface BookBody {
-//   title: string;
-//   uid: string;
-//   rating: number;
-//   review: string;
-//   status: Status;
-//   whenToRead: WhenToRead;
-// }
-
-// export enum Status {
-//   Read = 'Read',
-//   ReadLater = 'ReadLater',
-// }
-
-// export enum WhenToRead {
-//   Tomorrow = 'Tomorrow',
-//   ThisWeek = 'ThisWeek',
-//   ThisMonth = 'ThisMonth',
-//   ThisYear = 'ThisYear',
-// }
-
-
-export enum BookCategories {
-  Fiction = 'Fiction',
-  Science = 'Science',
-  Computers = 'Computers',
-  BusinessEconomics = 'Business & Economics',
-  Character = 'Character'
-}
+export type BookCategory = typeof BookCategories[keyof typeof BookCategories];

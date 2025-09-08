@@ -30,13 +30,14 @@ export class BookListComponent {
   // result
   searchedBooks: WritableSignal<BooksView[]> = signal([]);
   loadBooksByCategory: WritableSignal<BooksView[]> = signal([]);
+  bookToShow: WritableSignal<BooksView[]> = signal([]);
 
   constructor() {
     this.searchData();
     this.booksByCategory();
   }
 
-  private searchData() {
+  private searchData(): void{
     this.searchQuery$
       .pipe(
         switchMap(query => 
@@ -54,10 +55,13 @@ export class BookListComponent {
         ),
         takeUntilDestroyed(),
       )
-      .subscribe(result => this.searchedBooks.set(result));
+      .subscribe(result => {
+        this.searchedBooks.set(result)
+        this.updateBooksToShow(result);
+    });
   }
 
-  private booksByCategory() {
+  private booksByCategory(): void {
     this.categorySelected$
       .pipe(
         switchMap(category =>
@@ -76,6 +80,21 @@ export class BookListComponent {
         ),
         takeUntilDestroyed()
       )
-      .subscribe(result => this.loadBooksByCategory.set(result))
+      .subscribe(result => {
+        this.loadBooksByCategory.set(result);
+        this.updateBooksToShow(result);
+    })
   }
+
+  updateBooksToShow(lastFetched: BooksView[]): void {
+    const combined: BooksView[] = [
+      ...lastFetched,
+      ...this.searchedBooks(),
+      ...this.loadBooksByCategory()
+    ]
+    const uniqueBooksMap = new Map<string, BooksView>();
+    combined.forEach(book => uniqueBooksMap.set(book.id, book));
+    this.bookToShow.set(Array.from(uniqueBooksMap.values()))
+  }
+
 }

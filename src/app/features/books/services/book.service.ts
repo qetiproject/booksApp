@@ -3,7 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable, shareReplay } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { SkipLoading } from '../../loading/skip-loading.component';
-import { BookData, BookDetails, BookResult, BooksView } from '../types/book';
+import { BookData, BookResult, BooksView } from '../types/book';
+import { BookDetails } from '../types/book-details';
 
 @Injectable({
   providedIn: 'root'

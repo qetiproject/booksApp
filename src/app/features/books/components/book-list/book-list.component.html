@@ -1,11 +1,6 @@
 <div class="book-list-container">
-  @if (searchedBooks()) {
-    @for (item of searchedBooks(); track item.title) {
-      <app-book-card [book]="item"></app-book-card>
-    }
-  }
-  @if(loadBooksByCategory()) {
-    @for (item of loadBooksByCategory(); track item.title) {
+  @if (bookToShow()) {
+    @for (item of bookToShow(); track item.id) {
       <app-book-card [book]="item"></app-book-card>
     }
   }

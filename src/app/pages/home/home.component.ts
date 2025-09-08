@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, ViewChild } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { DebounceSearchComponent } from '../../components/debounce-search/debounce-search.component';
 import { BookCategoryDropdownComponent } from '../../features/books/components/book-category-dropdown/book-category-dropdown.component';
 import { BookListComponent } from "../../features/books/components/book-list/book-list.component";
@@ -14,15 +14,12 @@ import { BookListComponent } from "../../features/books/components/book-list/boo
 export class HomeComponent {
   searchQuery = signal<string>('');
   categorySelected = signal<string | null>(null);
-  @ViewChild(BookListComponent) bookList!: BookListComponent;
-
-  useTemplate1 = signal<boolean>(true);
   
-  onSearchEvent(value: string) {
+  onSearchEvent(value: string): void {
     this.searchQuery.set(value);
   }
 
-  onCategorySelectedEvent(value: string | null) {
+  onCategorySelectedEvent(value: string | null): void {
     this.categorySelected.set(value)
   }
 

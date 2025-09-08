@@ -48,11 +48,7 @@ export class BookDetailsComponent{
   location = inject(Location)
   router = inject(Router);
 
-  // goBack() {
-  //   this.location.back();
-  // }
-
-  goBack() {
+  goBack(): void {
     if (window.history.length > 1) {
       this.location.back();
     } else {
