@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, input, signal, WritableSignal } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { catchError, of, switchMap } from 'rxjs';
-import { MessagesService } from '../../../../core/services/messages.service';
 import { BookService } from '../../services/book.service';
 import { BooksView } from '../../types/book';
 import { BookCardComponent } from '../book-card/book-card.component';
@@ -18,14 +15,10 @@ import { BookCardComponent } from '../book-card/book-card.component';
 export class BookListComponent {
 
   private bookService = inject(BookService);
-  private messageService = inject(MessagesService)
 
   // inputs
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
-
-  private searchQuery$ = toObservable(this.searchQuery);
-  private categorySelected$ = toObservable(this.categorySelected);
 
   // result
   searchedBooks: WritableSignal<BooksView[]> = signal([]);
@@ -47,16 +40,11 @@ export class BookListComponent {
   initEffects() {
     effect(() => {
       const query = this.searchQuery();
-      if(!query || query.length >= 3) {
+      if(!query || query.length <= 3) {
         this.searchedBooks.set([]);
         return;
       }
       this.bookService.searchBooksByName(query)
-        .pipe(
-          catchError(() => {
-            this.messageService.showMessage('Error searching books', 'error');
-            return of([]);
-        }))
         .subscribe(result => this.searchedBooks.set(result));
     })
 
@@ -67,62 +55,8 @@ export class BookListComponent {
         return;
       }
       this.bookService.loadBooksByCategory(category)
-        .pipe(
-            catchError(() => {
-              this.messageService.showMessage('Error loading books by category', 'error');
-            return of([]);
-            })
-        ).subscribe(result => this.booksByCategory.set(result));
+        .subscribe(result => this.booksByCategory.set(result));
 
-    })
-  }
-
-  private searchData(): void{
-    this.searchQuery$
-      .pipe(
-        switchMap(query => 
-          query && query.length >= 3
-          ? this.bookService.searchBooksByName(query).pipe(
-             catchError(err => {
-                this.messageService.showMessage(
-                  'Error searching books',
-                  'error'
-                );
-                return of([]);
-              }),
-            )
-          : of([])
-        ),
-        takeUntilDestroyed(),
-      )
-      .subscribe(result => {
-        this.searchedBooks.set(result)
-        this.updateBooksToShow(result);
-    });
-  }
-
-  private booksByCategory(): void {
-    this.categorySelected$
-      .pipe(
-        switchMap(category =>
-          category 
-            ? this.bookService.loadBooksByCategory(category)
-              .pipe(
-                catchError(err => {
-                  this.messageService.showMessage(
-                    'Error searching books',
-                    'error'
-                  );
-                  return of([]);
-              }),
-              )
-            : of([])
-        ),
-        takeUntilDestroyed()
-      )
-      .subscribe(result => {
-        this.loadBooksByCategory.set(result);
-        this.updateBooksToShow(result);
     })
   }
 
