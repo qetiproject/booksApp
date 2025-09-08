@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { bookRoutes } from './features/books/book.router';
+import { catalogueRoutes } from './features/catalogue/catalogue.route';
 import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
@@ -14,6 +15,10 @@ export const routes: Routes = [
   {
     path: 'books',
     children: bookRoutes,
+  },
+  {
+    path: 'catalogue',
+    children: catalogueRoutes
   },
   {
     path: '**',

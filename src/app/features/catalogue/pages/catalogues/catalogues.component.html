@@ -1,0 +1,5 @@
+<div>
+    @for ( book of books$ | async; track book.id) {
+      <p>{{book.volumeInfo.title}}</p>
+    }
+</div>
