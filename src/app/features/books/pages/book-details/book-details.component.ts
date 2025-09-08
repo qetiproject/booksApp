@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BackButtonComponent } from '../../../../components/back-button/back-button.component';
 import { showSnackbar } from '../../../../utils/snackbar';
+import { CatalogueService } from '../../../catalogue/services/catalogue.service';
 import { BookDetails } from '../../types/book-details';
 
 @Component({
@@ -38,6 +39,9 @@ import { BookDetails } from '../../types/book-details';
 export class BookDetailsComponent{
   private route = inject(ActivatedRoute);
   private snackbar = inject(MatSnackBar);
+  private location = inject(Location)
+  private router = inject(Router);
+  private catalogueService = inject(CatalogueService);
   
   book: WritableSignal<BookDetails> = signal(this.route.snapshot.data['book']);
 
@@ -47,9 +51,6 @@ export class BookDetailsComponent{
     this.book().volumeInfo.imageLinks?.thumbnail 
     || this.book().volumeInfo.imageLinks?.smallThumbnail 
   );
-
-  location = inject(Location)
-  router = inject(Router);
 
   goBack(): void {
     if (window.history.length > 1) {
@@ -62,7 +63,10 @@ export class BookDetailsComponent{
   addToFavouritesEvent(): void {
     showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს ფავორიტებში!`);
   }
-  addToCatalogueEvent(): void {
+  
+  addToCatalogueEvent(book: BookDetails): void {
+    this.catalogueService.addBook(book);
+    this.router.navigateByUrl('/catalogue')
     showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`);
 
   }
