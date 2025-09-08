@@ -5,8 +5,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BackButtonComponent } from '../../../../components/back-button/back-button.component';
+import { showSnackbar } from '../../../../utils/snackbar';
 import { BookDetails } from '../../types/book-details';
 
 @Component({
@@ -35,7 +37,8 @@ import { BookDetails } from '../../types/book-details';
 })
 export class BookDetailsComponent{
   private route = inject(ActivatedRoute);
-
+  private snackbar = inject(MatSnackBar);
+  
   book: WritableSignal<BookDetails> = signal(this.route.snapshot.data['book']);
 
   authorList = computed(() => this.book().volumeInfo.authors ?? []);
@@ -54,5 +57,13 @@ export class BookDetailsComponent{
     } else {
       this.router.navigate(['/books']); // fallback page
     }
+  }
+
+  addToFavouritesEvent(): void {
+    showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს ფავორიტებში!`);
+  }
+  addToCatalogueEvent(): void {
+    showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`);
+
   }
 }
