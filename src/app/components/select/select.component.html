@@ -1,0 +1,15 @@
+<mat-form-field appearance="outline" class="w-full">
+  <mat-label>{{ label() }}</mat-label>
+  <mat-select
+    [value]="value()"
+    (selectionChange)="selectOption($event.value)"
+    [disabled]="disabled"
+    aria-label="{{ label() }}"
+  >
+  @for ( option of options(); track option.value) {
+    <mat-option [value]="option.value">
+      {{ option.label }}
+    </mat-option>
+  }
+  </mat-select>
+</mat-form-field>

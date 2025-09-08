@@ -1,0 +1,20 @@
+<mat-form-field appearance="outline" class="w-full">
+    <mat-icon matPrefix>search</mat-icon>
+    <input 
+      matInput 
+      placeholder="Search books..." 
+      name="search" 
+      [formControl]="searchControl" 
+      aria-label="Search books"
+    />
+    @if (searchControl.value) {
+      <button 
+        matSuffix 
+        mat-icon-button 
+        type="button" 
+        aria-label="Clear search"
+        (click)="clear()">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+</mat-form-field>

@@ -1,0 +1,8 @@
+<app-debounce-search (searchValue)="onSearchEvent($event)"/>
+<app-book-category-dropdown
+  (categorySelected)="onCategorySelectedEvent($event)"
+/>
+<app-book-list 
+    [searchQuery]="searchQuery()"
+    [categorySelected]="categorySelected()"
+/>

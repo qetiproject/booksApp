@@ -18,3 +18,15 @@ reports/
 ├── store/         → Component Store / Signals / NGRX
 ├── reports.routes.ts
 ├── reports.component.ts -->
+
+
+
+
+<!-- src/
+  components/      # Reusable UI components (Button, Input, Modal, Loader)
+  pages/           # App pages (BooksList, BookDetails, AddBook, EditBook)
+  services/        # API services
+  state/           # Global state management
+  types/           # TypeScript interfaces/types
+  utils/           # Helper functions
+  assets/          # Images, icons -->

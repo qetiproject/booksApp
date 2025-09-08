@@ -1,9 +1,10 @@
-export interface BookResult {
-  items: Array<BookData>;
+export interface BookResult<T = BookData> {
+  items: T[];
   totalItems: number;
 }
 
 export interface BookData {
+  id: string;
   accessInfo: AccessInfo;
   searchInfo: {
     textSnippet: string;
@@ -20,7 +21,7 @@ export interface AccessInfo {
 
 export interface VolumeInfo {
   title: string;
-  authors: Array<string>;
+  authors: string[];
   language: string;
   imageLinks: {
     thumbnail: string;
@@ -37,59 +38,22 @@ export interface SaleInfo {
 
 export interface Pdf {
   isAvailable: boolean;
+  webReaderLink?: string;
 }
 
-export type SearchBooksView = {
-  title: string;
-  authors: Array<string>;
-  language: string;
-     imageLinks: {
-    thumbnail: string;
-    smallThumbnail: string;
-  };
-}
+export type BooksView = Pick<BookData, 'id'> & {
+  title: VolumeInfo['title'];
+  authors: VolumeInfo['authors'];
+  language: VolumeInfo['language'];
+  imageLinks: VolumeInfo['imageLinks'];
+};
 
-// -------------------------------------------------------------------
+export const BookCategories  = {
+  Fiction: 'Fiction',
+  Science: 'Science',
+  Computers: 'Computers',
+  BusinessEconomics: 'Business & Economics',
+  Character: 'Character'
+}as const
 
-// export type BookWithId = BookBody & { id: string };
-
-// export interface Book {
-//   accessInfo: {
-//     country: Country[];
-//     pdf: Pdf;
-//     webReaderLink: string;
-//   };
-//   textSnippet: string;
-//   volumeInfo: VolumeInfo;
-//   saleInfo: SaleInfo;
-// }
-
-
-
-// export interface BookListItem {
-//   data: BookWithId;
-//   book: BookResult;
-// }
-
-// export interface BookBody {
-//   title: string;
-//   uid: string;
-//   rating: number;
-//   review: string;
-//   status: Status;
-//   whenToRead: WhenToRead;
-// }
-
-// export enum Status {
-//   Read = 'Read',
-//   ReadLater = 'ReadLater',
-// }
-
-// export enum WhenToRead {
-//   Tomorrow = 'Tomorrow',
-//   ThisWeek = 'ThisWeek',
-//   ThisMonth = 'ThisMonth',
-//   ThisYear = 'ThisYear',
-// }
-
-
+export type BookCategory = typeof BookCategories[keyof typeof BookCategories];

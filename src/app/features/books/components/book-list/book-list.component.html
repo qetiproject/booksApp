@@ -1,0 +1,7 @@
+<div class="book-list-container">
+  @if (bookToShow()) {
+    @for (item of bookToShow(); track item.id) {
+      <app-book-card [book]="item"></app-book-card>
+    }
+  }
+</div>
