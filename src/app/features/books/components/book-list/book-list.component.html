@@ -1,39 +1,16 @@
-<div class="book-list-container">
-  @if (bookToShow()) {
-    @for (item of bookToShow(); track item.id) {
-      <app-book-card [book]="item"></app-book-card>
-    }
+
+
+<ng-container
+  [ngTemplateOutlet]="bookCardTemplate"
+  [ngTemplateOutletContext]="bookToShow()"
+></ng-container>
+
+<ng-template #bookCardTemplate let-books>
+    @if (bookToShow()) {
+      <div class="book-list-container">
+      @for (item of bookToShow(); track item.id) {
+        <app-book-card [book]="item"></app-book-card>
+      }
+    </div>
   }
-</div>
-
-
-
-<!-- 
-<div class="book-section">
-  <button mat-button (click)="showTemplate('featured')">Featured</button>
-  <button mat-button (click)="showTemplate('new')">New Arrivals</button>
-  <button mat-button (click)="showTemplate('favourites')">Favourites</button>
-</div>
-
-<ng-container *ngTemplateOutlet="currentTemplate; context: { $implicit: books }"></ng-container>
-
-<ng-template #featuredTemplate let-books>
-  <h2>Featured Books</h2>
-  <div *ngFor="let book of books | slice:0:5">
-    <app-book-card [book]="book"></app-book-card>
-  </div>
 </ng-template>
-
-<ng-template #newTemplate let-books>
-  <h2>New Arrivals</h2>
-  <div *ngFor="let book of books | slice:0:5">
-    <app-book-card [book]="book"></app-book-card>
-  </div>
-</ng-template>
-
-=<ng-template #favouritesTemplate let-books>
-  <h2>Favourites</h2>
-  <div *ngFor="let book of favouriteBooks">
-    <app-book-card [book]="book"></app-book-card>
-  </div>
-</ng-template> -->

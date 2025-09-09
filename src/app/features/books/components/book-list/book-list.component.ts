@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, TemplateRef, WritableSignal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BookService } from '../../services/book.service';
 import { BooksView } from '../../types/book';
@@ -33,6 +33,8 @@ export class BookListComponent {
     return Array.from(uniqueBooksMap.values());
   });
 
+  bookCardTemplate = TemplateRef<BooksView>;
+  
   constructor() {
     this.initEffects();
   }
