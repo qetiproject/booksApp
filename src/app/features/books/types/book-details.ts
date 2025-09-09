@@ -5,7 +5,7 @@ export type BookDetailsResult = Pick<BookData, "id" | "accessInfo" | "searchInfo
 }
 
 export type BookDetails = Pick<BookData, "id" | "saleInfo"> & {
-  volumeInfo: Partial<BookDetailsVolumeInfo>;
+  volumeInfo: BookDetailsVolumeInfo;
 };
 
 export interface BookDetailsRouteData {

@@ -1,5 +1,7 @@
-<div>
+<div class="book-list-container">
     @for ( book of books$ | async; track book.id) {
-      <p>{{book.volumeInfo.title}}</p>
+      <app-book-card [book]="book"></app-book-card>
     }
 </div>
+
+
