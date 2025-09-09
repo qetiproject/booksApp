@@ -8,7 +8,11 @@
 <ng-template #bookCardTemplate let-books>
   <div class="book-list-container">
       @for ( book of books; track book.id) {
-        <app-book-card [book]="book"></app-book-card>
+        <app-book-card 
+          [book]="book"
+          [showDelete]="true"
+          (bookDelete)="deleteBook($event)"
+        />
       }
   </div>
 </ng-template>

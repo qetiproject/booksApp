@@ -17,5 +17,11 @@
     <button mat-icon-button color="warn">
       <mat-icon>favorite</mat-icon>
     </button>
+    @if (showDelete) {
+      <button matFab aria-label="delete" color="warn" (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+    }
   </mat-card-actions>
 </mat-card>
