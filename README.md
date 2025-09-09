@@ -1,32 +1,26 @@
-<!-- src/
-├── app/
-│   ├── core/               → Global services (auth, logger, layout)
-│   ├── shared/             → UI-only, reusable components
-│   ├── features/           → Business domains (users, reports, dashboard)
-│   │   ├── dashboard/
-│   │   ├── reports/
-│   │   └── users/
-│   └── app.routes.ts       → Global routing setup
-├── assets/
-├── environments/
-└── main.ts
+# Books App
 
+**Books App** is a scalable and interactive web application for browsing and managing books.
 
-reports/
-├── components/
-├── services/
-├── store/         → Component Store / Signals / NGRX
-├── reports.routes.ts
-├── reports.component.ts -->
+---
 
+## Features
+- **Book Listing & Filtering:** Browse books and filter by **title** or **category**.
+- **Detailed View:** See detailed information about each book.
+- **Favourites & Catalogue:** Add books to **Favourites** or a personal **Catalogue**.
 
+---
 
+## Technologies
+- **Framework:** Angular 20
+- **Languages:** TypeScript, JavaScript (ES6+)
+- **State Management:** Angular Signals, Effects, RxJS
+- **Styling & UI:** CSS/SCSS, Responsive Design
+- **Architecture:** Clean and modular
 
-<!-- src/
-  components/      # Reusable UI components (Button, Input, Modal, Loader)
-  pages/           # App pages (BooksList, BookDetails, AddBook, EditBook)
-  services/        # API services
-  state/           # Global state management
-  types/           # TypeScript interfaces/types
-  utils/           # Helper functions
-  assets/          # Images, icons -->
+---
+
+## Highlights
+- Implements **reactive programming** for high performance
+- Follows **clean architecture principles** for maintainability
+- Designed for **easy extension** and **modular component usage**

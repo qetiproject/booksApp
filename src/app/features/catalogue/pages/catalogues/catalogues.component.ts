@@ -18,4 +18,8 @@ export class CataloguesComponent {
   books$ = this.catalogueService.books$;
  
   bookCardTemplate = TemplateRef<BooksView>
+
+  deleteBook(book: BooksView) {
+    this.catalogueService.removeBook(book)
+  }
 }

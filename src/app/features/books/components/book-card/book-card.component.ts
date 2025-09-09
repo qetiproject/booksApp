@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, EventEmitter, Input, input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,5 +15,10 @@ import { BooksView } from '../../types/book';
 })
 export class BookCardComponent {
   book = input.required<BooksView>();
-
+  @Input() showDelete = false; 
+  @Output() bookDelete = new EventEmitter<BooksView>();
+  
+  onDelete(): void {
+    this.bookDelete.emit(this.book());
+  }
 }
