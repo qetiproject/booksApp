@@ -1,5 +1,14 @@
-<div>
-    @for ( book of books$ | async; track book.id) {
-      <p>{{book.volumeInfo.title}}</p>
-    }
-</div>
+@let books = books$ | async;
+
+<ng-container
+  [ngTemplateOutlet]="bookCardTemplate"
+  [ngTemplateOutletContext]="{ $implicit: books }"
+></ng-container>
+
+<ng-template #bookCardTemplate let-books>
+  <div class="book-list-container">
+      @for ( book of books; track book.id) {
+        <app-book-card [book]="book"></app-book-card>
+      }
+  </div>
+</ng-template>

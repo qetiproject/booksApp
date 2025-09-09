@@ -1,7 +1,16 @@
-<div class="book-list-container">
-  @if (bookToShow()) {
-    @for (item of bookToShow(); track item.id) {
-      <app-book-card [book]="item"></app-book-card>
-    }
+
+
+<ng-container
+  [ngTemplateOutlet]="bookCardTemplate"
+  [ngTemplateOutletContext]="bookToShow()"
+></ng-container>
+
+<ng-template #bookCardTemplate let-books>
+    @if (bookToShow()) {
+      <div class="book-list-container">
+      @for (item of bookToShow(); track item.id) {
+        <app-book-card [book]="item"></app-book-card>
+      }
+    </div>
   }
-</div>
+</ng-template>

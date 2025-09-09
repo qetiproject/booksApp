@@ -45,7 +45,7 @@ export type BooksView = Pick<BookData, 'id'> & {
   title: VolumeInfo['title'];
   authors: VolumeInfo['authors'];
   language: VolumeInfo['language'];
-  imageLinks: VolumeInfo['imageLinks'];
+  imageLinks: NonNullable<VolumeInfo['imageLinks']>;
 };
 
 export const BookCategories  = {

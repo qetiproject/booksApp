@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { showSnackbar } from '../../../utils/snackbar';
+import { BooksView } from "../../books/types/book";
 import { BookDetails } from '../../books/types/book-details';
 
 @Injectable({
@@ -13,7 +14,7 @@ export class CatalogueService {
   private snackbar = inject(MatSnackBar);
   private errorMessage = 'Failed to save catalogue to localStorage';
 
-  books = new BehaviorSubject<BookDetails[]>([]);
+  books = new BehaviorSubject<BooksView[]>([]);
   books$ = this.books.asObservable();
 
   constructor() {
@@ -21,13 +22,27 @@ export class CatalogueService {
   }
   
   addBook(book: BookDetails): void {
+    const view = this.mapToBookView(book);
     const current = this.books.value;
-    if(!current.some(b => b.id == book.id)){
-      this.updateBooks([book, ...this.books.value]);
+    if(!current.some(b => b.id == view.id)){
+      this.updateBooks([view, ...current]);
     }
   }
+
+  private mapToBookView(details: BookDetails): BooksView {
+    return {
+      id: details.id,
+      title: details.volumeInfo.title,
+      authors: details.volumeInfo.authors ?? [],
+      language: details.volumeInfo.language,
+      imageLinks: {
+        thumbnail: details.volumeInfo.imageLinks.thumbnail || 'assets/no-image.png',
+        smallThumbnail: details.volumeInfo.imageLinks.smallThumbnail || 'assets/no-image.png',
+      }
+    };
+  }
   
-  removeBook(book: BookDetails): void {
+  removeBook(book: BooksView): void {
     this.updateBooks(this.books.value.filter(x => x.id !== book.id));
   }
 
@@ -36,7 +51,7 @@ export class CatalogueService {
     this.books.next(currentBooks ? JSON.parse(currentBooks) : []);
   }
 
-  private updateBooks(updated: BookDetails[]): void {
+  private updateBooks(updated: BooksView[]): void {
     this.books.next(updated);
     try{
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updated));
