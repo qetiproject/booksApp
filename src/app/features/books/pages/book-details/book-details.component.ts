@@ -8,8 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BackButtonComponent } from '../../../../components/back-button/back-button.component';
+import { FavouriteBookService } from '../../../../pages/wishlist/services/favouriteBook.service';
 import { showSnackbar } from '../../../../utils/snackbar';
 import { CatalogueService } from '../../../catalogue/services/catalogue.service';
+import { BooksView } from '../../types/book';
 import { BookDetails } from '../../types/book-details';
 
 @Component({
@@ -42,6 +44,7 @@ export class BookDetailsComponent{
   private location = inject(Location)
   private router = inject(Router);
   private catalogueService = inject(CatalogueService);
+  private favouriteService = inject(FavouriteBookService);
   
   book: WritableSignal<BookDetails> = signal(this.route.snapshot.data['book']);
 
@@ -60,7 +63,19 @@ export class BookDetailsComponent{
     }
   }
 
-  addToFavouritesEvent(): void {
+  addToFavouritesEvent(book: BookDetails): void {
+    const booksView: BooksView = {
+      id: book.id,
+      title: book.volumeInfo.title,
+      authors: book.volumeInfo.authors,
+      language: book.volumeInfo.language,
+      imageLinks: {
+        thumbnail: book.volumeInfo.imageLinks.thumbnail,
+        smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail
+      }
+    }
+    this.favouriteService.addBookInFavourite(booksView);
+    this.router.navigateByUrl('/favourites')
     showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს ფავორიტებში!`);
   }
   

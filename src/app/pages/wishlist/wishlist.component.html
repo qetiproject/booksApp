@@ -1,3 +1,11 @@
-@for ( book of favouriteBooks; track book.id) {
-  <app-book-card [book]="book"></app-book-card>
-}
+<app-back-button themeColor="accent" tooltip="Go back to list"/>
+
+<div class="book-list-container">
+    @for ( book of favouriteBooks(); track book.id) {
+      <app-book-card 
+        [book]="book"
+        [showDelete]="true"
+        (bookDelete)="onBookDeleteFromFavouritesEvent($event)"  
+      ></app-book-card>
+    }
+</div>

@@ -1,22 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BackButtonComponent } from '../../components/back-button/back-button.component';
 import { BookCardComponent } from "../../features/books/components/book-card/book-card.component";
+import { BooksView } from '../../features/books/types/book';
+import { showSnackbar } from '../../utils/snackbar';
 import { FavouriteBookService } from './services/favouriteBook.service';
 
 @Component({
   selector: 'app-wishlist',
   standalone: true,
-  imports: [CommonModule, BookCardComponent],
+  imports: [CommonModule, BookCardComponent, BackButtonComponent],
   templateUrl: './wishlist.component.html',
-  styleUrl: './wishlist.component.scss'
+  styleUrl: './wishlist.component.scss',
 })
-export class WishlistComponent implements OnInit{
+export class WishlistComponent{
 
-  favouriteBookService = inject(FavouriteBookService);
+  private favouriteBookService = inject(FavouriteBookService);
+  private snackbar = inject(MatSnackBar);
+  
+  favouriteBooks = this.favouriteBookService.favouriteBooks
 
-  favouriteBooks = this.favouriteBookService.loadFavouriteBooks();
-
-  ngOnInit(): void {
-    console.log(this.favouriteBooks)
+  onBookDeleteFromFavouritesEvent(book: BooksView): void {
+    this.favouriteBookService.removeBookFromFavourite(book);
+    showSnackbar(this.snackbar, `📚 "${book.title}" წარმატებით წაიშალა სიიდან!`);
   }
+
 }
