@@ -46,24 +46,22 @@ export class BookDetailsComponent{
   private catalogueService = inject(CatalogueService);
   private favouriteService = inject(FavouriteBookService);
   
-  book: WritableSignal<BookDetails> = signal(this.route.snapshot.data['book']);
-
-  authorList = computed(() => this.book().volumeInfo.authors ?? []);
-  categoryList = computed(() => this.book().volumeInfo.categories ?? []);
-  thumbnail = computed(() => 
+  readonly book: WritableSignal<BookDetails> = signal(this.route.snapshot.data['book']);
+  readonly authorList = computed(() => this.book().volumeInfo.authors ?? []);
+  readonly categoryList = computed(() => this.book().volumeInfo.categories ?? []);
+  readonly thumbnail = computed(() => 
     this.book().volumeInfo.imageLinks?.thumbnail 
     || this.book().volumeInfo.imageLinks?.smallThumbnail 
+    || 'assets/default-thumbnail.png'
   );
 
   goBack(): void {
-    if (window.history.length > 1) {
-      this.location.back();
-    } else {
-      this.router.navigate(['/books']); // fallback page
-    }
+    const canGoBack = window.history.length > 1;
+    (canGoBack ? () => this.location.back() : () => this.router.navigate(['/books']))();
   }
 
-  addToFavouritesEvent(book: BookDetails): void {
+  addToFavouritesEvent(): void {
+    const book = this.book();
     const booksView: BooksView = {
       id: book.id,
       title: book.volumeInfo.title,
@@ -79,7 +77,8 @@ export class BookDetailsComponent{
     showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს ფავორიტებში!`);
   }
   
-  addToCatalogueEvent(book: BookDetails): void {
+  addToCatalogueEvent(): void {
+    const book = this.book();
     this.catalogueService.addBook(book);
     this.router.navigateByUrl('/catalogue')
     showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`);
