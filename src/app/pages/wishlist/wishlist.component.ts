@@ -16,10 +16,10 @@ import { FavouriteBookService } from './services/favouriteBook.service';
 })
 export class WishlistComponent{
 
-  private favouriteBookService = inject(FavouriteBookService);
+  private readonly favouriteBookService = inject(FavouriteBookService);
   private snackbar = inject(MatSnackBar);
   
-  favouriteBooks = this.favouriteBookService.favouriteBooks
+  readonly favouriteBooks = this.favouriteBookService.favouriteBooks
 
   onBookDeleteFromFavouritesEvent(book: BooksView): void {
     this.favouriteBookService.removeBookFromFavourite(book);
