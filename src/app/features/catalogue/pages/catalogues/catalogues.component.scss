@@ -2,6 +2,8 @@
   display: grid;
   gap: 1rem;
   padding: 1rem;
+  margin: 0 auto;
+  max-width: 90%;
 
   grid-template-columns: 1fr;
 
@@ -16,4 +18,9 @@
   @media (min-width: 1200px) {
     grid-template-columns: repeat(4, 1fr);
   }
+}
+
+.catalogue {
+  width: 100%;
+  max-width: 90%;
 }

@@ -1,3 +1,5 @@
+<app-back-button themeColor="accent" tooltip="Go back to list"/>
+
 @let books = books$ | async;
 
 <ng-container
@@ -11,7 +13,7 @@
         <app-book-card 
           [book]="book"
           [showDelete]="true"
-          (bookDelete)="deleteBook($event)"
+          (bookDelete)="onDeleteBookEvent($event)"
         />
       }
   </div>
