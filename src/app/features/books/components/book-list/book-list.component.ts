@@ -16,7 +16,7 @@ import { BookCardComponent } from '../book-card/book-card.component';
 export class BookListComponent {
 
   private bookService = inject(BookService);
-
+  private favouriteService = inject(FavouriteBookService);
   // inputs
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
@@ -63,11 +63,10 @@ export class BookListComponent {
     })
   }
 
-  favourites: WritableSignal<BooksView[]> = signal([]);
-  favouriteService = inject(FavouriteBookService);
+  // favourites: WritableSignal<BooksView[]> = signal([]);
+
   
   onAddInFavouriteEvent(book: BooksView) {
-    // this.favourites.update(curr => [...curr, book]);
     this.favouriteService.addBookInFavourite(book);
   }
 
