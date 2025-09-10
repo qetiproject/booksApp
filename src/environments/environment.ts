@@ -1,4 +1,5 @@
 export const environment = {
   bookApiBase: 'https://www.googleapis.com/books/v1/volumes',
-  catalogueStorageKey: 'catalogue'
+  catalogueStorageKey: 'booksIncatalogue',
+  favouritesStorageKey: 'favouriteBooks'
 };
