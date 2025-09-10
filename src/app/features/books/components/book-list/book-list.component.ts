@@ -62,4 +62,8 @@ export class BookListComponent {
     })
   }
 
+  onAddInFavouriteEvent(book: BooksView) {
+    console.log(book, "book");
+  }
+
 }

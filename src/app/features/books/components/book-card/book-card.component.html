@@ -14,9 +14,11 @@
 
   <mat-card-actions>
     <button mat-button color="primary" [routerLink]="['/books', book().id]">Details</button>
-    <button mat-icon-button color="warn">
-      <mat-icon>favorite</mat-icon>
-    </button>
+    @if (showFavourite) {
+      <button mat-icon-button color="warn" (click)="onAddInFavourite()">
+        <mat-icon>favorite</mat-icon>
+      </button>
+    }
     @if (showDelete) {
       <button matFab aria-label="delete" color="warn" (click)="onDelete()">
         <mat-icon>delete</mat-icon>

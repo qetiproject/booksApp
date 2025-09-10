@@ -16,9 +16,15 @@ import { BooksView } from '../../types/book';
 export class BookCardComponent {
   book = input.required<BooksView>();
   @Input() showDelete = false; 
+  @Input() showFavourite = false;
   @Output() bookDelete = new EventEmitter<BooksView>();
+  @Output() addInFavourite = new EventEmitter<BooksView>();
   
   onDelete(): void {
     this.bookDelete.emit(this.book());
+  }
+
+  onAddInFavourite(): void {
+    this.addInFavourite.emit(this.book());
   }
 }
