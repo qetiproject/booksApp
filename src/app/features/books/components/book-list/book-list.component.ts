@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, input, signal, TemplateRef, WritableSignal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FavouriteBookService } from '../../../../pages/wishlist/services/favouriteBook.service';
 import { BookService } from '../../services/book.service';
 import { BooksView } from '../../types/book';
 import { BookCardComponent } from '../book-card/book-card.component';
@@ -60,6 +61,14 @@ export class BookListComponent {
         .subscribe(result => this.booksByCategory.set(result));
 
     })
+  }
+
+  favourites: WritableSignal<BooksView[]> = signal([]);
+  favouriteService = inject(FavouriteBookService);
+  
+  onAddInFavouriteEvent(book: BooksView) {
+    // this.favourites.update(curr => [...curr, book]);
+    this.favouriteService.addBookInFavourite(book);
   }
 
 }
