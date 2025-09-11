@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { bookRoutes } from './features/books/book.router';
-import { catalogueRoutes } from './features/catalogue/catalogue.route';
+import { catalogueRoutes } from './pages/catalogues/catalogue.route';
 import { HomeComponent } from './pages/home/home.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
 

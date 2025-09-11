@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { CataloguesComponent } from "./pages/catalogues/catalogues.component";
+import { CataloguesComponent } from "./catalogues.component";
 
 export const catalogueRoutes: Routes = [
    {
