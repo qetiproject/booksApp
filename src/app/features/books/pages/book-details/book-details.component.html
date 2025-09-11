@@ -2,17 +2,14 @@
 
 @if(book()){
   <mat-card class="book-details-card" @fadeInOut>
-  <!-- Thumbnail -->
   <img mat-card-image 
        [src]="thumbnail()" 
        [alt]="book().volumeInfo.title">
 
-  <!-- Title -->
   <mat-card-header>
     <mat-card-title>{{ book().volumeInfo.title }}</mat-card-title>
   </mat-card-header>
 
-  <!-- Authors -->
   <mat-chip-set>
     @for ( author of authorList(); track author) {
       <mat-chip >
@@ -21,13 +18,11 @@
     }
   </mat-chip-set>
 
-  <!-- Book Info -->
   <mat-card-content>
     <p><strong>Publisher:</strong> {{ book().volumeInfo.publisher }}</p>
     <p><strong>Published Date:</strong> {{ book().volumeInfo.publishedDate }}</p>
     <p>{{ book().volumeInfo.description }}</p>
 
-    <!-- Categories -->
     <mat-chip-set>
       @for ( category of categoryList(); track category) {
         <mat-chip>
@@ -41,33 +36,53 @@
     <p><strong>Print Type:</strong> {{ book().volumeInfo.printType }}</p>
   </mat-card-content>
 
-  <!-- Actions -->
-  <mat-card-actions>
-    <a mat-button color="primary" 
-       *ngIf="book().saleInfo.isEbook && book().saleInfo.buyLink"
-       [href]="book().saleInfo.buyLink" target="_blank">
-      Buy / Preview
-    </a>
-   <!-- Add to Favourites -->
-  <!-- Favourite (წითელი ღილაკი) -->
-    <button mat-raised-button class="btn-favourite" (click)="addToFavouritesEvent()">
-      <mat-icon>favorite</mat-icon>
-      Add to Favourites
+  <!-- <mat-card-actions>
+      <a mat-button color="primary" 
+        *ngIf="book().saleInfo.isEbook && book().saleInfo.buyLink"
+        [href]="book().saleInfo.buyLink" target="_blank">
+        Buy / Preview
+      </a>
+      <button mat-raised-button class="btn-favourite" (click)="addToFavouritesEvent()">
+        <mat-icon>favorite</mat-icon>
+        Add to Favourites
+      </button>
+
+      <button mat-raised-button class="btn-catalogue" (click)="addToCatalogueEvent()">
+        <mat-icon>library_add</mat-icon>
+        Add to Catalogue
+      </button>
+
+    </mat-card-actions>
+
+    <mat-card-footer>
+      <a mat-button color="accent" 
+        [href]="book().volumeInfo.previewLink" target="_blank">
+        Open in Google Books
+      </a>
+    </mat-card-footer> -->
+  <div class="tab-buttons">
+    <button
+      *ngFor="let tab of tabs"
+      (click)="selectTab(tab.key)"
+      [class.active]="tab.key === currentTab"
+    >
+      {{ tab.label }}
     </button>
+  </div>
 
-    <button mat-raised-button class="btn-catalogue" (click)="addToCatalogueEvent()">
-      <mat-icon>library_add</mat-icon>
-      Add to Catalogue
-    </button>
-
-  </mat-card-actions>
-
-  <!-- Footer -->
-  <mat-card-footer>
-    <a mat-button color="accent" 
-       [href]="book().volumeInfo.previewLink" target="_blank">
-      Open in Google Books
-    </a>
-  </mat-card-footer>
-</mat-card>
+  <ng-container 
+    [ngTemplateOutlet]="addReviewTemplate"
+    [ngTemplateOutletContext]="reviews"
+  ></ng-container>
+  <div class="tab-content">
+    @if (currentTab === 'addReview') {
+      <app-add-review />
+    }@else {
+      @for (review of reviews; track review.title) {
+        <h3>{{ review.title }}</h3>
+      }
+    }
+  </div>
+  </mat-card>
 }
+

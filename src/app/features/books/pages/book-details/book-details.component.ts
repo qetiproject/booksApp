@@ -1,6 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule, Location } from '@angular/common';
-import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal, TemplateRef, ViewChild, WritableSignal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -11,8 +12,11 @@ import { BackButtonComponent } from '../../../../components/back-button/back-but
 import { CatalogueService } from '../../../../pages/catalogues/services/catalogue.service';
 import { FavouriteBookService } from '../../../../pages/wishlist/services/favouriteBook.service';
 import { showSnackbar } from '../../../../utils/snackbar';
+import { AddReviewComponent } from "../../components/add-review/add-review.component";
 import { BooksView } from '../../types/book';
 import { BookDetails } from '../../types/book-details';
+
+type TabKey = 'reviews' | 'addReview';
 
 @Component({
   selector: 'app-book-details',
@@ -22,8 +26,7 @@ import { BookDetails } from '../../types/book-details';
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    BackButtonComponent
-  ],
+    BackButtonComponent, AddReviewComponent, FormsModule],
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.scss'],
    animations: [
@@ -54,6 +57,14 @@ export class BookDetailsComponent{
     || this.book().volumeInfo.imageLinks?.smallThumbnail 
     || 'assets/default-thumbnail.png'
   );
+  currentTab: TabKey = 'reviews';
+
+  @ViewChild('addReviewTemplate') addReviewTemplate!: TemplateRef<unknown>;
+
+  tabs: { key: TabKey; label: string }[] = [
+    { key: 'reviews', label: 'Reviews' },
+    { key: 'addReview', label: 'Add Review' },
+  ];
 
   goBack(): void {
     const canGoBack = window.history.length > 1;
@@ -83,5 +94,17 @@ export class BookDetailsComponent{
     this.router.navigateByUrl('/catalogue')
     showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`);
 
+  }
+
+  reviews: {title: string}[] = [
+    {
+      title: "hi1"
+    },
+    {
+      title: "hi2"
+    }
+  ];
+  selectTab(tab: TabKey) {
+    this.currentTab = tab;
   }
 }
