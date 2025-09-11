@@ -8,9 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BackButtonComponent } from '../../../../components/back-button/back-button.component';
+import { CatalogueService } from '../../../../pages/catalogues/services/catalogue.service';
 import { FavouriteBookService } from '../../../../pages/wishlist/services/favouriteBook.service';
 import { showSnackbar } from '../../../../utils/snackbar';
-import { CatalogueService } from '../../../catalogue/services/catalogue.service';
 import { BooksView } from '../../types/book';
 import { BookDetails } from '../../types/book-details';
 

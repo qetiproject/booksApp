@@ -2,9 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { BooksView } from "../../../features/books/types/book";
+import { BookDetails } from '../../../features/books/types/book-details';
 import { showSnackbar } from '../../../utils/snackbar';
-import { BooksView } from "../../books/types/book";
-import { BookDetails } from '../../books/types/book-details';
 
 @Injectable({
   providedIn: 'root'
