@@ -91,7 +91,8 @@ export class BookDetailsComponent {
       imageLinks: {
         thumbnail: book.volumeInfo.imageLinks.thumbnail,
         smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail
-      }
+      },
+      categories: book.volumeInfo.categories
     }
     this.favouriteService.addBookInFavourite(booksView);
     this.router.navigateByUrl('/favourites')

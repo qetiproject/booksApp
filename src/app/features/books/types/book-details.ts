@@ -18,7 +18,6 @@ export interface BookDetailsVolumeInfo extends VolumeInfo {
     description: string;
     pageCount: number;
     printType: string;
-    categories: string[];
     previewLink: string;
 }
 

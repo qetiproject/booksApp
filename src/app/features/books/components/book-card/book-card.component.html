@@ -1,31 +1,75 @@
-<mat-card class="book-card">
-  <mat-card-header>
-    <mat-card-title>{{ book().title }}</mat-card-title>
-    <mat-card-subtitle>{{ book().authors.join(', ') }}</mat-card-subtitle>
-  </mat-card-header>
+<div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-200 max-w-sm
+            transition-transform transform hover:scale-[1.02] hover:shadow-2xl">
+  <div class="px-5 py-4 border-b border-slate-200 flex flex-col gap-1">
+    <h3 class="text-xl font-bold text-slate-900 truncate">{{ book().title }}</h3>
+    <div class="mt-6 flex gap-2 overflow-hidden whitespace-nowrap">
+      @for (author of book().authors; track author) {
+        <span
+          class="inline-block px-3 py-1 text-sm font-medium bg-blue-100 text-blue-800 rounded-full
+                truncate">
+          {{ author }}
+        </span>
+      }
+    </div>
+  </div>
+  <div class="relative w-full h-52 bg-gray-100 overflow-hidden">
+    <img 
+      [src]="book().imageLinks.thumbnail || book().imageLinks.smallThumbnail"
+      alt="{{ book().title }}"
+      class="w-full h-full object-cover transition-transform duration-300 ease-out hover:scale-105"
+      loading="lazy"
+    />
+  </div>
+  <div class="px-5 py-4 space-y-2">
+    <p class="text-sm text-slate-700"><strong>Language:</strong> {{ book().language }}</p>
+    <div class="mt-5 flex flex-wrap gap-2">
+      @for (category of book().categories; track category) {
+        <span
+          class="px-2.5 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full"
+        >
+          {{ category }}
+        </span>
+      }
+    </div>
+  </div>
+  <div class="px-5 py-4 border-t border-slate-200 flex items-center gap-3 justify-between">
+    <div class="flex gap-2">
+      @if (showDetailsBtn) {
+        <button 
+          [routerLink]="['/books', book().id]"
+          class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white 
+                 hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 transition-shadow duration-200"
+        >Details</button>
+      }
 
-  <img mat-card-image 
-       [src]="book().imageLinks.thumbnail || book().imageLinks.smallThumbnail" 
-       alt="{{ book().title }}" />
+      @if (showFavourite) {
+        <button 
+          (click)="onAddInFavourite()"
+          aria-label="Add to favourite"
+          class="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200
+                 active:scale-95 transition-transform duration-150"
+        >
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
+                     2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+                     C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5
+                     c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </button>
+      }
+    </div>
 
-  <mat-card-content>
-    <p><strong>Language:</strong> {{ book().language }}</p>
-  </mat-card-content>
-
-  <mat-card-actions>
-    @if (showDetailsBtn) {
-      <button mat-button color="primary" [routerLink]="['/books', book().id]">Details</button>
-    }
-    @if (showFavourite) {
-      <button mat-icon-button color="warn" (click)="onAddInFavourite()">
-        <mat-icon>favorite</mat-icon>
-      </button>
-    }
     @if (showDelete) {
-      <button matFab aria-label="delete" color="warn" (click)="onDelete()">
-        <mat-icon>delete</mat-icon>
+      <button 
+        (click)="onDelete()"
+        aria-label="Delete"
+        class="p-2 rounded-full bg-red-600 text-white hover:bg-red-700
+               active:scale-95 transition-transform duration-150"
+      >
+        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+          <path d="M3 6h18v2H3V6zm2 3h14l-1.5 12h-11L5 9zm5 2v8h2v-8h-2zm4 0v8h2v-8h-2z"/>
+        </svg>
       </button>
-
     }
-  </mat-card-actions>
-</mat-card>
+  </div>
+</div>
