@@ -1,6 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule, Location } from '@angular/common';
-import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal, TemplateRef, ViewChild, WritableSignal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -10,9 +11,11 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BackButtonComponent } from '../../../../components/back-button/back-button.component';
 import { CatalogueService } from '../../../../pages/catalogues/services/catalogue.service';
 import { FavouriteBookService } from '../../../../pages/wishlist/services/favouriteBook.service';
+import { Tab, TabKey } from '../../../../types/tabs';
 import { showSnackbar } from '../../../../utils/snackbar';
+import { AddReviewComponent } from '../../components/add-review/add-review.component';
 import { BooksView } from '../../types/book';
-import { BookDetails } from '../../types/book-details';
+import { BookDetails, Review } from '../../types/book-details';
 
 @Component({
   selector: 'app-book-details',
@@ -22,10 +25,9 @@ import { BookDetails } from '../../types/book-details';
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    BackButtonComponent
-  ],
+    BackButtonComponent, FormsModule, AddReviewComponent],
   templateUrl: './book-details.component.html',
-  styleUrls: ['./book-details.component.scss'],
+  styleUrls: ['./book-details.component.css'],
    animations: [
     trigger('fadeInOut', [
       transition(':enter', [
@@ -38,7 +40,7 @@ import { BookDetails } from '../../types/book-details';
     ])
   ]
 })
-export class BookDetailsComponent{
+export class BookDetailsComponent {
   private route = inject(ActivatedRoute);
   private snackbar = inject(MatSnackBar);
   private location = inject(Location)
@@ -55,6 +57,25 @@ export class BookDetailsComponent{
     || 'assets/default-thumbnail.png'
   );
 
+  @ViewChild('addReviewTemplate') addReviewTemplate!: TemplateRef<unknown>;
+  @ViewChild('reviewsTemplate') reviewsTemplate!: TemplateRef<unknown>;
+
+  currentTab: TabKey = 'reviews';
+  newReview: Review = { name: '', rating: 0, comment: '' };
+  reviews: Review[] = [
+    { name: 'Anne Clark', rating: 5, comment: 'An excellent guide to modern UI design.' },
+    { name: 'Matthew Turner', rating: 4, comment: 'A solid read with practical advice.' }
+  ];
+
+  
+  get tabs(): Tab[] {
+    if (!this.reviewsTemplate || !this.addReviewTemplate) return [];
+    return [
+      { key: 'reviews', label: 'Reviews', template: this.reviewsTemplate },
+      { key: 'addReview', label: 'Add Review', template: this.addReviewTemplate }
+    ];
+  }
+
   goBack(): void {
     const canGoBack = window.history.length > 1;
     (canGoBack ? () => this.location.back() : () => this.router.navigate(['/books']))();
@@ -70,7 +91,8 @@ export class BookDetailsComponent{
       imageLinks: {
         thumbnail: book.volumeInfo.imageLinks.thumbnail,
         smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail
-      }
+      },
+      categories: book.volumeInfo.categories
     }
     this.favouriteService.addBookInFavourite(booksView);
     this.router.navigateByUrl('/favourites')
@@ -84,4 +106,9 @@ export class BookDetailsComponent{
     showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`);
 
   }
+
+  selectTab(tabKey: TabKey) {
+    this.currentTab = tabKey;
+  }
+
 }

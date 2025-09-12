@@ -38,7 +38,8 @@ export class CatalogueService {
       imageLinks: {
         thumbnail: details.volumeInfo.imageLinks.thumbnail || 'assets/no-image.png',
         smallThumbnail: details.volumeInfo.imageLinks.smallThumbnail || 'assets/no-image.png',
-      }
+      },
+      categories: details.volumeInfo.categories
     };
   }
   

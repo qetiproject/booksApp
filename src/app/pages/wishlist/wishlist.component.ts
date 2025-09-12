@@ -12,7 +12,7 @@ import { FavouriteBookService } from './services/favouriteBook.service';
   standalone: true,
   imports: [CommonModule, BookCardComponent, BackButtonComponent],
   templateUrl: './wishlist.component.html',
-  styleUrl: './wishlist.component.scss',
+  styleUrl: './wishlist.component.css',
 })
 export class WishlistComponent{
 

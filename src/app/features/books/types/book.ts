@@ -27,6 +27,8 @@ export interface VolumeInfo {
     thumbnail: string;
     smallThumbnail: string;
   };
+  categories: string[];
+
 }
 
 export interface SaleInfo {
@@ -46,6 +48,7 @@ export type BooksView = Pick<BookData, 'id'> & {
   authors: VolumeInfo['authors'];
   language: VolumeInfo['language'];
   imageLinks: NonNullable<VolumeInfo['imageLinks']>;
+  categories: VolumeInfo['categories'];
 };
 
 export const BookCategories  = {

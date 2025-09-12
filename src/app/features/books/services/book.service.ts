@@ -22,7 +22,8 @@ export class BookService {
           title: item.volumeInfo.title,
           authors: item.volumeInfo.authors || [],
           imageLinks: item.volumeInfo.imageLinks || { thumbnail: '', smallThumbnail: '' },
-          language: item.volumeInfo.language || ''
+          language: item.volumeInfo.language || '',
+          categories: item.volumeInfo.categories
         }));
       }), shareReplay(1)
     );
@@ -37,7 +38,8 @@ export class BookService {
           title: item.volumeInfo.title,
           authors: item.volumeInfo.authors || [],
           imageLinks: item.volumeInfo.imageLinks || { thumbnail: '', smallThumbnail: '' },
-          language: item.volumeInfo.language || ''
+          language: item.volumeInfo.language || '',
+          categories: item.volumeInfo.categories
         }));
       }), shareReplay(1)
       

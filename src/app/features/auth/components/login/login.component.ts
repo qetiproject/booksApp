@@ -1,6 +1,6 @@
-import {Component, inject} from '@angular/core';
-import {Router, RouterLink} from "@angular/router";
-import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
+import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
         ReactiveFormsModule
     ],
     templateUrl: './login.component.html',
-    styleUrl: './login.component.scss'
+    styleUrl: './login.component.css'
 })
 export class LoginComponent {
 

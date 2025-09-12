@@ -1,0 +1,53 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit($event)"
+  (reset)="onReset($event)"
+  class="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-2xl space-y-6 border border-slate-200"
+>
+  <div>
+    <label for="comment" class="block text-sm font-medium text-slate-700 mb-1">Comment</label>
+    <textarea
+      id="comment"
+      formControlName="comment"
+      placeholder="Write your review..."
+      rows="3"
+      class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+    ></textarea>
+  </div>
+  <div class="flex items-center gap-1">
+    <label for="rating" class="block text-sm font-medium text-slate-700 mb-1 mr-2">Rating:</label>
+    @for (star of [1,2,3,4,5]; track star) {
+      <ng-container>
+        <span 
+          id="rating"
+          (click)="setRating(star)"
+          (mouseenter)="hoveredStar = star"
+          (mouseleave)="hoveredStar = 0"
+          class="cursor-pointer text-2xl transition-colors duration-200"
+          [ngClass]="{
+            'text-yellow-500': star <= (hoveredStar || form.controls.star.value),
+            'text-gray-300': star > (hoveredStar || form.controls.star.value)
+          }"
+        >
+          ★
+        </span>
+      </ng-container>
+    }
+  </div>
+  <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
+    <button
+      type="reset"
+      class="px-4 py-2 text-sm font-medium rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition"
+    >
+      Reset
+    </button>
+    <button
+      type="submit"
+      class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition shadow"
+    >
+      Submit
+    </button>
+  </div>
+</form>

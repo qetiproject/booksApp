@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { showSnackbar } from '../../../../utils/snackbar';
 import { BooksView } from '../../types/book';
 
@@ -13,7 +13,7 @@ import { BooksView } from '../../types/book';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, RouterLink],
   templateUrl: './book-card.component.html',
-  styleUrls: ['./book-card.component.scss']
+  styleUrls: ['./book-card.component.css']
 })
 export class BookCardComponent {
 
@@ -24,7 +24,6 @@ export class BookCardComponent {
   @Output() bookDelete = new EventEmitter<BooksView>();
   @Output() addInFavourite = new EventEmitter<BooksView>();
   
-  private route = inject(ActivatedRoute);
   private router = inject(Router);
   private snackbar = inject(MatSnackBar);
 

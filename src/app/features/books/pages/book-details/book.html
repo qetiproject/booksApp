@@ -1,0 +1,117 @@
+ <app-back-button themeColor="accent" tooltip="Go back to list"/>
+
+@if(book()){
+  <mat-card class="book-details-card" @fadeInOut>
+  <img mat-card-image 
+       [src]="thumbnail()" 
+       [alt]="book().volumeInfo.title">
+
+  <mat-card-header>
+    <mat-card-title>{{ book().volumeInfo.title }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-chip-set>
+    @for ( author of authorList(); track author) {
+      <mat-chip >
+        {{ author }}
+      </mat-chip>
+    }
+  </mat-chip-set>
+
+  <mat-card-content>
+    <p><strong>Publisher:</strong> {{ book().volumeInfo.publisher }}</p>
+    <p><strong>Published Date:</strong> {{ book().volumeInfo.publishedDate }}</p>
+    <p>{{ book().volumeInfo.description }}</p>
+
+    <mat-chip-set>
+      @for ( category of categoryList(); track category) {
+        <mat-chip>
+          {{ category }}
+        </mat-chip>
+      }
+    </mat-chip-set>
+
+    <p><strong>Pages:</strong> {{ book().volumeInfo.pageCount }}</p>
+    <p><strong>Language:</strong> {{ book().volumeInfo.language }}</p>
+    <p><strong>Print Type:</strong> {{ book().volumeInfo.printType }}</p>
+  </mat-card-content>
+
+  <mat-card-actions>
+      <a mat-button color="primary" 
+        *ngIf="book().saleInfo.isEbook && book().saleInfo.buyLink"
+        [href]="book().saleInfo.buyLink" target="_blank">
+        Buy / Preview
+      </a>
+      <button mat-raised-button class="btn-favourite" (click)="addToFavouritesEvent()">
+        <mat-icon>favorite</mat-icon>
+        Add to Favourites
+      </button>
+
+      <button mat-raised-button class="btn-catalogue" (click)="addToCatalogueEvent()">
+        <mat-icon>library_add</mat-icon>
+        Add to Catalogue
+      </button>
+
+    </mat-card-actions>
+
+    <mat-card-footer>
+      <a mat-button color="accent" 
+        [href]="book().volumeInfo.previewLink" target="_blank">
+        Open in Google Books
+      </a>
+    </mat-card-footer>
+  <div class="tab-buttons">
+    <button
+      *ngFor="let tab of tabs"
+      (click)="selectTab(tab.key)"
+      [class.active]="tab.key === currentTab"
+    >
+      {{ tab.label }}
+    </button>
+  </div>
+
+  <ng-container 
+    [ngTemplateOutlet]="addReviewTemplate"
+    [ngTemplateOutletContext]="reviews"
+  ></ng-container>
+  <div class="tab-content">
+    @if (currentTab === 'addReview') {
+      <app-add-review />
+    }@else {
+      @for (review of reviews; track review.title) {
+        <h3>{{ review.title }}</h3>
+      }
+    }
+  </div>
+  </mat-card>
+}
+
+
+
+
+
+<!-- <div class="mt-10">
+        <h2 class="text-xl font-bold text-slate-900 mb-4">Reviews</h2>
+
+        <div class="space-y-6">
+          @for (review of reviews; track review.author) {
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center">
+                <span class="material-icons text-slate-500">person</span>
+              </div>
+              <div>
+                <h3 class="font-semibold text-slate-900 flex items-center gap-2">
+                  {{ review.author }}
+                  <span class="text-yellow-400 text-sm">★★★★★</span>
+                </h3>
+                <p class="text-slate-600 text-sm mt-1">
+                  {{ review.content }}
+                </p>
+              </div>
+            </div>
+          }
+        </div>
+        <div class="mt-8">
+          <app-add-review></app-add-review>
+        </div>
+      </div> -->
