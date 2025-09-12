@@ -9,7 +9,7 @@ import { BookListComponent } from "../../features/books/components/book-list/boo
   standalone: true,
   imports: [CommonModule, DebounceSearchComponent, BookListComponent, BookCategoryDropdownComponent, BookCategoryDropdownComponent],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.css'
 })
 export class HomeComponent {
   searchQuery = signal<string>('');

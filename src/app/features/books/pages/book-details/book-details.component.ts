@@ -27,7 +27,7 @@ type TabKey = 'reviews' | 'addReview';
     MatChipsModule,
     BackButtonComponent, FormsModule],
   templateUrl: './book-details.component.html',
-  styleUrls: ['./book-details.component.scss'],
+  styleUrls: ['./book-details.component.css'],
    animations: [
     trigger('fadeInOut', [
       transition(':enter', [

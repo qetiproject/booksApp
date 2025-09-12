@@ -12,7 +12,7 @@ import { LoadingComponent } from "./features/loading/loading.component";
     LoadingComponent
 ],
     templateUrl: './app.component.html',
-    styleUrl: './app.component.scss'
+    styleUrl: './app.component.css'
 })
 export class AppComponent {
 

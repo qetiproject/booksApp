@@ -13,7 +13,7 @@ import { BooksView } from '../../types/book';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, RouterLink],
   templateUrl: './book-card.component.html',
-  styleUrls: ['./book-card.component.scss']
+  styleUrls: ['./book-card.component.css']
 })
 export class BookCardComponent {
 

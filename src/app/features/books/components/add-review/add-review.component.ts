@@ -11,7 +11,7 @@ import { Readly, ReviewForm, WhenToRead } from '../../types/review';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './add-review.component.html',
-  styleUrls: ['./add-review.component.scss']
+  styleUrls: ['./add-review.component.css']
 })
 export class AddReviewComponent implements OnInit{
   fb = inject(FormBuilder);

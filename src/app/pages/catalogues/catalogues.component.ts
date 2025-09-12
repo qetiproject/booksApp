@@ -10,7 +10,7 @@ import { CatalogueService } from './services/catalogue.service';
   standalone: true,
   imports: [CommonModule, BookCardComponent, BackButtonComponent],
   templateUrl: './catalogues.component.html',
-  styleUrls: ['./catalogues.component.scss']
+  styleUrls: ['./catalogues.component.css']
 })
 export class CataloguesComponent {
 

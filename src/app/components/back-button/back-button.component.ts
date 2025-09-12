@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './back-button.component.html',
-  styleUrls: ['./back-button.component.scss']
+  styleUrls: ['./back-button.component.css']
 })
 export class BackButtonComponent {
   @Input() themeColor: 'primary' | 'accent' | 'warn' = 'primary';

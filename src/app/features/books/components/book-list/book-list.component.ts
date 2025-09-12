@@ -11,7 +11,7 @@ import { BookCardComponent } from '../book-card/book-card.component';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, BookCardComponent],
   templateUrl: './book-list.component.html',
-  styleUrls: ['./book-list.component.scss']
+  styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent {
 

@@ -7,7 +7,7 @@ import { MessagesService } from '../../core/services/messages.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.scss']
+  styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent {
   messageService = inject(MessagesService);
