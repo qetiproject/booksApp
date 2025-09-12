@@ -13,6 +13,4 @@ export enum WhenToRead {
 export interface ReviewForm { 
     comment: FormControl<string>; 
     star: FormControl<number>; 
-    read: FormControl<Readly>; 
-    whenToRead: FormControl<WhenToRead | null>; 
 }

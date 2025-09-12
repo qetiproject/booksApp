@@ -1,17 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { distinctUntilChanged, startWith, tap } from 'rxjs';
-import { SelectComponent } from '../../../../components/select/select.component';
-import { SelectModel } from '../../../../types/common';
+import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { createReviewForm } from '../../../../utils/review-form.factory';
-import { Readly, ReviewForm, WhenToRead } from '../../types/review';
+import { Readly, ReviewForm } from '../../types/review';
 
 @Component({
   selector: 'app-add-review',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, SelectComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './add-review.component.html',
   styleUrls: ['./add-review.component.css']
 })
@@ -20,45 +16,11 @@ export class AddReviewComponent {
 
   form: FormGroup<ReviewForm> = createReviewForm(this.fb);
 
-  get readCtrl() { return this.form.controls.read; }
   get starCtrl() { return this.form.controls.star; }
   get Readly() { return Readly; }
-  get whenToReadCtrl(): FormControl<WhenToRead | null> { 
-    return this.form.controls.whenToRead; 
-  }
-  whenToReadOptions: SelectModel[] = [
-    ...Object.values(WhenToRead).map(option => ({
-      label: option,
-      value: option
-    }))
-  ]
-
+  
   @ViewChild(FormGroupDirective, { static: false })
   private formDir!: FormGroupDirective;
-  readOptions = Object.values(Readly);
-
-  constructor() {
-    this.setupReadValidation();
-  }
-
-  private setupReadValidation(): void {
-    this.readCtrl.valueChanges
-      .pipe(
-        startWith(this.readCtrl.value),
-        distinctUntilChanged(),
-        tap(read => {
-          if (read === Readly.Unread) {
-            this.whenToReadCtrl.setValidators([Validators.required]);
-          } else {
-            this.whenToReadCtrl.clearValidators();
-            this.whenToReadCtrl.setValue(null);
-          }
-          this.whenToReadCtrl.updateValueAndValidity();
-        }),
-        takeUntilDestroyed()
-      )
-      .subscribe();
-  }
 
   onSubmit(e: Event): void {
     this.formDir.resetForm(this.form.value);
@@ -67,7 +29,6 @@ export class AddReviewComponent {
     e.preventDefault();
     this.formDir.reset(this.form.value);
   }
-
 
   newReview = { name: '', rating: 0, comment: '' };
   currentTab = 'reviews';

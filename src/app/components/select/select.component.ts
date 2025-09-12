@@ -51,8 +51,9 @@ export class SelectComponent<T = unknown> implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  selectOption(value: unknown) {
-    const val = value as T | null;
+  selectOption(event: Event) {
+    const selectEl = event.target as HTMLSelectElement;
+    const val = selectEl.value  as T | null;
     this.value.set(val);
     this.onChange(this.value());
     this.onTouched();
