@@ -1,6 +1,6 @@
  <app-back-button themeColor="accent" tooltip="Go back to list"/>
-<!--
-@if(book()){
+
+<!-- @if(book()){
   <mat-card class="book-details-card" @fadeInOut>
   <img mat-card-image 
        [src]="thumbnail()" 
@@ -52,7 +52,7 @@
         Add to Catalogue
       </button>
 
-    </mat-card-actions>
+  </mat-card-actions>
 
     <mat-card-footer>
       <a mat-button color="accent" 
@@ -84,50 +84,131 @@
     }
   </div>
   </mat-card>
-}
- -->
+} -->
 
 
-<!-- book-details.component.html -->
-<div class="max-w-4xl mx-auto my-10 p-6 bg-white shadow-lg rounded-lg animate-fadeInOut">
-  <div class="flex flex-col md:flex-row gap-6">
-    
-    <!-- Book Thumbnail -->
-    <img 
-      src="https://example.com/book-thumbnail.jpg" 
-      alt="The Great Gatsby" 
-      class="w-full md:w-48 h-auto object-cover rounded-lg shadow-md"
-    />
-
-    <!-- Book Info -->
-    <div class="flex-1 flex flex-col gap-3">
-      <h1 class="text-3xl font-bold">The Great Gatsby</h1>
-
-      <!-- Authors -->
-      <div class="flex flex-wrap gap-2">
-        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">F. Scott Fitzgerald</span>
-      </div>
-
-      <!-- Meta Info -->
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-gray-600 mt-2">
-        <p><strong>Publisher:</strong> Scribner</p>
-        <p><strong>Published:</strong> 1925</p>
-        <p><strong>Pages:</strong> 218</p>
-        <p><strong>Language:</strong> English</p>
-        <p><strong>Print Type:</strong> Hardcover</p>
-      </div>
-
-      <!-- Categories -->
-      <div class="flex flex-wrap gap-2 mt-2">
-        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">Classic</span>
-        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">Fiction</span>
-      </div>
-
-      <!-- Description -->
-      <p class="mt-4 text-gray-700">
-        The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.
-      </p>
+<div class="max-w-5xl mx-auto my-10 bg-white shadow-2xl rounded-2xl overflow-hidden">
+  <div class="flex flex-col md:flex-row">
+    <div class="md:w-1/3">
+      <img
+        [src]="thumbnail()"
+        [alt]="book().volumeInfo.title"
+        class="w-full h-72 object-cover md:h-full md:rounded-l-2xl"
+      />
     </div>
 
+    <div class="flex-1 p-6 flex flex-col justify-between">
+      <div>
+        <h1 class="text-3xl font-extrabold text-slate-900">
+          {{ book().volumeInfo.title }}
+        </h1>
+
+        <div class="mt-3 flex flex-wrap gap-2">
+          @for (author of authorList(); track author) {
+            <span class="px-3 py-1 text-sm font-medium bg-blue-50 text-blue-700 rounded-full">
+              {{ author }}
+            </span>
+          }
+        </div>
+
+        <p class="mt-4 text-slate-700 leading-relaxed text-sm md:text-base line-clamp-4">
+          {{ book().volumeInfo.description }}
+        </p>
+
+        <div class="mt-4 flex flex-wrap gap-2">
+          @for (category of categoryList(); track category) {
+            <span class="px-2 py-1 text-xs font-semibold bg-green-50 text-green-700 rounded-full">
+              {{ category }}
+            </span>
+          }
+        </div>
+
+        <div class="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 text-sm text-slate-600">
+          <p><span class="font-semibold text-slate-900">Publisher:</span> {{ book().volumeInfo.publisher }}</p>
+          <p><span class="font-semibold text-slate-900">Published:</span> {{ book().volumeInfo.publishedDate }}</p>
+          <p><span class="font-semibold text-slate-900">Pages:</span> {{ book().volumeInfo.pageCount }}</p>
+          <p><span class="font-semibold text-slate-900">Language:</span> {{ book().volumeInfo.language }}</p>
+          <p><span class="font-semibold text-slate-900">Print Type:</span> {{ book().volumeInfo.printType }}</p>
+        </div>
+      </div>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a
+          *ngIf="book().saleInfo.isEbook && book().saleInfo.buyLink"
+          [href]="book().saleInfo.buyLink"
+          target="_blank"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-lg shadow hover:opacity-90 transition"
+        >
+          Buy / Preview
+        </a>
+
+        <button
+          (click)="addToFavouritesEvent()"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-pink-50 text-pink-700 text-sm font-medium rounded-lg border border-pink-200 hover:bg-pink-100 transition"
+        >
+          <span class="material-icons text-pink-600">favorite</span>
+          Add to Favourites
+        </button>
+
+        <button
+          (click)="addToCatalogueEvent()"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-50 text-slate-800 text-sm font-medium rounded-lg border border-slate-200 hover:bg-slate-100 transition"
+        >
+          <span class="material-icons text-slate-600">library_add</span>
+          Add to Catalogue
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-slate-200 mt-8"></div>
+
+  <div class="p-6">
+    <!-- Tabs -->
+    <div class="flex gap-3 border-b border-slate-200 pb-2 mb-6">
+      <button
+        *ngFor="let tab of tabs"
+        (click)="selectTab(tab.key)"
+        class="px-5 py-2 text-sm font-medium rounded-t-lg transition-all"
+        [ngClass]="{
+          'bg-indigo-600 text-white shadow-md': tab.key === currentTab,
+          'text-slate-600 hover:text-indigo-600': tab.key !== currentTab
+        }"
+      >
+        {{ tab.label }}
+      </button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+      @if (currentTab === 'addReview') {
+        <!-- Add Review Component -->
+        <app-add-review />
+      } @else {
+        <!-- Reviews List -->
+        <div class="space-y-4">
+          @for (review of reviews; track review.title) {
+            <div class="p-5 bg-slate-50 rounded-xl shadow-sm hover:shadow-md transition">
+              <h3 class="font-semibold text-slate-900 text-lg">{{ review.title }}</h3>
+
+              <div class="flex items-center mt-2 gap-1">
+                <!-- <ng-container *ngFor="let star of [1,2,3,4,5]">
+                  <span [ngClass]="star <= review.rating ? 'text-yellow-400' : 'text-slate-300'">★</span>
+                </ng-container> -->
+                <span>2</span>
+                <span>5</span>
+              </div>
+
+              <p class="mt-2 text-sm text-slate-700">comment</p>
+              <p class="mt-2 text-xs text-slate-400">—name</p>
+            </div>
+          }
+        </div>
+      }
+    </div>
   </div>
 </div>
+
+
+
+
