@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule, Location } from '@angular/common';
-import { AfterViewInit, Component, computed, inject, signal, TemplateRef, ViewChild, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal, TemplateRef, ViewChild, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -40,7 +40,7 @@ import { BookDetails, Review } from '../../types/book-details';
     ])
   ]
 })
-export class BookDetailsComponent implements AfterViewInit{
+export class BookDetailsComponent {
   private route = inject(ActivatedRoute);
   private snackbar = inject(MatSnackBar);
   private location = inject(Location)
@@ -60,13 +60,21 @@ export class BookDetailsComponent implements AfterViewInit{
   @ViewChild('addReviewTemplate') addReviewTemplate!: TemplateRef<unknown>;
   @ViewChild('reviewsTemplate') reviewsTemplate!: TemplateRef<unknown>;
 
-  tabs: Tab[] = [];
   currentTab: TabKey = 'reviews';
   newReview: Review = { name: '', rating: 0, comment: '' };
   reviews: Review[] = [
     { name: 'Anne Clark', rating: 5, comment: 'An excellent guide to modern UI design.' },
     { name: 'Matthew Turner', rating: 4, comment: 'A solid read with practical advice.' }
   ];
+
+  
+  get tabs(): Tab[] {
+    if (!this.reviewsTemplate || !this.addReviewTemplate) return [];
+    return [
+      { key: 'reviews', label: 'Reviews', template: this.reviewsTemplate },
+      { key: 'addReview', label: 'Add Review', template: this.addReviewTemplate }
+    ];
+  }
 
   goBack(): void {
     const canGoBack = window.history.length > 1;
@@ -96,13 +104,6 @@ export class BookDetailsComponent implements AfterViewInit{
     this.router.navigateByUrl('/catalogue')
     showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`);
 
-  }
-
-  ngAfterViewInit() {
-    this.tabs = [
-      { key: 'reviews', label: 'Reviews', template: this.reviewsTemplate },
-      { key: 'addReview', label: 'Add Review', template: this.addReviewTemplate }
-    ];
   }
 
   selectTab(tabKey: TabKey) {

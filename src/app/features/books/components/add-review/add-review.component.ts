@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { distinctUntilChanged, startWith, tap } from 'rxjs';
@@ -15,7 +15,7 @@ import { Readly, ReviewForm, WhenToRead } from '../../types/review';
   templateUrl: './add-review.component.html',
   styleUrls: ['./add-review.component.css']
 })
-export class AddReviewComponent implements OnInit{
+export class AddReviewComponent {
   fb = inject(FormBuilder);
 
   form: FormGroup<ReviewForm> = createReviewForm(this.fb);
@@ -35,17 +35,9 @@ export class AddReviewComponent implements OnInit{
 
   @ViewChild(FormGroupDirective, { static: false })
   private formDir!: FormGroupDirective;
-readOptions = Object.values(Readly);
-  // readOptions = Object.values(Readly).map(val => ({
-  //   label: val,
-  //   value: this.toValueKey(val)
-  // }));
+  readOptions = Object.values(Readly);
 
-  // private toValueKey(str: string): string {
-  //   return str.toLowerCase().replace(/\s+/g, '-');
-  // }
-
-  ngOnInit(): void {
+  constructor() {
     this.setupReadValidation();
   }
 

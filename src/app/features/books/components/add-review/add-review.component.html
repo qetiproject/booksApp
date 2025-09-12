@@ -30,10 +30,6 @@
   <div>
     <span class="block text-sm font-medium text-slate-700 mb-2">Status</span>
     <div class="flex gap-6">
-      <!-- @for (o of readOptions; track o.value) {
-        
-      } -->
-
       <label class="flex items-center gap-2 cursor-pointer">
           <input
           type="radio"
@@ -42,6 +38,15 @@
           class="text-blue-600 focus:ring-blue-500"
         />
         <span class="text-slate-700"> {{Readly.Read}} </span>
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer">
+          <input
+          type="radio"
+          formControlName="read"
+          [value]="Readly.Unread"
+          class="text-blue-600 focus:ring-blue-500"
+        />
+        <span class="text-slate-700"> {{Readly.Unread}} </span>
       </label>
      
     </div>

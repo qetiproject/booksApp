@@ -1,4 +1,5 @@
-<mat-form-field appearance="outline" class="w-full">
+<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
+<!-- <mat-form-field appearance="outline" class="w-full">
   <mat-label>{{ label() }}</mat-label>
   <mat-select
     [value]="value()"
@@ -12,17 +13,32 @@
     </mat-option>
   }
   </mat-select>
-</mat-form-field>
+</mat-form-field> -->
 
 
-<!-- <div>
-  <label class="block text-sm font-medium text-slate-700 mb-1">When do you plan to read?</label>
-  <select
-    formControlName="whenToRead"
-    class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-  >
-  @for (option of whenToReadOptions; track option) {
-      <option [value]="option">{{ option }}</option>
-  }
-  </select>
-</div> -->
+<div class="w-full">
+  <label class="block text-sm font-medium text-slate-700 mb-1">{{ label() }}</label>
+  <div class="relative">
+    <select
+      [value]="value()"
+      (change)="selectOption($event.target)"
+      [disabled]="disabled"
+      aria-label="{{ label() }}"
+      class="w-full appearance-none px-3 py-2 text-sm border border-slate-300 rounded-lg shadow-sm
+             focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500
+             disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+    @for (option of options(); track option.value) {
+      <option  [value]="option.value">
+        {{ option.label }}
+      </option>
+    }
+      
+    </select>
+    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+      <svg class="h-4 w-4 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  </div>
+</div>
