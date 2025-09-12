@@ -1,1 +1,23 @@
-<h3>Add Review</h3>
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)" (reset)="onReset($event)">
+
+  <input type="text" formControlName="comment" placeholder="Comment" />
+
+  <input type="number" formControlName="star" placeholder="Star" min="1" max="5" />
+
+  <label>
+    <input type="radio" formControlName="read" [value]="Readly.Read" /> Read
+  </label>
+  <label>
+    <input type="radio" formControlName="read" [value]="Readly.Unread" /> Not Read Yet
+  </label>
+
+  <!-- ეს select გამოჩნდება მხოლოდ მაშინ თუ არჩეულია Not Read Yet -->
+  <ng-container *ngIf="readCtrl.value === Readly.Unread">
+    <select formControlName="whenToRead">
+      <option value="">Select</option>
+      <option *ngFor="let option of whenToReadOptions" [value]="option">{{ option }}</option>
+    </select>
+  </ng-container>
+
+  <button type="submit">Submit</button>
+</form>
