@@ -12,7 +12,6 @@ import { BackButtonComponent } from '../../../../components/back-button/back-but
 import { CatalogueService } from '../../../../pages/catalogues/services/catalogue.service';
 import { FavouriteBookService } from '../../../../pages/wishlist/services/favouriteBook.service';
 import { showSnackbar } from '../../../../utils/snackbar';
-import { AddReviewComponent } from "../../components/add-review/add-review.component";
 import { BooksView } from '../../types/book';
 import { BookDetails } from '../../types/book-details';
 
@@ -26,7 +25,7 @@ type TabKey = 'reviews' | 'addReview';
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    BackButtonComponent, AddReviewComponent, FormsModule],
+    BackButtonComponent, FormsModule],
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.scss'],
    animations: [

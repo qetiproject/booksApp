@@ -88,20 +88,17 @@
  -->
 
 
- <div class="max-w-4xl mx-auto my-6 p-4 bg-white shadow-lg rounded-lg animate-fadeInOut">
+ <!-- <div class="max-w-4xl mx-auto my-6 p-4 bg-white shadow-lg rounded-lg animate-fadeInOut">
   <div class="flex flex-col md:flex-row gap-6">
-    <!-- Book Thumbnail -->
     <img 
       [src]="thumbnail()" 
       [alt]="book().volumeInfo.title" 
       class="w-full md:w-48 h-auto object-cover rounded-lg shadow-md"
     />
 
-    <!-- Book Info -->
     <div class="flex-1 flex flex-col gap-2">
       <h1 class="text-2xl font-bold">{{ book().volumeInfo.title }}</h1>
 
-      <!-- Authors -->
       <div class="flex flex-wrap gap-2">
         <span 
           *ngFor="let author of authorList()" 
@@ -111,7 +108,6 @@
         </span>
       </div>
 
-      <!-- Meta Info -->
       <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-gray-600 mt-2">
         <p><strong>Publisher:</strong> {{ book().volumeInfo.publisher }}</p>
         <p><strong>Published:</strong> {{ book().volumeInfo.publishedDate }}</p>
@@ -120,7 +116,6 @@
         <p><strong>Print Type:</strong> {{ book().volumeInfo.printType }}</p>
       </div>
 
-      <!-- Categories -->
       <div class="flex flex-wrap gap-2 mt-2">
         <span 
           *ngFor="let category of categoryList()" 
@@ -130,9 +125,54 @@
         </span>
       </div>
 
-      <!-- Description -->
       <p class="mt-4 text-gray-700">{{ book().volumeInfo.description }}</p>
     </div>
   </div>
 
+</div> -->
+
+
+
+<!-- book-details.component.html -->
+<div class="max-w-4xl mx-auto my-10 p-6 bg-white shadow-lg rounded-lg animate-fadeInOut">
+  <div class="flex flex-col md:flex-row gap-6">
+    
+    <!-- Book Thumbnail -->
+    <img 
+      src="https://example.com/book-thumbnail.jpg" 
+      alt="The Great Gatsby" 
+      class="w-full md:w-48 h-auto object-cover rounded-lg shadow-md"
+    />
+
+    <!-- Book Info -->
+    <div class="flex-1 flex flex-col gap-3">
+      <h1 class="text-3xl font-bold">The Great Gatsby</h1>
+
+      <!-- Authors -->
+      <div class="flex flex-wrap gap-2">
+        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">F. Scott Fitzgerald</span>
+      </div>
+
+      <!-- Meta Info -->
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-gray-600 mt-2">
+        <p><strong>Publisher:</strong> Scribner</p>
+        <p><strong>Published:</strong> 1925</p>
+        <p><strong>Pages:</strong> 218</p>
+        <p><strong>Language:</strong> English</p>
+        <p><strong>Print Type:</strong> Hardcover</p>
+      </div>
+
+      <!-- Categories -->
+      <div class="flex flex-wrap gap-2 mt-2">
+        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">Classic</span>
+        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">Fiction</span>
+      </div>
+
+      <!-- Description -->
+      <p class="mt-4 text-gray-700">
+        The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.
+      </p>
+    </div>
+
+  </div>
 </div>
