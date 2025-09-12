@@ -7,7 +7,7 @@ export function starRange(min: number, max: number) {
 
 export function createReviewForm(fb: FormBuilder) {
   return fb.nonNullable.group<ReviewForm>({
-    comment: fb.nonNullable.control('', Validators.maxLength(500)),
-    star: fb.nonNullable.control(0, starRange(1, 5))
+    comment: fb.nonNullable.control('', [Validators.maxLength(500), Validators.required]),
+    star: fb.nonNullable.control(0, Validators.required)
   });
 }
