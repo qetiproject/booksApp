@@ -3,13 +3,15 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { distinctUntilChanged, startWith, tap } from 'rxjs';
+import { SelectComponent } from '../../../../components/select/select.component';
+import { SelectModel } from '../../../../types/common';
 import { createReviewForm } from '../../../../utils/review-form.factory';
 import { Readly, ReviewForm, WhenToRead } from '../../types/review';
 
 @Component({
   selector: 'app-add-review',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SelectComponent],
   templateUrl: './add-review.component.html',
   styleUrls: ['./add-review.component.css']
 })
@@ -24,10 +26,24 @@ export class AddReviewComponent implements OnInit{
   get whenToReadCtrl(): FormControl<WhenToRead | null> { 
     return this.form.controls.whenToRead; 
   }
-  whenToReadOptions = Object.values(WhenToRead);
+  whenToReadOptions: SelectModel[] = [
+    ...Object.values(WhenToRead).map(option => ({
+      label: option,
+      value: option
+    }))
+  ]
 
   @ViewChild(FormGroupDirective, { static: false })
   private formDir!: FormGroupDirective;
+readOptions = Object.values(Readly);
+  // readOptions = Object.values(Readly).map(val => ({
+  //   label: val,
+  //   value: this.toValueKey(val)
+  // }));
+
+  // private toValueKey(str: string): string {
+  //   return str.toLowerCase().replace(/\s+/g, '-');
+  // }
 
   ngOnInit(): void {
     this.setupReadValidation();
@@ -61,7 +77,7 @@ export class AddReviewComponent implements OnInit{
   }
 
 
-    newReview = { name: '', rating: 0, comment: '' };
+  newReview = { name: '', rating: 0, comment: '' };
   currentTab = 'reviews';
 
   reviews = [
