@@ -10,8 +10,6 @@
   <label>
     <input type="radio" formControlName="read" [value]="Readly.Unread" /> Not Read Yet
   </label>
-
-  <!-- ეს select გამოჩნდება მხოლოდ მაშინ თუ არჩეულია Not Read Yet -->
   <ng-container *ngIf="readCtrl.value === Readly.Unread">
     <select formControlName="whenToRead">
       <option value="">Select</option>
@@ -21,3 +19,40 @@
 
   <button type="submit">Submit</button>
 </form>
+
+
+ <!-- <form (ngSubmit)="addReview()" class="space-y-4">
+        <input
+          type="text"
+          placeholder="Your name"
+          [(ngModel)]="newReview.name"
+          name="name"
+          class="w-full px-4 py-2 border rounded-lg text-sm focus:ring focus:ring-blue-200"
+        />
+
+        <select
+          [(ngModel)]="newReview.rating"
+          name="rating"
+          class="w-full px-4 py-2 border rounded-lg text-sm focus:ring focus:ring-blue-200"
+        >
+          <option value="">Select rating</option>
+          <option *ngFor="let star of [5,4,3,2,1]" [value]="star">
+            {{ star }} Star{{ star > 1 ? 's' : '' }}
+          </option>
+        </select>
+
+        <textarea
+          rows="3"
+          placeholder="Write your review..."
+          [(ngModel)]="newReview.comment"
+          name="comment"
+          class="w-full px-4 py-2 border rounded-lg text-sm focus:ring focus:ring-blue-200"
+        ></textarea>
+
+        <button
+          type="submit"
+          class="px-6 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
+        >
+          Submit Review
+        </button>
+      </form> -->

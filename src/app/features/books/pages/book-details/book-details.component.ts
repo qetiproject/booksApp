@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule, Location } from '@angular/common';
-import { Component, computed, inject, signal, TemplateRef, ViewChild, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, computed, inject, signal, TemplateRef, ViewChild, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -16,7 +16,7 @@ import { AddReviewComponent } from '../../components/add-review/add-review.compo
 import { BooksView } from '../../types/book';
 import { BookDetails } from '../../types/book-details';
 
-type TabKey = 'reviews' | 'addReview';
+// type TabKey = 'reviews' | 'addReview';
 
 @Component({
   selector: 'app-book-details',
@@ -41,7 +41,7 @@ type TabKey = 'reviews' | 'addReview';
     ])
   ]
 })
-export class BookDetailsComponent{
+export class BookDetailsComponent implements AfterViewInit{
   private route = inject(ActivatedRoute);
   private snackbar = inject(MatSnackBar);
   private location = inject(Location)
@@ -57,14 +57,15 @@ export class BookDetailsComponent{
     || this.book().volumeInfo.imageLinks?.smallThumbnail 
     || 'assets/default-thumbnail.png'
   );
-  currentTab: TabKey = 'reviews';
+  // currentTab: TabKey = 'reviews';
 
   @ViewChild('addReviewTemplate') addReviewTemplate!: TemplateRef<unknown>;
+  @ViewChild('reviewsTemplate') reviewsTemplate!: TemplateRef<unknown>;
 
-  tabs: { key: TabKey; label: string }[] = [
-    { key: 'reviews', label: 'Reviews' },
-    { key: 'addReview', label: 'Add Review' },
-  ];
+  // tabs: { key: TabKey; label: string }[] = [
+  //   { key: 'reviews', label: 'Reviews' },
+  //   { key: 'addReview', label: 'Add Review' },
+  // ];
 
   goBack(): void {
     const canGoBack = window.history.length > 1;
@@ -96,15 +97,29 @@ export class BookDetailsComponent{
 
   }
 
-  reviews: {title: string}[] = [
-    {
-      title: "hi1"
-    },
-    {
-      title: "hi2"
-    }
+  // selectTab(tab: TabKey) {
+  //   this.currentTab = tab;
+  // }
+
+  tabs: { key: string; label: string; template?: TemplateRef<unknown> }[] = [];
+  currentTab = 'reviews';
+
+  reviews = [
+    { name: 'Anne Clark', rating: 5, comment: 'An excellent guide to modern UI design.' },
+    { name: 'Matthew Turner', rating: 4, comment: 'A solid read with practical advice.' },
   ];
-  selectTab(tab: TabKey) {
-    this.currentTab = tab;
+
+  newReview = { name: '', rating: 0, comment: '' };
+
+  ngAfterViewInit() {
+    this.tabs = [
+      { key: 'reviews', label: 'Reviews', template: this.reviewsTemplate },
+      { key: 'addReview', label: 'Add Review', template: this.addReviewTemplate },
+    ];
   }
+
+  selectTab(tabKey: string) {
+    this.currentTab = tabKey;
+  }
+
 }

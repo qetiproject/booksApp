@@ -59,4 +59,20 @@ export class AddReviewComponent implements OnInit{
     e.preventDefault();
     this.formDir.reset(this.form.value);
   }
+
+
+    newReview = { name: '', rating: 0, comment: '' };
+  currentTab = 'reviews';
+
+  reviews = [
+    { name: 'Anne Clark', rating: 5, comment: 'An excellent guide to modern UI design.' },
+    { name: 'Matthew Turner', rating: 4, comment: 'A solid read with practical advice.' },
+  ];
+  addReview() {
+    if (this.newReview.name && this.newReview.rating && this.newReview.comment) {
+      this.reviews.push({ ...this.newReview });
+      this.newReview = { name: '', rating: 0, comment: '' };
+      this.currentTab = 'reviews';
+    }
+  }
 }
