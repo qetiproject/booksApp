@@ -16,7 +16,7 @@ import { BookCategories, } from '../../types/book';
 export class BookCategoryDropdownComponent {
 
   readonly categories: SelectModel[] = [
-    { label: 'All', value: null},
+    { label: 'Choose Book Category', value: null},
     ...Object.values(BookCategories).map(category => ({
       label: category,
       value: category
