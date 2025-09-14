@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
+import { Store } from '@ngrx/store';
 import { AuthService } from '../../services/auth.service';
+import { login } from '../../store/auth.action';
 
 @Component({
     selector: 'login',
     imports: [
-        RouterLink,
         ReactiveFormsModule
     ],
     templateUrl: './login.component.html',
@@ -15,7 +16,8 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent {
 
   fb = inject(FormBuilder);
-
+  store = inject(Store);
+  
   form = this.fb.group({
     username: ['emilys'],
     password: ['emilyspass']
@@ -24,7 +26,7 @@ export class LoginComponent {
   authService = inject(AuthService);
   router = inject(Router);
 
-  async onLogin() {
+  onLogin() {
     try {
       const {username, password} = this.form.value;
       if(!username || !password) {
@@ -32,11 +34,13 @@ export class LoginComponent {
         return;
       }
 
-      await this.authService.login(username, password);
-      await this.router.navigate(['/home']);
+      this.store.dispatch(login({username: username, password: password}))
+      this.router.navigate(['/home']);
     }
     catch(err) {
      console.error(err);
     }
   }
+
+
 }

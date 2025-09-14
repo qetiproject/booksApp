@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { firstValueFrom } from "rxjs";
+import { map, Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { AuthTokens } from "../store/auth.store";
 import { LoginResponse } from "../types/user";
@@ -16,15 +16,15 @@ export class AuthService {
 
   constructor() {}
 
-  async login(username: string, password: string): Promise<LoginResponse> {
-    const login$ = this.http.post<LoginResponse>(`${environment.authApi}/login`, {
+  login(username: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${environment.authApi}/login`, {
       username, password
-    });
-
-    const response = await firstValueFrom(login$);
-
-    this.saveTokens(response.accessToken, response.refreshToken);
-    return response;
+    }).pipe(
+      map((response) => {
+        this.saveTokens(response.accessToken, response.refreshToken);
+        return response
+      })
+    )
   }
 
   async logout() {

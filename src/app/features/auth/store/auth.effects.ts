@@ -1,8 +1,8 @@
-import { inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, map, of, switchMap } from "rxjs";
+import { catchError, map, of, switchMap, tap } from "rxjs";
 import { AuthService } from "../services/auth.service";
-import { login, loginFailure, loginSuccess } from "./auth.action";
+import { login, loginFailure, loginSuccess, logout } from "./auth.action";
 
 @Injectable()
 export class AuthEffects {
@@ -29,4 +29,10 @@ export class AuthEffects {
       )
     )
   );
+
+  logout$ = createEffect(() => this.actions$.pipe(
+    ofType(logout),
+    tap(() => this.authService.logout())
+  ),{dispatch: false})
+
 }

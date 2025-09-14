@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { AuthService } from '../../features/auth/services/auth.service';
+import { Store } from '@ngrx/store';
+import { logout } from '../../features/auth/store/auth.action';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +10,9 @@ import { AuthService } from '../../features/auth/services/auth.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  authService = inject(AuthService);
+  store = inject(Store);
 
   onLogout() {
-    this.authService.logout();
+    this.store.dispatch(logout());
   }
 }
