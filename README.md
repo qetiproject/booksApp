@@ -24,3 +24,8 @@
 - Implements **reactive programming** for high performance
 - Follows **clean architecture principles** for maintainability
 - Designed for **easy extension** and **modular component usage**
+
+
+## Server
+- npm install -g json-server@0
+- json-server --watch db.json
