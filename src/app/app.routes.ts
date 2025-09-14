@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
+import { authRoutes } from './features/auth/auth.route';
 import { bookRoutes } from './features/books/book.router';
 import { catalogueRoutes } from './pages/catalogues/catalogue.route';
 import { HomeComponent } from './pages/home/home.component';
-import { LoginComponent } from './pages/login/login.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
 
 export const routes: Routes = [
@@ -12,7 +12,7 @@ export const routes: Routes = [
   },      
   {
     path: 'login',
-    component: LoginComponent
+    children: authRoutes
   },
   { path: '', 
     redirectTo: 'login', 

@@ -17,8 +17,8 @@ export class LoginComponent {
   fb = inject(FormBuilder);
 
   form = this.fb.group({
-    email: [''],
-    password: ['']
+    username: ['emilys'],
+    password: ['emilyspass']
   })
 
   authService = inject(AuthService);
@@ -26,13 +26,13 @@ export class LoginComponent {
 
   async onLogin() {
     try {
-      const {email, password} = this.form.value;
-      if(!email || !password) {
+      const {username, password} = this.form.value;
+      if(!username || !password) {
        console.log("error")
         return;
       }
 
-      await this.authService.login(email, password);
+      await this.authService.login(username, password);
       await this.router.navigate(['/home']);
     }
     catch(err) {
