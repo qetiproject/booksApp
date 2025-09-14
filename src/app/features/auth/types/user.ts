@@ -7,3 +7,14 @@ export type User = {
   gender: string; 
   image: string;
 }
+
+export interface LoginResponse {
+  user: User;
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface LoginCredentials {
+  username: string;
+  password: string;
+}

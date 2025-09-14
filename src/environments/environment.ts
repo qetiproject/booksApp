@@ -3,5 +3,7 @@ export const environment = {
   catalogueStorageKey: 'booksIncatalogue',
   favouritesStorageKey: 'favouriteBooks',
   USER_STORAGE_KEY: 'user',
-  authApi: 'https://dummyjson.com/auth'
+  authApi: 'https://dummyjson.com/auth',
+  ACCESS_TOKEN_KEY: '',
+  REFRESH_TOKEN_KEY: ''
 };
