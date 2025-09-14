@@ -1,0 +1,38 @@
+<header class="bg-white shadow-md">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="/" class="text-2xl font-bold text-blue-600 hover:text-blue-800">
+          BookApp
+        </a>
+      </div>
+      
+      <!-- Navigation -->
+      <nav class="hidden md:flex space-x-6">
+        <a routerLink="/home" routerLinkActive="text-blue-600" class="text-gray-700 font-medium">Home</a>
+        <a routerLink="/books" routerLinkActive="text-blue-600" class="text-gray-700 font-medium">Books</a>
+        <a routerLink="/favourites" routerLinkActive="text-blue-600" class="text-gray-700 font-medium">Favorites</a>
+        <a routerLink="/about" routerLinkActive="text-blue-600" class="text-gray-700 font-medium">About</a>
+      </nav>
+
+      <div class="flex items-center space-x-4">
+        <button  class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" (click)="onLogout()">
+          Logout
+        </button>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden flex items-center">
+        <button class="text-gray-700 focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+      
+    </div>
+  </div>
+</header>

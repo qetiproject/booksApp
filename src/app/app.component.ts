@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './components/header/header.component';
 import { AuthService } from './features/auth/services/auth.service';
 import { LoadingComponent } from "./features/loading/loading.component";
 
@@ -9,7 +10,8 @@ import { LoadingComponent } from "./features/loading/loading.component";
     imports: [
     RouterOutlet,
     ReactiveFormsModule,
-    LoadingComponent
+    LoadingComponent,
+    HeaderComponent
 ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
@@ -20,7 +22,5 @@ export class AppComponent {
 
   isLogeedIn = this.authService.isLogeedIn;
 
-  onLogout() {
-    this.authService.logout();
-  }
+
 }
