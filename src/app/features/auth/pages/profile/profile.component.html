@@ -3,11 +3,8 @@
 <div class="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-xl rounded-2xl">
   @if (user) {
     <div class="flex items-center space-x-6">
-      <!-- Avatar -->
       <img [src]="user.image" alt="User Avatar"
            class="w-28 h-28 rounded-full border-4 border-indigo-500 shadow-lg">
-
-      <!-- Basic Info -->
       <div>
         <h2 class="text-2xl font-bold text-gray-800">
           {{ user.firstName }} {{ user.lastName }}
@@ -18,11 +15,7 @@
         </p>
       </div>
     </div>
-
-    <!-- Divider -->
     <div class="my-6 border-t border-gray-200"></div>
-
-    <!-- Details -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
       <div>
         <p class="font-semibold">📧 Email:</p>
@@ -42,11 +35,11 @@
       </div>
       <div>
         <p class="font-semibold">🏠 Address:</p>
-        <p>{{ user.address.city }}, {{ user.address.country }}</p>
+        <p>{{ user?.address?.city }}, {{ user?.address?.country }}</p>
       </div>
       <div>
         <p class="font-semibold">💼 Company:</p>
-        <p>{{ user.company.name }} — {{ user.company.title }}</p>
+        <p>{{ user?.company?.name }} — {{ user?.company?.title }}</p>
       </div>
       <div>
         <p class="font-semibold">🎓 University:</p>

@@ -14,10 +14,7 @@ export const routes: Routes = [
     path: '',
     children: authRoutes
   },
-  { path: '', 
-    redirectTo: 'login', 
-    pathMatch: 'full' 
-  }, 
+
   {
     path: 'books',
     children: bookRoutes,

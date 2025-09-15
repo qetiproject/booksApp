@@ -1,35 +1,40 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { logout, userProfile } from '../../features/auth/store/auth.action';
+import { logout } from '../../features/auth/store/auth.action';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
-   animations: [
-    trigger('dropdown', [
-      state('open', style({ opacity: 1, transform: 'scale(1)' })),
-      state('closed', style({ opacity: 0, transform: 'scale(0.95)' })),
-      transition('closed => open', [
-        animate('150ms ease-out')
-      ]),
-      transition('open => closed', [
-        animate('100ms ease-in')
-      ])
-    ])
-  ]
 })
 export class HeaderComponent {
   store = inject(Store);
+  isOpen = signal(false);
+  isMobileMenu = signal(false);
+  
+  navLinks = [
+    { path: '/books', label: 'Books' },
+    { path: '/favourites', label: 'Favorites' },
+    { path: '/catalogue', label: 'Catalogue' },
+  ];
+
+  toggleDropdown() {
+    this.isOpen.update(v => !v);
+  }
+
+  closeDropdown() {
+    this.isOpen.set(false);
+  }
+
+   toggleMobileMenu() {
+    this.isMobileMenu.update(v => !v);
+  }
 
   onLogout() {
     this.store.dispatch(logout());
   }
 
-  constructor() {
-    this.store.dispatch(userProfile())
-  }
 }

@@ -10,5 +10,9 @@ export const authRoutes: Routes = [
   {
     path: "profile",
     component: ProfileComponent
-  }
+  },
+    { path: '', 
+    redirectTo: 'login', 
+    pathMatch: 'full' 
+  }, 
 ]

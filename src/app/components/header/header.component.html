@@ -1,25 +1,23 @@
 <header class="bg-white shadow-md">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
-      
-      <!-- Logo -->
       <div class="flex-shrink-0">
         <a routerLink="/" class="text-2xl font-bold text-blue-600 hover:text-blue-800">
           BookApp
         </a>
       </div>
-      
-      <!-- Navigation -->
       <nav class="hidden md:flex space-x-6">
-        <a routerLink="/home" routerLinkActive="text-blue-600 font-semibold" class="text-gray-700 hover:text-blue-600">Home</a>
-        <a routerLink="/books" routerLinkActive="text-blue-600 font-semibold" class="text-gray-700 hover:text-blue-600">Books</a>
-        <a routerLink="/favourites" routerLinkActive="text-blue-600 font-semibold" class="text-gray-700 hover:text-blue-600">Favorites</a>
-        <a routerLink="/about" routerLinkActive="text-blue-600 font-semibold" class="text-gray-700 hover:text-blue-600">About</a>
+        @for (link of navLinks; track link.path) {
+          <a 
+            [routerLink]="link.path" 
+            routerLinkActive="text-blue-600 font-semibold" 
+            class="text-gray-700 hover:text-blue-600">
+            {{ link.label }}
+          </a>
+        }
       </nav>
-
-      <!-- User Avatar + Dropdown -->
-      <div class="relative" x-data="{ open: false }">
-        <button @click="open = !open" class="flex items-center space-x-2 focus:outline-none">
+      <div class="relative hidden md:block">
+        <button (click)="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
           <img 
             class="w-10 h-10 rounded-full border-2 border-blue-500" 
             src="https://dummyjson.com/icon/emilys/128" 
@@ -31,32 +29,45 @@
               d="M19 9l-7 7-7-7"/>
           </svg>
         </button>
-
-        <!-- Dropdown menu -->
-        <div 
-          x-show="open" 
-          @click.away="open = false"
-          class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
-        >
-          <a routerLink="/profile" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
-          <button 
-            (click)="onLogout()" 
-            class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-            Logout
-          </button>
-        </div>
+        @if (isOpen()) {
+          <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+            <a routerLink="/profile" (click)="closeDropdown()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+            <button 
+              (click)="onLogout()" 
+              class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+              Logout
+            </button>
+          </div>
+        }
       </div>
-
-      <!-- Mobile menu button -->
       <div class="md:hidden flex items-center">
-        <button class="text-gray-700 focus:outline-none">
+        <button (click)="toggleMobileMenu()" class="text-gray-700 focus:outline-none">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
       </div>
-      
+
     </div>
   </div>
+  @if (isMobileMenu()) {
+    <div class="md:hidden bg-white border-t">
+      <nav class="px-2 pt-2 pb-3 space-y-1">
+        @for (link of navLinks; track link.path) {
+          <a 
+            [routerLink]="link.path" 
+            (click)="toggleMobileMenu()" 
+            routerLinkActive="bg-blue-100 text-blue-700" 
+            class="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-50 hover:text-blue-600">
+            {{ link.label }}
+          </a>
+        }
+        <div class="border-t mt-2 pt-2">
+          <a routerLink="/profile" (click)="toggleMobileMenu()" class="block px-3 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+          <button (click)="onLogout()" class="w-full text-left px-3 py-2 text-gray-700 hover:bg-gray-100">Logout</button>
+        </div>
+      </nav>
+    </div>
+  }
 </header>
