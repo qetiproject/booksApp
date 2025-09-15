@@ -8,13 +8,15 @@ export const AuthInterceptor =
     const authService = inject(AuthService);
     const tokens = authService.getTokens();
 
-    if(tokens?.accessToken) {
-        const cloned = req.clone({
-            setHeaders: {
-                Authorization: `Bearer ${tokens.accessToken}`
-            }
-        })
-        return next(cloned);
+    if (req.url.includes('/auth/')) {
+        if(tokens?.accessToken) {
+            const cloned = req.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${tokens.accessToken}`
+                }
+            })
+            return next(cloned);
+        }
     }
 
     return next(req);

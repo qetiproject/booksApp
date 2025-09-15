@@ -1,3 +1,5 @@
+import { AuthTokens } from "../store/auth.store";
+
 export type User = {
   id: number;
   username: string;
@@ -18,3 +20,5 @@ export interface LoginCredentials {
   username: string;
   password: string;
 }
+
+export type LoginRequest = User & AuthTokens;

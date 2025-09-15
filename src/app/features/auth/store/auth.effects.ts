@@ -2,7 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { AuthService } from "../services/auth.service";
-import { login, loginFailure, loginSuccess, logout } from "./auth.action";
+import { login, loginFailure, loginSuccess, logout, userProfile, userProfileFailure, userProfileSuccess } from "./auth.action";
 
 @Injectable()
 export class AuthEffects {
@@ -35,4 +35,14 @@ export class AuthEffects {
     tap(() => this.authService.logout())
   ),{dispatch: false})
 
+
+  userProfile$ = createEffect(() => this.actions$.pipe(
+    ofType(userProfile),
+    switchMap(() => 
+      this.authService.getProfile().pipe(
+        map((user) => userProfileSuccess({user: user})),
+        catchError(error => of(userProfileFailure({ error: error.message || 'Failed to fetch profile' })))
+      )
+    )
+  ))
 }

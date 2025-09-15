@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { logout } from '../../features/auth/store/auth.action';
+import { logout, userProfile } from '../../features/auth/store/auth.action';
 
 @Component({
   selector: 'app-header',
@@ -14,5 +14,9 @@ export class HeaderComponent {
 
   onLogout() {
     this.store.dispatch(logout());
+  }
+
+  constructor() {
+    this.store.dispatch(userProfile())
   }
 }

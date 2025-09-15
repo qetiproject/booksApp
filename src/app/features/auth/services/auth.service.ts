@@ -3,8 +3,8 @@ import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { map, Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import { AuthTokens } from "../store/auth.store";
-import { LoginResponse } from "../types/user";
+import { AuthTokens, User } from "../store/auth.store";
+import { LoginRequest, LoginResponse } from "../types/user";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class AuthService {
   constructor() {}
 
   login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<any>(`${environment.authApi}/login`, {
+    return this.http.post<LoginRequest>(`${environment.authApi}/login`, {
       username, password
     }).pipe(
       map((response) => {
@@ -66,4 +66,8 @@ export class AuthService {
     return null;
   }
 
+
+  getProfile(): Observable<User> {
+   return this.http.get<any>(`${environment.authApi}/me`) 
+  }
 }
