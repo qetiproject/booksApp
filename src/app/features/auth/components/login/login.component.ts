@@ -7,6 +7,7 @@ import { login } from '../../store/auth.action';
 
 @Component({
     selector: 'login',
+    standalone: true,
     imports: [
         ReactiveFormsModule
     ],
@@ -30,11 +31,11 @@ export class LoginComponent {
     try {
       const {username, password} = this.form.value;
       if(!username || !password) {
-       console.log("error")
         return;
       }
 
       this.store.dispatch(login({username: username, password: password}))
+      
       this.router.navigate(['/home']);
     }
     catch(err) {

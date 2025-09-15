@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { DebounceSearchComponent } from '../../components/debounce-search/debounce-search.component';
-import { selectIsLoggedIn } from '../../features/auth/store/auth.selector';
 import { BookCategoryDropdownComponent } from '../../features/books/components/book-category-dropdown/book-category-dropdown.component';
 import { BookListComponent } from "../../features/books/components/book-list/book-list.component";
 
@@ -25,9 +23,4 @@ export class HomeComponent {
     this.categorySelected.set(value)
   }
 
-    constructor(private store: Store) {
-        this.store.select(selectIsLoggedIn).subscribe(isLoggedIn => {
-        console.log('User is logged in:', isLoggedIn);
-        });
-    }
 }

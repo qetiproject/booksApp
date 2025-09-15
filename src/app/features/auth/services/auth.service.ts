@@ -17,12 +17,25 @@ export class AuthService {
   constructor() {}
 
   login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${environment.authApi}/login`, {
+    return this.http.post<any>(`${environment.authApi}/login`, {
       username, password
     }).pipe(
       map((response) => {
+        const user: LoginResponse = {
+          user: {
+            id: response.id,
+            username: response.username,
+            email: response.email,
+            firstName: response.firstName,
+            lastName: response.lastName,
+            gender: response.gender,
+            image: response.image,
+          },
+          accessToken: response.accessToken,
+          refreshToken: response.refreshToken
+        }
         this.saveTokens(response.accessToken, response.refreshToken);
-        return response
+        return user;
       })
     )
   }
