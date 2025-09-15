@@ -16,6 +16,7 @@ import { UserProfileResponse } from '../../types/user-profile';
 export class ProfileComponent implements OnInit{
   store = inject(Store);
   user$: Observable<{user: UserProfileResponse}> =this.store.select(selectUserProfile)
+  
   ngOnInit() {
     this.store.dispatch(userProfile()); // აუცილებელია effect-ის გასაშვებად
   }

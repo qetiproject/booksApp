@@ -67,7 +67,17 @@ export class AuthService {
     return null;
   }
 
+  refreshToken(refreshToken: string) {
+    return this.http.post<any>(`${environment.authApi}/refresh`, refreshToken);
+  }
 
+  updateAccessToken(newAccessToken: string) {
+    const current = this.getTokens();
+    if(current) {
+      this.saveTokens(newAccessToken, current.refreshToken)
+    }
+
+  }
   getProfile(): Observable<UserProfileResponse> {
    return this.http.get<UserProfileResponse>(`${environment.authApi}/me`) 
   }
