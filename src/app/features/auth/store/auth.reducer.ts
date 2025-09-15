@@ -38,10 +38,12 @@ export const AuthReducer = createReducer(
     })),
     on(userProfileSuccess, (state, { user }) => ({
         ...state,
-        user
+        user,
+        isLoggedIn: true,
     })),
     on(userProfileFailure, (state, { error }) => ({
         ...state,
-        error
+        error,
+        isLoggedIn: true,
     }))
 )

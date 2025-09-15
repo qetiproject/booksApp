@@ -5,6 +5,7 @@ import { map, Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { AuthTokens } from "../store/auth.store";
 import { LoginRequest, LoginResponse } from "../types/user";
+import { UserProfileResponse } from "../types/user-profile";
 
 @Injectable({
   providedIn: 'root'
@@ -67,7 +68,7 @@ export class AuthService {
   }
 
 
-  getProfile(): Observable<any> {
-   return this.http.get<any>(`${environment.authApi}/me`) 
+  getProfile(): Observable<UserProfileResponse> {
+   return this.http.get<UserProfileResponse>(`${environment.authApi}/me`) 
   }
 }

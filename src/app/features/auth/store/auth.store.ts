@@ -1,4 +1,5 @@
-export type User = {
+
+export type AuthUserResponse = {
   id: number;
   username: string;
   email: string;
@@ -14,9 +15,10 @@ export interface AuthTokens {
 }
 
 export interface AuthState {
-  user: User | null;
+  user: AuthUserResponse | null;
   tokens: AuthTokens | null; 
   isLoggedIn: boolean;
   loading: boolean;
   error: string | null;
 }
+

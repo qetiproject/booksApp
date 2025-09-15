@@ -40,7 +40,7 @@ export class AuthEffects {
     ofType(userProfile),
     switchMap(() => 
       this.authService.getProfile().pipe(
-        map((user) => userProfileSuccess({user: user})),
+        map((userProfileResponse) => userProfileSuccess({user: userProfileResponse})),
         catchError(error => of(userProfileFailure({ error: error.message || 'Failed to fetch profile' })))
       )
     )

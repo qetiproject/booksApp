@@ -1,2 +1,6 @@
-@let user = {{user$ | async}};
-<P>{{user | json}}</P>
+@let userProfile = user$ | async;
+@let user = userProfile?.user;
+@if (user) {
+    <p>{{user.firstName}}</p>
+    <p>{{user.lastName}}</p>
+}
