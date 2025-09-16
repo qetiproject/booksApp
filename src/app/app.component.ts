@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { HeaderComponent } from './components/header/header.component';
+import { AuthService } from './features/auth/services/auth.service';
+import { loginSuccess } from './features/auth/store/auth.action';
 import { selectIsLoggedIn } from './features/auth/store/auth.selector';
 import { LoadingComponent } from "./features/loading/loading.component";
 
@@ -24,5 +26,17 @@ export class AppComponent{
         this.store.select(selectIsLoggedIn).subscribe(isLoggedIn => {
             this.isLoggedIn =isLoggedIn;
         });
+    }
+
+    authService = inject(AuthService);
+    
+    init() {
+        const tokens = this.authService.getTokens()
+        if(tokens) {
+        this.store.dispatch(loginSuccess({ 
+            user: JSON.parse(localStorage.getItem('user') || 'null'), 
+            tokens 
+        }));
+        }
     }
 }
