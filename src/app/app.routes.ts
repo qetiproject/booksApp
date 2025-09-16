@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import { IsUserAuthenticated } from './core/guards/auth.guard';
-import { LoginRedirectGuard } from './core/guards/loginRedirect.guard';
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { ProfileComponent } from './features/auth/pages/profile/profile.component';
 import { bookRoutes } from './features/books/book.router';
@@ -15,7 +13,7 @@ export const routes: Routes = [
   // },
   {
     path: '',
-    canActivate: [IsUserAuthenticated],
+    // canActivate: [IsUserAuthenticated],
     children: [
       { path: 'books', children: bookRoutes },
       { path: 'favourites', component: WishlistComponent },
@@ -26,7 +24,7 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [LoginRedirectGuard]
+    // canActivate: [LoginRedirectGuard]
   },
   { path: '**', redirectTo: '' }
 ];
