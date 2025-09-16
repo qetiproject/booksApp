@@ -36,7 +36,7 @@ export class LoginComponent {
 
       this.store.dispatch(login({username: username, password: password}))
       
-      this.router.navigate(['/home']);
+      this.router.navigate(['/books']);
     }
     catch(err) {
      console.error(err);

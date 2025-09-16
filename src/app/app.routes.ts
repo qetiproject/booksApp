@@ -1,33 +1,28 @@
 import { Routes } from '@angular/router';
 import { IsUserAuthenticated } from './core/guards/auth.guard';
-import { authRoutes } from './features/auth/auth.route';
+import { LoginRedirectGuard } from './core/guards/loginRedirect.guard';
+import { RedirectBasedOnAuth } from './core/guards/redirectBasedOnAuth.guard';
+import { LoginComponent } from './features/auth/pages/login/login.component';
+import { ProfileComponent } from './features/auth/pages/profile/profile.component';
 import { bookRoutes } from './features/books/book.router';
-import { catalogueRoutes } from './pages/catalogues/catalogue.route';
+import { CataloguesComponent } from './pages/catalogues/catalogues.component';
 import { HomeComponent } from './pages/home/home.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
 
-export const routes: Routes = [  
+export const routes: Routes = [
+  { path: '', canActivate: [RedirectBasedOnAuth], pathMatch: 'full' },
   {
-    path: '',
-    children: authRoutes
-  },
- {
     path: '',
     canActivate: [IsUserAuthenticated],
     children: [
-      { path: 'home', component: HomeComponent },
       { path: 'books', children: bookRoutes },
-      { path: 'catalogue', children: catalogueRoutes },
-      { path: 'favourites', component: WishlistComponent }
+      { path: 'home', component: HomeComponent },
+      { path: 'favourites', component: WishlistComponent },
+      { path: 'catalogue', component: CataloguesComponent },
+      { path: 'profile', component: ProfileComponent }
     ]
   },
- {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'login'
-  },
-  {
-    path: '**',
-    redirectTo: 'login'
-  }
+  { path: 'login', component: LoginComponent, canActivate: [LoginRedirectGuard] },
+  { path: '**', redirectTo: '' }
 ];
+

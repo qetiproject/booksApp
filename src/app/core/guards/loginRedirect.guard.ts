@@ -4,12 +4,12 @@ import { Store } from "@ngrx/store";
 import { map, take } from "rxjs/operators";
 import { selectIsLoggedIn } from "../../features/auth/store/auth.selector";
 
-export const IsUserAuthenticated: CanActivateFn = () => {
+export const LoginRedirectGuard: CanActivateFn = () => {
   const store = inject(Store);
-  const router = inject(Router);
+  const router = inject(Router); 
 
   return store.select(selectIsLoggedIn).pipe(
     take(1),
-    map(isLoggedin => isLoggedin ? true : router.parseUrl('/login'))
+    map(isLoggedin => isLoggedin ? router.parseUrl('/books') : true)
   );
 };
