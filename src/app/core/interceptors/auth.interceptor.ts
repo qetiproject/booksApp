@@ -9,27 +9,22 @@ export const AuthInterceptor =
     const authService = inject(AuthService);
     const tokens = authService.getTokens();
 
-    if (req.url.includes('/auth/') && tokens?.accessToken) {
-        const cloned = req.clone({
-            setHeaders: {
-                Authorization: `Bearer ${tokens.accessToken}`
-            }
-        })
-        return next(cloned);
-    }
+    const authReq = req.url.includes('/auth/') &&  tokens?.accessToken
+        ? req.clone({ setHeaders: { Authorization: `Bearer ${tokens.accessToken}` } })
+        : req;
 
-    return next(req).pipe(
+    return next(authReq).pipe(
         catchError(err => {
             if(err.status === 401 && tokens?.refreshToken) {
                 return from(authService.refreshToken(tokens?.refreshToken)).pipe(
                     switchMap((newAccessToken: string) => {
                         authService.updateAccessToken(newAccessToken);
-                        const retryToken = req.clone({
+                        const retryReq = req.clone({
                             setHeaders: {
                                Authorization: `Bearer ${newAccessToken}`
                             }
                         });
-                        return next(retryToken)
+                        return next(retryReq)
                     })
                 )
             }
