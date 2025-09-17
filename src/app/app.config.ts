@@ -7,7 +7,6 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from "@ngrx/store-devtools";
 import { routes } from './app.routes';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { globalHttpErrorInterceptor } from './core/interceptors/global-http-error-interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { AuthEffects } from './features/auth/store/auth.effects';
@@ -22,7 +21,6 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([
         loadingInterceptor,
         globalHttpErrorInterceptor,
-        AuthInterceptor
       ])
     ),
     provideStore({
