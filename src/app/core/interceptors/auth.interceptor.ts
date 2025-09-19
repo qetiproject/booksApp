@@ -1,16 +1,17 @@
 import { HttpHandlerFn, HttpRequest } from "@angular/common/http";
 import { inject } from "@angular/core";
+import { Store } from "@ngrx/store";
 import { catchError, from, switchMap, throwError } from "rxjs";
-import { AuthService } from "../../features/auth/services/auth.service";
 import { AuthFacade } from "../../features/auth/services/authFacade";
 import { TokenStorageService } from "../../features/auth/services/token.service";
+import { updateTokensSuccess } from "../../features/auth/store/auth.action";
 
 export const AuthInterceptor = 
     (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
    
-    const authService = inject(AuthService);
     const authFacade = inject(AuthFacade);
     const tokenStorageService = inject(TokenStorageService);
+    const store = inject(Store);
     const refreshToken = tokenStorageService.getRefreshToken();
     const accessToken = tokenStorageService.getAccessToken();
 
@@ -22,14 +23,13 @@ export const AuthInterceptor =
         catchError(err => {
             if(err.status === 401 && refreshToken) {
                 return from(authFacade.refresh(refreshToken)).pipe(
-                    switchMap((newAccessToken: string) => {
-                        authService.updateAccessToken(newAccessToken);
+                    switchMap((tokens: { accessToken: string, refreshToken: string }) => {
+                        tokenStorageService.saveTokens(tokens.accessToken, tokens.refreshToken);
+                        store.dispatch(updateTokensSuccess({ tokens }));
                         const retryReq = req.clone({
-                            setHeaders: {
-                               Authorization: `Bearer ${newAccessToken}`
-                            }
+                            setHeaders: { Authorization: `Bearer ${tokens.accessToken}` }
                         });
-                        return next(retryReq)
+                        return next(retryReq);
                     })
                 )
             }

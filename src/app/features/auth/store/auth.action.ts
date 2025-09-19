@@ -12,3 +12,13 @@ export const logout = createAction('[Auth] logout')
 export const userProfile = createAction('[Auth] user profile ');
 export const userProfileSuccess = createAction('[Auth] user profile success', props<{user: UserProfileResponse}>());
 export const userProfileFailure = createAction('[Auth] user profile failure', props<{error: string}>());
+
+export const updateTokensSuccess = createAction(
+    '[Auth] Update Tokens Success',
+    props<any>()
+);
+
+export const updateTokensFailure = createAction(
+    '[Auth]  Update Tokens Failure',
+    props<{error: string}>()
+);

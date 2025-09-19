@@ -28,12 +28,8 @@ export class AuthService {
     await this.router.navigateByUrl('/login')
   }
 
-  refresh(refreshToken: string): Observable<string> {
+  refresh(refreshToken: string): Observable<{ accessToken: string; refreshToken: string}> {
     return this.authFacade.refresh(refreshToken);
-  }
-
-  updateAccessToken(token: string) {
-    this.authFacade.updateAccessToken(token);
   }
 
   getProfile(): Observable<UserProfileResponse> {
