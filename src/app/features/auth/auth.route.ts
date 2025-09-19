@@ -1,11 +1,15 @@
 import { Routes } from "@angular/router";
-import { LoginComponent } from "./components/login/login.component";
-import { RedirectIfAuthenticated } from "../../core/guards/redirect.guard";
+import { LoginComponent } from "./pages/login/login.component";
+import { ProfileComponent } from "./pages/profile/profile.component";
 
 export const authRoutes: Routes = [
   {
     path: "login",
     component: LoginComponent,
-    canActivate: [RedirectIfAuthenticated]
-  }
+  },
+  {
+    path: "profile",
+    component: ProfileComponent,
+  },
+
 ]

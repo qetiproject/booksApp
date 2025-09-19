@@ -1,33 +1,10 @@
-<!-- <mat-form-field appearance="outline" class="w-full">
-    <mat-icon matPrefix>search</mat-icon>
-    <input 
-      matInput 
-      placeholder="Search books..." 
-      name="search" 
-      [formControl]="searchControl" 
-      aria-label="Search books"
-    />
-    @if (searchControl.value) {
-      <button 
-        matSuffix 
-        mat-icon-button 
-        type="button" 
-        aria-label="Clear search"
-        (click)="clear()">
-        <mat-icon>close</mat-icon>
-      </button>
-    }
-</mat-form-field> -->
-
 <div class="relative w-full max-w-lg">
-  <!-- Search Icon -->
   <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z"/>
     </svg>
   </span>
 
-  <!-- Input -->
   <input
     type="text"
     placeholder="Search books..."
@@ -36,7 +13,6 @@
     class="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
   />
 
-  <!-- Clear Button -->
   @if (searchControl.value) {
     <button
       type="button"

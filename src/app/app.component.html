@@ -1,8 +1,5 @@
- @if(isLogeedIn()) {
-     <button class="btn" (click)="onLogout()">
-        Logout
-    </button>
+@if (isLoggedIn) {
+   <app-header />
 }
-
 <app-loading />
 <router-outlet></router-outlet>

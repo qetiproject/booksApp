@@ -1,59 +1,38 @@
-import {computed, effect, inject, Injectable, signal} from "@angular/core";
-import {Router} from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import { firstValueFrom } from "rxjs";
-import { User } from "../types/user";
-import { environment } from "../../../../environments/environment";
-
-const USER_STORAGE_KEY = 'user';
-const apiRoot ='http://localhost:9000/api';
+import { inject, Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { LoginResponse } from "../types/user";
+import { UserProfileResponse } from "../types/user-profile";
+import { AuthFacade } from "./authFacade";
+import { TokenStorageService } from "./token.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  #userSignal = signal<User | null>(null);
-
-  user = this.#userSignal.asReadonly();
-
-  isLogeedIn = computed(() => !!this.user());
-
   http = inject(HttpClient);
   router = inject(Router);
+  tokenStorageService = inject(TokenStorageService)
+  authFacade = inject(AuthFacade);
+  
+  constructor() {}
 
-  constructor() {
-    this.loadUserFromStorage();
-    effect(() => {
-      const user = this.user();
-      if(user) {
-        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
-      }
-    })
-  }
-
-  loadUserFromStorage() {
-    const json = localStorage.getItem(USER_STORAGE_KEY);
-    if(json) {
-      const user = JSON.parse(json);
-      this.#userSignal.set(user);
-    }
-  }
-
-  async login(email: string, password: string): Promise<User> {
-    const login$ = this.http.post<User>(`${apiRoot}/login`, {
-      email, password
-    });
-
-    const user = await firstValueFrom(login$);
-
-    this.#userSignal.set(user);
-    return user
+  login(username: string, password: string): Observable<LoginResponse> {
+    return this.authFacade.login(username, password);  
   }
 
   async logout() {
-    localStorage.removeItem(USER_STORAGE_KEY);
-    this.#userSignal.set(null);
+    this.tokenStorageService.clear();
     await this.router.navigateByUrl('/login')
+  }
+
+  refresh(refreshToken: string): Observable<{ accessToken: string; refreshToken: string}> {
+    return this.authFacade.refresh(refreshToken);
+  }
+
+  getProfile(): Observable<UserProfileResponse> {
+    return this.authFacade.getProfile();
   }
 }

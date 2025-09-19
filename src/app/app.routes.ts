@@ -1,32 +1,45 @@
+import { provideHttpClient, withInterceptors, withRequestsMadeViaParent } from '@angular/common/http';
 import { Routes } from '@angular/router';
+import { IsUserAuthenticated } from './core/guards/auth.guard';
+import { LoginRedirectGuard } from './core/guards/loginRedirect.guard';
+import { RedirectBasedOnAuth } from './core/guards/redirectBasedOnAuth.guard';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { LoginComponent } from './features/auth/pages/login/login.component';
+import { ProfileComponent } from './features/auth/pages/profile/profile.component';
 import { bookRoutes } from './features/books/book.router';
-import { catalogueRoutes } from './pages/catalogues/catalogue.route';
-import { HomeComponent } from './pages/home/home.component';
+import { CataloguesComponent } from './pages/catalogues/catalogues.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
 
 export const routes: Routes = [
-  { 
-    path: 'home', 
-    component: HomeComponent
-  },      
-  { path: '', 
-    redirectTo: 'home', 
-    pathMatch: 'full' 
-  }, 
   {
-    path: 'books',
-    children: bookRoutes,
+    path: '',
+    canActivate: [RedirectBasedOnAuth],
+    component: LoginComponent,
+    pathMatch: 'full'
   },
   {
-    path: 'catalogue',
-    children: catalogueRoutes
+    path: '',
+    canActivate: [IsUserAuthenticated],
+    children: [
+      { path: 'books', children: bookRoutes },
+      { path: 'favourites', component: WishlistComponent },
+      { path: 'catalogue', component: CataloguesComponent },
+      { path: 'profile', component: ProfileComponent }
+    ],
+    providers: [
+      provideHttpClient(
+        withInterceptors([
+          AuthInterceptor
+        ]),
+        withRequestsMadeViaParent()
+      )
+    ],
   },
   {
-    path: "favourites",
-    component: WishlistComponent
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [LoginRedirectGuard]
   },
-  {
-    path: '**',
-    redirectTo: ''
-  }
+  { path: '**', redirectTo: '' }
 ];
+
