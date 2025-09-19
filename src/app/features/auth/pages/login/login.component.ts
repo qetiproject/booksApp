@@ -2,8 +2,10 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Store } from '@ngrx/store';
+import { filter, take } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { login } from '../../store/auth.action';
+import { selectIsLoggedIn } from '../../store/auth.selector';
 
 @Component({
     selector: 'login',
@@ -34,9 +36,12 @@ export class LoginComponent {
         return;
       }
 
-      this.store.dispatch(login({username: username, password: password}))
-      
-      this.router.navigate(['/books']);
+      this.store.dispatch(login({ username, password }));
+
+      this.store.select(selectIsLoggedIn).pipe(
+        filter(loggedIn => loggedIn),
+        take(1)
+      ).subscribe(() => this.router.navigate(['/books']));
     }
     catch(err) {
      console.error(err);

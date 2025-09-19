@@ -1,18 +1,19 @@
-import { inject } from "@angular/core";
-import { CanActivateFn, Router } from "@angular/router";
-import { Store } from "@ngrx/store";
-import { filter, map, take } from "rxjs/operators";
-import { selectIsLoggedIn } from "../../features/auth/store/auth.selector";
+import { inject } from '@angular/core';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/internal/Observable';
+import { map, take } from 'rxjs/operators';
+import { selectIsLoggedIn } from '../../features/auth/store/auth.selector';
 
-export const LoginRedirectGuard: CanActivateFn = () => {
+export const LoginRedirectGuard: CanActivateFn = (): Observable<boolean | UrlTree> => {
   const store = inject(Store);
   const router = inject(Router);
 
   return store.select(selectIsLoggedIn).pipe(
-    filter(v => v !== null && v !== undefined),
-    take(1),
+    take(1), 
     map(isLoggedIn => {
-      return isLoggedIn ? router.parseUrl('/books') : true
+      console.log(isLoggedIn)
+      return isLoggedIn ? router.parseUrl('/books') : true;
     })
   );
 };

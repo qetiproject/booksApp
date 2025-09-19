@@ -1,5 +1,8 @@
 import { provideHttpClient, withInterceptors, withRequestsMadeViaParent } from '@angular/common/http';
 import { Routes } from '@angular/router';
+import { IsUserAuthenticated } from './core/guards/auth.guard';
+import { LoginRedirectGuard } from './core/guards/loginRedirect.guard';
+import { RedirectBasedOnAuth } from './core/guards/redirectBasedOnAuth.guard';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { ProfileComponent } from './features/auth/pages/profile/profile.component';
@@ -8,14 +11,15 @@ import { CataloguesComponent } from './pages/catalogues/catalogues.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
 
 export const routes: Routes = [
-  // {
-  //   path: '',
-  //   canActivate: [RedirectBasedOnAuth],
-  //   pathMatch: 'full'
-  // },
   {
     path: '',
-    // canActivate: [IsUserAuthenticated],
+    canActivate: [RedirectBasedOnAuth],
+    component: LoginComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: '',
+    canActivate: [IsUserAuthenticated],
     children: [
       { path: 'books', children: bookRoutes },
       { path: 'favourites', component: WishlistComponent },
@@ -29,12 +33,12 @@ export const routes: Routes = [
         ]),
         withRequestsMadeViaParent()
       )
-    ]
+    ],
   },
   {
     path: 'login',
     component: LoginComponent,
-    // canActivate: [LoginRedirectGuard]
+    canActivate: [LoginRedirectGuard]
   },
   { path: '**', redirectTo: '' }
 ];
