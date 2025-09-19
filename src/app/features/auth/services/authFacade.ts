@@ -32,7 +32,6 @@ export class AuthFacade {
             accessToken: response.accessToken,
             refreshToken: response.refreshToken
         }
-        this.tokenStorageService.saveTokens(response.accessToken, response.refreshToken);
         return user;
         })
     )}
@@ -41,7 +40,7 @@ export class AuthFacade {
         return this.http.get<UserProfileResponse>(`${environment.authApi}/me`);
     }
 
-    refresh(refreshToken: string) {
+    refresh(refreshToken: string): Observable<string> {
         return this.http.post<any>(`${environment.authApi}/refresh`, refreshToken);
     }
 

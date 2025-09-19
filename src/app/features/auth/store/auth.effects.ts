@@ -1,6 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, of, switchMap, tap } from "rxjs";
+import { environment } from "../../../../environments/environment";
 import { AuthService } from "../services/auth.service";
 import { login, loginFailure, loginSuccess, logout, userProfile, userProfileFailure, userProfileSuccess } from "./auth.action";
 
@@ -14,6 +15,11 @@ export class AuthEffects {
       ofType(login),
       switchMap(({ username, password }) =>
         this.authService.login(username, password).pipe(
+          tap( response => {
+              sessionStorage.setItem(environment.ACCESS_TOKEN_KEY, response.accessToken);
+              sessionStorage.setItem(environment.REFRESH_TOKEN_KEY, response.refreshToken);
+              sessionStorage.setItem(environment.USER_STORAGE_KEY, JSON.stringify(response.user));
+          }),
           map((response) =>
             loginSuccess({
               user: response.user,

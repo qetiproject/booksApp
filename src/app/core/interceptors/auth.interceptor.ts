@@ -36,6 +36,4 @@ export const AuthInterceptor =
             return throwError(() => err);
         })
     )
-    
-
 }

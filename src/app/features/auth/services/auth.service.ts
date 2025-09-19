@@ -28,8 +28,8 @@ export class AuthService {
     await this.router.navigateByUrl('/login')
   }
 
-  refresh(refreshToken: string) {
-    this.authFacade.refresh(refreshToken);
+  refresh(refreshToken: string): Observable<string> {
+    return this.authFacade.refresh(refreshToken);
   }
 
   updateAccessToken(token: string) {

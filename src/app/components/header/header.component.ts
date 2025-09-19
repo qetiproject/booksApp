@@ -1,6 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { environment } from '../../../environments/environment';
+import { TokenStorageService } from '../../features/auth/services/token.service';
 import { logout } from '../../features/auth/store/auth.action';
 
 @Component({
@@ -14,6 +16,8 @@ export class HeaderComponent {
   store = inject(Store);
   isOpen = signal(false);
   isMobileMenu = signal(false);
+  private tokenStorageService = inject(TokenStorageService);
+  private router = inject(Router);
   
   navLinks = [
     { path: '/books', label: 'Books' },
@@ -34,7 +38,10 @@ export class HeaderComponent {
   }
 
   onLogout() {
+    this.tokenStorageService.clear();
+    sessionStorage.removeItem(environment.USER_STORAGE_KEY);
     this.store.dispatch(logout());
+    this.router.navigate(['/login']);
   }
 
 }

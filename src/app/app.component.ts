@@ -28,6 +28,7 @@ export class AppComponent{
         this.store.select(selectIsLoggedIn).subscribe(isLoggedIn => {
             this.isLoggedIn =isLoggedIn;
         });
+        this.init();
     }
 
     authService = inject(AuthService);
@@ -36,13 +37,14 @@ export class AppComponent{
     init() {
         const accessToken = this.tokenStorageService.getAccessToken();
         const refreshToken = this.tokenStorageService.getRefreshToken();
-        if(accessToken && refreshToken) {
-        this.store.dispatch(loginSuccess({ 
-            user: JSON.parse(localStorage.getItem(environment.USER_STORAGE_KEY) || 'null'), 
-            tokens: {
-                accessToken, refreshToken
-            }
-        }));
+        const userData = sessionStorage.getItem(environment.USER_STORAGE_KEY);
+        const user = userData ? JSON.parse(userData) : null;
+
+        if (accessToken && refreshToken && user) {
+            this.store.dispatch(loginSuccess({ 
+                user, 
+                tokens: { accessToken, refreshToken }
+            }));
         }
     }
 }
