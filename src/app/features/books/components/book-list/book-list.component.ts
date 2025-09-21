@@ -1,8 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, input, signal, TemplateRef, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { FavouriteBookService } from '../../../../pages/wishlist/services/favouriteBook.service';
 import { BookService } from '../../services/book.service';
+import { LoadBooks, LoadBooksFailure } from '../../store/book.action';
+import { selectBooks } from '../../store/book.selector';
 import { BooksView } from '../../types/book';
 import { BookCardComponent } from '../book-card/book-card.component';
 
@@ -17,13 +21,14 @@ export class BookListComponent {
 
   private bookService = inject(BookService);
   private favouriteService = inject(FavouriteBookService);
+  private store = inject(Store);
   // inputs
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
 
   // result
   searchedBooks: WritableSignal<BooksView[]> = signal([]);
-  booksByCategory: WritableSignal<BooksView[]> = signal([]);
+  booksByCategory = toSignal(this.store.select(selectBooks), { initialValue: [] });
   bookToShow = computed(() => {
     const combined = [
       ...this.searchedBooks(),
@@ -54,12 +59,12 @@ export class BookListComponent {
     effect(() => {
       const category = this.categorySelected();
       if(!category) {
-        this.booksByCategory.set([]);
+        this.store.dispatch(LoadBooksFailure({ error: 'No category selected' }));
         return;
       }
-      this.bookService.loadBooksByCategory(category)
-        .subscribe(result => this.booksByCategory.set(result));
-
+      // this.bookService.loadBooksByCategory(category)
+      //   .subscribe(result => this.booksByCategory.set(result));
+      this.store.dispatch(LoadBooks({category}));
     })
   }
 
