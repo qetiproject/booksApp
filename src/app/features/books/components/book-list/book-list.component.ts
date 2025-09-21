@@ -41,6 +41,12 @@ export class BookListComponent {
 
   bookCardTemplate = TemplateRef<BooksView>;
   
+  books$ = this.store.select(state => state.books.items);
+  total$ = this.store.select(state => state.books.totalItems);
+  currentPage$ = this.store.select(state => state.books.currentPage);
+  pageSize$ = this.store.select(state => state.books.pageSize);
+  // const currentPage = signal(0);
+  
   constructor() {
     this.initEffects();
   }
@@ -64,7 +70,7 @@ export class BookListComponent {
       }
       // this.bookService.loadBooksByCategory(category)
       //   .subscribe(result => this.booksByCategory.set(result));
-      this.store.dispatch(LoadBooks({category}));
+      this.store.dispatch(LoadBooks({ query: category, page, pageSize: 5 }));
     })
   }
 

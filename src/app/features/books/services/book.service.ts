@@ -29,8 +29,9 @@ export class BookService {
     );
   }
 
-  loadBooksByCategory(category: string | null): Observable<BooksView[]> {
-    return this.http.get<BookResult>(`${environment.bookApiBase}?q=${category}`).pipe(
+  // maxResults=3&startIndex=0
+  loadBooksByCategory(category: string | null, maxResults?: number, startIndex?: number): Observable<BooksView[]> {
+    return this.http.get<BookResult>(`${environment.bookApiBase}?q=${category}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
       map(response => {
         const items = response.items || [];
         return items.map(item => ({

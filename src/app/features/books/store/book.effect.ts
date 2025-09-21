@@ -13,8 +13,12 @@ export class BookEffect {
         this.actions$.pipe(
             ofType(LoadBooks),
             switchMap(action => 
-                this.bookService.loadBooksByCategory(action.category).pipe(
-                    map(books => LoadBooksSuccess({books})),
+                this.bookService.loadBooksByCategory(action.query, action.pageSize || 6, action.page || 0).pipe(
+                    map(books => LoadBooksSuccess({
+                        books,
+                        pageSize: action.pageSize || 6,
+                        page: action.page || 0,
+                    })),
                     catchError((error) => of(LoadBooksFailure({error: error.message })))
                 )
             )
