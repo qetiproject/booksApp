@@ -36,15 +36,31 @@ export class BookListComponent {
   totalItems = toSignal(this.store.select(selectTotalItems), { initialValue: 0 });
   pageSize = toSignal(this.store.select(selectPageSize), { initialValue: 5 });
 
-  // Combined books
+  // Computed books
   bookToShow = computed(() => {
-    const combined = [
-      ...this.searchedBooks(),
-      ...this.booksByCategory()
-    ];
+    const combined = [...this.searchedBooks(), ...this.booksByCategory()];
     const uniqueBooksMap = new Map<string, BooksView>();
     combined.forEach(book => uniqueBooksMap.set(book.id, book));
     return Array.from(uniqueBooksMap.values());
+  });
+
+  // Pagination helpers
+  maxPage = computed(() => Math.floor((this.totalItems() - 1) / this.pageSize()));
+
+  visiblePages = computed(() => {
+    const totalPages = this.maxPage() + 1; 
+    const current = this.currentPage();
+    const maxVisible = 5; 
+
+    let start = Math.floor(current / maxVisible) * maxVisible;
+    let end = Math.min(start + maxVisible, totalPages);
+
+    const pagesArr: number[] = [];
+    for (let i = start; i < end; i++) {
+      pagesArr.push(i);
+    }
+
+    return pagesArr;
   });
 
   constructor() {
@@ -61,6 +77,7 @@ export class BookListComponent {
       this.bookService.searchBooksByName(query)
         .subscribe(result => this.searchedBooks.set(result));
     });
+
     effect(() => {
       const category = this.categorySelected();
       if (!category) {
@@ -77,8 +94,7 @@ export class BookListComponent {
   }
 
   nextPage() {
-    const maxPage = Math.floor((this.totalItems() - 1) / this.pageSize());
-    if (this.currentPage() < maxPage) {
+    if (this.currentPage() < this.maxPage()) {
       this.currentPage.update(p => p + 1);
       this.loadCurrentPage();
     }
@@ -89,6 +105,11 @@ export class BookListComponent {
       this.currentPage.update(p => p - 1);
       this.loadCurrentPage();
     }
+  }
+
+  goToPage(page: number) {
+    this.currentPage.set(page);
+    this.loadCurrentPage();
   }
 
   loadCurrentPage() {
