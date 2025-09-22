@@ -2,10 +2,9 @@
 
 @let books = books$ | async;
 
-<ng-container
-  [ngTemplateOutlet]="bookCardTemplate"
+<ng-container [ngTemplateOutlet]="bookCardTemplate"
   [ngTemplateOutletContext]="{ $implicit: books }"
-></ng-container>
+ />
 
 <ng-template #bookCardTemplate let-books>
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
