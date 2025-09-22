@@ -11,6 +11,8 @@ import { globalHttpErrorInterceptor } from './core/interceptors/global-http-erro
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { AuthEffects } from './features/auth/store/auth.effects';
 import { AuthReducer } from './features/auth/store/auth.reducer';
+import { BookEffect } from './features/books/store/book.effect';
+import { BookReducer } from './features/books/store/book.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,9 +26,10 @@ export const appConfig: ApplicationConfig = {
       ])
     ),
     provideStore({
-      auth: AuthReducer
+      auth: AuthReducer,
+      books: BookReducer
     }),
-    provideEffects([AuthEffects]),
+    provideEffects([AuthEffects, BookEffect]),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false

@@ -1,8 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input, signal, TemplateRef, WritableSignal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { FavouriteBookService } from '../../../../pages/wishlist/services/favouriteBook.service';
 import { BookService } from '../../services/book.service';
+import { LoadBooks, LoadBooksFailure } from '../../store/book.action';
+import { selectBooks, selectPageSize, selectTotalItems } from '../../store/book.selector';
 import { BooksView } from '../../types/book';
 import { BookCardComponent } from '../book-card/book-card.component';
 
@@ -17,25 +21,48 @@ export class BookListComponent {
 
   private bookService = inject(BookService);
   private favouriteService = inject(FavouriteBookService);
+  private store = inject(Store);
+
   // inputs
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
 
-  // result
+  // Signals
   searchedBooks: WritableSignal<BooksView[]> = signal([]);
-  booksByCategory: WritableSignal<BooksView[]> = signal([]);
+  currentPage: WritableSignal<number> = signal(0);
+
+  // Store signals
+  booksByCategory = toSignal(this.store.select(selectBooks), { initialValue: [] });
+  totalItems = toSignal(this.store.select(selectTotalItems), { initialValue: 0 });
+  pageSize = toSignal(this.store.select(selectPageSize), { initialValue: 5 });
+
+  // Computed books
   bookToShow = computed(() => {
-    const combined = [
-      ...this.searchedBooks(),
-      ...this.booksByCategory()
-    ];
+    const combined = [...this.searchedBooks(), ...this.booksByCategory()];
     const uniqueBooksMap = new Map<string, BooksView>();
     combined.forEach(book => uniqueBooksMap.set(book.id, book));
     return Array.from(uniqueBooksMap.values());
   });
 
-  bookCardTemplate = TemplateRef<BooksView>;
-  
+  // Pagination helpers
+  maxPage = computed(() => Math.floor((this.totalItems() - 1) / this.pageSize()));
+
+  visiblePages = computed(() => {
+    const totalPages = this.maxPage() + 1; 
+    const current = this.currentPage();
+    const maxVisible = 5; 
+
+    let start = Math.floor(current / maxVisible) * maxVisible;
+    let end = Math.min(start + maxVisible, totalPages);
+
+    const pagesArr: number[] = [];
+    for (let i = start; i < end; i++) {
+      pagesArr.push(i);
+    }
+
+    return pagesArr;
+  });
+
   constructor() {
     this.initEffects();
   }
@@ -43,29 +70,59 @@ export class BookListComponent {
   initEffects() {
     effect(() => {
       const query = this.searchQuery();
-      if(!query || query.length <= 3) {
+      if (!query || query.length <= 3) {
         this.searchedBooks.set([]);
         return;
       }
       this.bookService.searchBooksByName(query)
         .subscribe(result => this.searchedBooks.set(result));
-    })
+    });
 
     effect(() => {
       const category = this.categorySelected();
-      if(!category) {
-        this.booksByCategory.set([]);
+      if (!category) {
+        this.store.dispatch(LoadBooksFailure({ error: 'No category selected' }));
         return;
       }
-      this.bookService.loadBooksByCategory(category)
-        .subscribe(result => this.booksByCategory.set(result));
 
-    })
+      this.store.dispatch(LoadBooks({
+        query: category,
+        page: this.currentPage(),
+        pageSize: this.pageSize()
+      }));
+    });
   }
 
-  // favourites: WritableSignal<BooksView[]> = signal([]);
+  nextPage() {
+    if (this.currentPage() < this.maxPage()) {
+      this.currentPage.update(p => p + 1);
+      this.loadCurrentPage();
+    }
+  }
 
-  
+  prevPage() {
+    if (this.currentPage() > 0) {
+      this.currentPage.update(p => p - 1);
+      this.loadCurrentPage();
+    }
+  }
+
+  goToPage(page: number) {
+    this.currentPage.set(page);
+    this.loadCurrentPage();
+  }
+
+  loadCurrentPage() {
+    const category = this.categorySelected();
+    if (!category) return;
+
+    this.store.dispatch(LoadBooks({
+      query: category,
+      page: this.currentPage(),
+      pageSize: this.pageSize()
+    }));
+  }
+
   onAddInFavouriteEvent(book: BooksView) {
     this.favouriteService.addBookInFavourite(book);
   }

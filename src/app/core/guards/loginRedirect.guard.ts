@@ -12,7 +12,6 @@ export const LoginRedirectGuard: CanActivateFn = (): Observable<boolean | UrlTre
   return store.select(selectIsLoggedIn).pipe(
     take(1), 
     map(isLoggedIn => {
-      console.log(isLoggedIn)
       return isLoggedIn ? router.parseUrl('/books') : true;
     })
   );

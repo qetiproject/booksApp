@@ -12,7 +12,6 @@ export const IsUserAuthenticated: CanActivateFn = () => {
       filter(v => v !== null && v !== undefined),
       take(1),
       map(isLoggedIn => {
-        console.log('Guard check, isLoggedIn=', isLoggedIn);
         return isLoggedIn ? true : router.parseUrl('/login');
       })
     );
