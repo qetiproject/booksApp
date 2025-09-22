@@ -15,14 +15,14 @@
     </div>
     <div class="mt-4 flex items-center justify-between">
       <div class="flex gap-2">
-        @if (showDetailsBtn) {
+        @if (showDetailsBtn()) {
           <button [routerLink]="['/books', book().id]"
                   class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700">
             Details
           </button>
         }
 
-        @if (showFavourite) {
+        @if (showFavourite()) {
           <button (click)="onAddInFavourite()" aria-label="Add to favourite"
                   class="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200">
             <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -35,7 +35,7 @@
         }
       </div>
 
-      @if (showDelete) {
+      @if (showDelete()) {
         <button (click)="onDelete()" aria-label="Delete"
                 class="p-2 rounded-full bg-red-600 text-white hover:bg-red-700">
           <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
