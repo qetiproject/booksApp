@@ -4,48 +4,54 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "server": "ts-node -P ./server/server.tsconfig.json ./server/server.ts",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "serve:ssr:ssr": "node dist/ssr/server/server.mjs"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^20.2.4",
-    "@angular/cdk": "20.2.3",
-    "@angular/common": "^20.2.4",
-    "@angular/compiler": "^20.2.4",
-    "@angular/core": "^20.2.4",
-    "@angular/forms": "^20.2.4",
-    "@angular/material": "^20.2.3",
-    "@angular/platform-browser": "^20.2.4",
-    "@angular/platform-browser-dynamic": "^20.2.4",
-    "@angular/router": "^20.2.4",
+    "@angular/cdk": "^20.2.4",
+    "@angular/common": "^20.2.0",
+    "@angular/compiler": "^20.2.0",
+    "@angular/core": "^20.2.0",
+    "@angular/forms": "^20.2.0",
+    "@angular/platform-browser": "^20.2.0",
+    "@angular/platform-server": "^20.2.0",
+    "@angular/router": "^20.2.0",
+    "@angular/ssr": "^20.2.2",
     "@ngrx/effects": "^20.0.1",
     "@ngrx/entity": "^20.0.1",
     "@ngrx/store": "^20.0.1",
     "@ngrx/store-devtools": "^20.0.1",
     "@tailwindcss/postcss": "^4.1.13",
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
-    "express": "^4.19.1",
-    "flowbite": "^3.1.2",
-    "json-server": "^0.17.4",
-    "rxjs": "^7.8.2",
+    "express": "^5.1.0",
+    "postcss": "^8.5.6",
+    "rxjs": "~7.8.0",
+    "tailwindcss": "^4.1.13",
     "tslib": "^2.3.0",
-    "zone.js": "^0.15.1"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
     "@angular/build": "^20.2.2",
     "@angular/cli": "^20.2.2",
-    "@angular/compiler-cli": "^20.2.4",
-    "@types/express": "^5.0.3",
+    "@angular/compiler-cli": "^20.2.0",
+    "@types/express": "^5.0.1",
     "@types/jasmine": "~5.1.0",
-    "angular-eslint": "20.2.0",
-    "autoprefixer": "^10.4.21",
-    "eslint": "^8.57.0",
-    "jasmine-core": "~5.1.0",
+    "@types/node": "^20.17.19",
+    "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
@@ -54,7 +60,7 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.13",
     "ts-node": "^10.9.2",
-    "typescript": "~5.8.3",
+    "typescript": "~5.9.2",
     "typescript-eslint": "8.40.0"
   }
 }

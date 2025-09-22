@@ -1,14 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
+// import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-loading',
-  imports: [MatProgressSpinner],
+  imports: [],
   template: `
     @if(loading()) {
       <div class="spinner-overlay">
-        <mat-spinner />
+        <!-- <mat-spinner /> -->
+         <p>loading...<p>
       </div>
     }
   `,

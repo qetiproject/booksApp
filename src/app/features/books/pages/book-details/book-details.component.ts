@@ -1,18 +1,11 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule, Location } from '@angular/common';
 import { Component, computed, inject, signal, TemplateRef, ViewChild, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BackButtonComponent } from '../../../../components/back-button/back-button.component';
 import { CatalogueService } from '../../../../pages/catalogues/services/catalogue.service';
 import { FavouriteBookService } from '../../../../pages/wishlist/services/favouriteBook.service';
 import { Tab, TabKey } from '../../../../types/tabs';
-import { showSnackbar } from '../../../../utils/snackbar';
 import { AddReviewComponent } from '../../components/add-review/add-review.component';
 import { BooksView } from '../../types/book';
 import { BookDetails, Review } from '../../types/book-details';
@@ -21,28 +14,13 @@ import { BookDetails, Review } from '../../types/book-details';
   selector: 'app-book-details',
   standalone: true,
   imports: [CommonModule, RouterModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatChipsModule,
     BackButtonComponent, FormsModule, AddReviewComponent],
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.css'],
-   animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(20px)' }),
-        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-      ]),
-      transition(':leave', [
-        animate('300ms ease-in', style({ opacity: 0, transform: 'translateY(20px)' }))
-      ])
-    ])
-  ]
 })
 export class BookDetailsComponent {
   private route = inject(ActivatedRoute);
-  private snackbar = inject(MatSnackBar);
+  // private snackbar = inject(MatSnackBar);
   private location = inject(Location)
   private router = inject(Router);
   private catalogueService = inject(CatalogueService);
@@ -96,14 +74,14 @@ export class BookDetailsComponent {
     }
     this.favouriteService.addBookInFavourite(booksView);
     this.router.navigateByUrl('/favourites')
-    showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს ფავორიტებში!`);
+    // showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს ფავორიტებში!`);
   }
   
   addToCatalogueEvent(): void {
     const book = this.book();
     this.catalogueService.addBook(book);
     this.router.navigateByUrl('/catalogue')
-    showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`);
+    // showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`);
 
   }
 

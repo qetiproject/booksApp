@@ -1,10 +1,10 @@
-import { MatSnackBar } from '@angular/material/snack-bar';
+// import { MatSnackBar } from '@angular/material/snack-bar';
 
-export function showSnackbar(snackBar: MatSnackBar, message: string): void {
-  snackBar.open(message, '✖', {
-    duration: 4000,
-    horizontalPosition: 'right',
-    verticalPosition: 'top',
-    panelClass: ['snackbar-success']
-  });
-}
+// export function showSnackbar(snackBar: MatSnackBar, message: string): void {
+//   snackBar.open(message, '✖', {
+//     duration: 4000,
+//     horizontalPosition: 'right',
+//     verticalPosition: 'bottom',
+//     panelClass: ['snackbar-success']
+//   });
+// }
