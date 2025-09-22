@@ -1,6 +1,5 @@
 
 import { Component, EventEmitter, inject, input, Output } from '@angular/core';
-
 import { Router, RouterLink } from '@angular/router';
 import { MessagesService } from '../../../../core/services/messages.service';
 import { BooksView } from '../../types/book';

@@ -10,8 +10,10 @@ import { BookCategories, } from '../../types/book';
   selector: 'app-book-category-dropdown',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, SelectComponent],
-  templateUrl: './book-category-dropdown.component.html',
-  styleUrls: ['./book-category-dropdown.component.css']
+  template: `
+    <app-select [formControl]="category"
+      [options]="categories"
+    />`
 })
 export class BookCategoryDropdownComponent {
 
