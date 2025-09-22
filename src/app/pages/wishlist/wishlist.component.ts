@@ -1,6 +1,7 @@
 
 import { Component, inject } from '@angular/core';
 import { BackButtonComponent } from '../../components/back-button/back-button.component';
+import { MessagesService } from '../../core/services/messages.service';
 import { BookCardComponent } from "../../features/books/components/book-card/book-card.component";
 import { BooksView } from '../../features/books/types/book';
 import { FavouriteBookService } from './services/favouriteBook.service';
@@ -15,13 +16,16 @@ import { FavouriteBookService } from './services/favouriteBook.service';
 export class WishlistComponent{
 
   private readonly favouriteBookService = inject(FavouriteBookService);
-  // private snackbar = inject(MatSnackBar);
+  private messages = inject(MessagesService);
   
   readonly favouriteBooks = this.favouriteBookService.favouriteBooks
 
   onBookDeleteFromFavouritesEvent(book: BooksView): void {
     this.favouriteBookService.removeBookFromFavourite(book);
-    // showSnackbar(this.snackbar, `📚 "${book.title}" წარმატებით წაიშალა სიიდან!`);
+    this.messages.showMessage({
+      text: `📚 "${book.title}" წარმატებით წაიშალა სიიდან!`,
+      severity: 'success'
+    })
   }
 
 }

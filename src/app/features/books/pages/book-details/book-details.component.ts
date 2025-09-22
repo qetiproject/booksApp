@@ -3,6 +3,7 @@ import { Component, computed, inject, signal, TemplateRef, ViewChild, WritableSi
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BackButtonComponent } from '../../../../components/back-button/back-button.component';
+import { MessagesService } from '../../../../core/services/messages.service';
 import { CatalogueService } from '../../../../pages/catalogues/services/catalogue.service';
 import { FavouriteBookService } from '../../../../pages/wishlist/services/favouriteBook.service';
 import { Tab, TabKey } from '../../../../types/tabs';
@@ -20,9 +21,9 @@ import { BookDetails, Review } from '../../types/book-details';
 })
 export class BookDetailsComponent {
   private route = inject(ActivatedRoute);
-  // private snackbar = inject(MatSnackBar);
   private location = inject(Location)
   private router = inject(Router);
+  private messages = inject(MessagesService);
   private catalogueService = inject(CatalogueService);
   private favouriteService = inject(FavouriteBookService);
   
@@ -74,15 +75,20 @@ export class BookDetailsComponent {
     }
     this.favouriteService.addBookInFavourite(booksView);
     this.router.navigateByUrl('/favourites')
-    // showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს ფავორიტებში!`);
+    this.messages.showMessage({
+      text: `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს ფავორიტებში!`,
+      severity: 'success'
+    })
   }
   
   addToCatalogueEvent(): void {
     const book = this.book();
     this.catalogueService.addBook(book);
     this.router.navigateByUrl('/catalogue')
-    // showSnackbar(this.snackbar, `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`);
-
+    this.messages.showMessage({
+      text: `📚 "${this.book().volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`,
+      severity: 'success'
+    })
   }
 
   selectTab(tabKey: TabKey) {

@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { MessagesService } from '../../../core/services/messages.service';
 import { BooksView } from "../../../features/books/types/book";
 import { BookDetails } from '../../../features/books/types/book-details';
 
@@ -9,7 +10,7 @@ import { BookDetails } from '../../../features/books/types/book-details';
 })
 export class CatalogueService {
   private readonly STORAGE_KEY = environment.catalogueStorageKey;
-  // private snackbar = inject(MatSnackBar);
+  private messages = inject(MessagesService);
   private errorMessage = 'Failed to save catalogue to localStorage';
 
   books = new BehaviorSubject<BooksView[]>([]);
@@ -56,7 +57,11 @@ export class CatalogueService {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updated));
     }
     catch(err){
-      // showSnackbar(this.snackbar, `📚 ${this.errorMessage}- ${err}`);
+      this.messages.showMessage({
+        text: `📚 ${this.errorMessage}- ${err}`,
+        severity: 'error',
+        duration: 5000
+      })
     }
   }
 

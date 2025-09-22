@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { environment } from '../environments/environment';
 import { HeaderComponent } from './components/header/header.component';
+import { MessagesComponent } from "./components/messages/messages.component";
 import { AuthService } from './features/auth/services/auth.service';
 import { TokenStorageService } from './features/auth/services/token.service';
 import { loginSuccess } from './features/auth/store/auth.action';
@@ -13,11 +14,12 @@ import { LoadingComponent } from "./features/loading/loading.component";
 @Component({
     selector: 'app-root',
     imports: [
-        RouterOutlet,
-        ReactiveFormsModule,
-        LoadingComponent,
-        HeaderComponent,
-    ],
+    RouterOutlet,
+    ReactiveFormsModule,
+    LoadingComponent,
+    HeaderComponent,
+    MessagesComponent
+],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })

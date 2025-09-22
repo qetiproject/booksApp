@@ -2,6 +2,7 @@
 import { Component, EventEmitter, inject, input, Output } from '@angular/core';
 
 import { Router, RouterLink } from '@angular/router';
+import { MessagesService } from '../../../../core/services/messages.service';
 import { BooksView } from '../../types/book';
 
 @Component({
@@ -21,8 +22,8 @@ export class BookCardComponent {
   @Output() addInFavourite = new EventEmitter<BooksView>();
   
   private router = inject(Router);
-  // private snackbar = inject(MatSnackBar);
-
+  private messages = inject(MessagesService);
+  
   onDelete(): void {
     this.bookDelete.emit(this.book());
   }
@@ -30,6 +31,9 @@ export class BookCardComponent {
   onAddInFavourite(): void {
     this.addInFavourite.emit(this.book());
     this.router.navigateByUrl('/favourites')
-    // showSnackbar(this.snackbar, `📚 "${this.book().title}" წარმატებით დაემატა თქვენს ფავორიტებში!`);
+    this.messages.showMessage({
+      text: `📚 "${this.book().title}" წარმატებით დაემატა თქვენს ფავორიტებში!`,
+      severity: 'success',
+    });
   }
 }
