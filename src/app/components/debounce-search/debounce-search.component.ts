@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, effect, output, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -11,7 +11,7 @@ import { debouncedSignal } from '../../utils/debouncedSignal';
 @Component({
   selector: 'app-debounce-search',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule  ],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule],
   templateUrl: './debounce-search.component.html',
 })
 export class DebounceSearchComponent {

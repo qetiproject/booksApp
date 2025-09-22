@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, EventEmitter, inject, input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -11,7 +11,7 @@ import { BooksView } from '../../types/book';
 @Component({
   selector: 'app-book-card',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, RouterLink],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, RouterLink],
   templateUrl: './book-card.component.html',
   styleUrls: ['./book-card.component.css']
 })

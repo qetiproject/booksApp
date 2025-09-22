@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, computed, effect, inject, input, signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { BookCardComponent } from '../book-card/book-card.component';
 @Component({
   selector: 'app-book-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, BookCardComponent],
+  imports: [ReactiveFormsModule, BookCardComponent],
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.css']
 })

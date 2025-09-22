@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BackButtonComponent } from '../../components/back-button/back-button.component';
@@ -10,7 +10,7 @@ import { FavouriteBookService } from './services/favouriteBook.service';
 @Component({
   selector: 'app-wishlist',
   standalone: true,
-  imports: [CommonModule, BookCardComponent, BackButtonComponent],
+  imports: [BookCardComponent, BackButtonComponent],
   templateUrl: './wishlist.component.html',
   styleUrl: './wishlist.component.css',
 })

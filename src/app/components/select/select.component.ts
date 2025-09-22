@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, forwardRef, input, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,7 +11,7 @@ export interface SelectOption<T = unknown> {
 @Component({
   selector: 'app-select',
   standalone: true,
-  imports: [CommonModule, MatSelectModule],
+  imports: [MatSelectModule],
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.css'],
   providers: [
