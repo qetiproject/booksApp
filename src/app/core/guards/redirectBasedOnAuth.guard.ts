@@ -12,7 +12,6 @@ export const RedirectBasedOnAuth: CanActivateFn = () => {
     filter(v => v !== null && v !== undefined),
     take(1),
     map(isLoggedIn => {
-      console.log(isLoggedIn, "redirect based auth")
       return router.parseUrl(isLoggedIn ? 'books' : 'login')}
   ));
 
