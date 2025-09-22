@@ -1,17 +1,21 @@
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-  <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4 w-full">
-    <app-debounce-search 
-      class="flex-1 sm:flex-auto" 
+  <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4 w-full mt-5">
+    <app-debounce-search class="flex-1 sm:flex-auto" 
       (searchValue)="onSearchEvent($event)"
-    ></app-debounce-search>
+     />
     <app-book-category-dropdown
       class="flex-1 sm:flex-none"
       (categorySelected)="onCategorySelectedEvent($event)"
     />
   </div>
-  <app-book-list 
-    [searchQuery]="searchQuery()"
-    [categorySelected]="categorySelected()"
-    class="w-full"
-  />
+  @defer(when searchQuery() || categorySelected()) {
+    <app-book-list 
+      [searchQuery]="searchQuery()"
+      [categorySelected]="categorySelected()"
+      class="w-full"
+    />
+  }@placeholder {
+    <p class="text-gray-400">🔍 Waiting for input or select book category...</p>
+  }
+  
 </div>

@@ -1,32 +1,28 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, input, Output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { Component, EventEmitter, inject, input, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { showSnackbar } from '../../../../utils/snackbar';
+import { MessagesService } from '../../../../core/services/messages.service';
 import { BooksView } from '../../types/book';
 
 @Component({
   selector: 'app-book-card',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, RouterLink],
+  imports: [RouterLink],
   templateUrl: './book-card.component.html',
   styleUrls: ['./book-card.component.css']
 })
 export class BookCardComponent {
 
   book = input.required<BooksView>();
-  @Input() showDelete = false; 
-  @Input() showFavourite = false;
-  @Input() showDetailsBtn = false;
+  readonly showDelete = input(false); 
+  readonly showFavourite = input(false);
+  readonly showDetailsBtn = input(false);
   @Output() bookDelete = new EventEmitter<BooksView>();
   @Output() addInFavourite = new EventEmitter<BooksView>();
   
   private router = inject(Router);
-  private snackbar = inject(MatSnackBar);
-
+  private messages = inject(MessagesService);
+  
   onDelete(): void {
     this.bookDelete.emit(this.book());
   }
@@ -34,6 +30,9 @@ export class BookCardComponent {
   onAddInFavourite(): void {
     this.addInFavourite.emit(this.book());
     this.router.navigateByUrl('/favourites')
-    showSnackbar(this.snackbar, `📚 "${this.book().title}" წარმატებით დაემატა თქვენს ფავორიტებში!`);
+    this.messages.showMessage({
+      text: `📚 "${this.book().title}" წარმატებით დაემატა თქვენს ფავორიტებში!`,
+      severity: 'success',
+    });
   }
 }

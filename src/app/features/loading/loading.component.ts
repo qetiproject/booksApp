@@ -1,34 +1,20 @@
 import { Component, inject } from '@angular/core';
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-loading',
-  imports: [MatProgressSpinner],
+  standalone: true,
   template: `
     @if(loading()) {
-      <div class="spinner-overlay">
-        <mat-spinner />
+      <div class="fixed inset-0 flex items-center justify-center bg-white/60 z-[1000]">
+        <div
+          class="h-8 w-8 sm:h-10 sm:w-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+        ></div>
       </div>
     }
-  `,
-   styles: [`
-    .spinner-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.6);
-      z-index: 1000;
-    }
-  `]
+  `
 })
 export class LoadingComponent {
   loadingService = inject(LoadingService);
-
   loading = this.loadingService.loading;
 }

@@ -96,12 +96,11 @@
       </div>
       <div class="tab-content mt-6">
         @if (currentTab === 'reviews') {
-          <ng-container  
-            [ngTemplateOutlet]="reviewsTemplate"
+          <ng-container [ngTemplateOutlet]="reviewsTemplate"
             [ngTemplateOutletContext]="{ $implicit: reviews }"
-          ></ng-container>
+           />
         }@else if (currentTab === 'addReview') {
-          <ng-container [ngTemplateOutlet]="addReviewTemplate"></ng-container>
+          <ng-container [ngTemplateOutlet]="addReviewTemplate" />
         }
       </div>
       <ng-template #reviewsTemplate let-tab>

@@ -1,13 +1,14 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, signal } from '@angular/core';
 import { DebounceSearchComponent } from '../../components/debounce-search/debounce-search.component';
 import { BookCategoryDropdownComponent } from '../../features/books/components/book-category-dropdown/book-category-dropdown.component';
 import { BookListComponent } from "../../features/books/components/book-list/book-list.component";
+import { LoadingComponent } from '../../features/loading/loading.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, DebounceSearchComponent, BookListComponent, BookCategoryDropdownComponent, BookCategoryDropdownComponent],
+  imports: [DebounceSearchComponent, BookListComponent, BookCategoryDropdownComponent, BookCategoryDropdownComponent, LoadingComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
