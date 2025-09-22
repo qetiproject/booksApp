@@ -29,12 +29,16 @@ export class BookService {
     );
   }
 
-  // maxResults=3&startIndex=0
-  loadBooksByCategory(category: string | null, maxResults?: number, startIndex?: number): Observable<BooksView[]> {
+ loadBooksByCategory(
+    category: string | null, 
+    maxResults: number = 10, 
+    startIndex: number = 0
+  ): Observable<{ items: BooksView[]; totalItems: number }> {
+
     return this.http.get<BookResult>(`${environment.bookApiBase}?q=${category}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
       map(response => {
         const items = response.items || [];
-        return items.map(item => ({
+        const mappedItems: BooksView[] = items.map(item => ({
           id: item.id,
           title: item.volumeInfo.title,
           authors: item.volumeInfo.authors || [],
@@ -42,10 +46,16 @@ export class BookService {
           language: item.volumeInfo.language || '',
           categories: item.volumeInfo.categories
         }));
-      }), shareReplay(1)
-      
-    )
+
+        return {
+          items: mappedItems,
+          totalItems: response.totalItems || 0
+        };
+      }),
+      shareReplay(1)
+    );
   }
+
 
   // {
   //     context: new HttpContext().set(SkipLoading, true)

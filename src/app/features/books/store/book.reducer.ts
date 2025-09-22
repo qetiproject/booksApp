@@ -1,38 +1,40 @@
 import { createReducer, on } from "@ngrx/store";
 import { LoadBooks, LoadBooksFailure, LoadBooksSuccess } from "./book.action";
 import { BookState } from "./book.store";
-// https://www.googleapis.com/books/v1/volumes?q=angular&langRestrict=end&orderBy=newest&maxResults=10&startIndex=0
 
 export const initialBookState: BookState = {
     items: [],
     totalItems: 0,
     loading: false,
     error: null,
-    maxResult: 0,
-    startIndex: 0
+    currentPage: 0,
+    pageSize: 10 
 }
 
 export const BookReducer = createReducer(
     initialBookState,
+
     on(LoadBooks, (state) => ({
         ...state,
         loading: true,
         error: null
     })),
+
     on(LoadBooksSuccess, (state, { books, page, pageSize }) => ({
         ...state,
-        items: books,
-        totalItems: books.length,
-        page,
+        items: books.items,
+        totalItems: books.totalItems,
         pageSize,
+        page,
         loading: false,
         error: null
     })),
-    on(LoadBooksFailure, (state) => ({
+
+    on(LoadBooksFailure, (state, { error }) => ({
         ...state,
         items: [],
         totalItems: 0,
         loading: false,
-        error: null
+        error
     }))
-)
+);

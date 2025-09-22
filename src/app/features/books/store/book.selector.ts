@@ -22,3 +22,13 @@ export const selectError = createSelector(
   selectBookState,
   state => state.error
 );
+
+export const selectPageSize = createSelector(
+  selectBookState,
+  state => state.pageSize 
+);
+
+export const selectCurrentPage = createSelector(
+  selectBookState,
+  state => state.currentPage
+);
