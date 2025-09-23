@@ -49,6 +49,7 @@ export const AuthReducer = createReducer(
     on(userProfileFailure, (state, { error }) => ({
         ...state,
         error,
-        isLoggedIn: true,
+        isLoggedIn: false,
+        user: null
     }))
 )

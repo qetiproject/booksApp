@@ -6,34 +6,39 @@ import { AuthFacade } from "../../features/auth/services/authFacade";
 import { TokenStorageService } from "../../features/auth/services/token.service";
 import { updateTokensSuccess } from "../../features/auth/store/auth.action";
 
-export const AuthInterceptor = 
-    (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
-   
-    const authFacade = inject(AuthFacade);
-    const tokenStorageService = inject(TokenStorageService);
-    const store = inject(Store);
-    const refreshToken = tokenStorageService.getRefreshToken();
-    const accessToken = tokenStorageService.getAccessToken();
+export const AuthInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
+  const authFacade = inject(AuthFacade);
+  const tokenStorageService = inject(TokenStorageService);
+  const store = inject(Store);
 
-    const authReq = req.url.includes('/auth/') &&  accessToken
-        ? req.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } })
-        : req;
+  const refreshToken = tokenStorageService.getRefreshToken();
+  const accessToken = tokenStorageService.getAccessToken();
 
-    return next(authReq).pipe(
-        catchError(err => {
-            if(err.status === 401 && refreshToken) {
-                return from(authFacade.refresh(refreshToken)).pipe(
-                    switchMap((tokens: { accessToken: string, refreshToken: string }) => {
-                        tokenStorageService.saveTokens(tokens.accessToken, tokens.refreshToken);
-                        store.dispatch(updateTokensSuccess({ tokens }));
-                        const retryReq = req.clone({
-                            setHeaders: { Authorization: `Bearer ${tokens.accessToken}` }
-                        });
-                        return next(retryReq);
-                    })
-                )
-            }
-            return throwError(() => err);
-        })
-    )
-}
+  const protectedEndpoints = ['/auth/me'];
+  const needsAuth = protectedEndpoints.some(endpoint => req.url.includes(endpoint));
+
+  const authReq = needsAuth && accessToken
+  ? req.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } })
+  : req;
+console.log('➡️ URL:', req.url, 'needsAuth:', needsAuth, 'token:', accessToken);
+
+  return next(authReq).pipe(
+    
+    catchError(err => {
+      if (err.status === 401 && refreshToken && needsAuth) {
+        return from(authFacade.refresh(refreshToken)).pipe(
+          switchMap((tokens: { accessToken: string; refreshToken: string }) => {
+            tokenStorageService.saveTokens(tokens.accessToken, tokens.refreshToken);
+            store.dispatch(updateTokensSuccess({ tokens }));
+
+            const retryReq = authReq.clone({
+              setHeaders: { Authorization: `Bearer ${tokens.accessToken}` }
+            });
+            return next(retryReq);
+          })
+        );
+      }
+      return throwError(() => err);
+    })
+  );
+};
