@@ -4,7 +4,7 @@ import { finalize } from "rxjs";
 import { SkipLoading } from "../../features/loading/skip-loading.component";
 import { LoadingService } from "../services/loading.service";
 
-export const loadingInterceptor = 
+export const LoadingInterceptor = 
     (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
         if(req.context.get(SkipLoading)) {
             return next(req);

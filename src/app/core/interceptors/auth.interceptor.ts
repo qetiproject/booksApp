@@ -18,20 +18,17 @@ export const AuthInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn) 
   const needsAuth = protectedEndpoints.some(endpoint => req.url.includes(endpoint));
 
   const authReq = needsAuth && accessToken
-  ? req.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } })
-  : req;
-console.log('➡️ URL:', req.url, 'needsAuth:', needsAuth, 'token:', accessToken);
+    ? req.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } })
+    : req;
 
   return next(authReq).pipe(
-    
     catchError(err => {
       if (err.status === 401 && refreshToken && needsAuth) {
         return from(authFacade.refresh(refreshToken)).pipe(
           switchMap((tokens: { accessToken: string; refreshToken: string }) => {
             tokenStorageService.saveTokens(tokens.accessToken, tokens.refreshToken);
             store.dispatch(updateTokensSuccess({ tokens }));
-
-            const retryReq = authReq.clone({
+            const retryReq = req.clone({
               setHeaders: { Authorization: `Bearer ${tokens.accessToken}` }
             });
             return next(retryReq);

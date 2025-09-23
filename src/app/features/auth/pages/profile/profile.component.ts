@@ -2,7 +2,6 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AuthFacade } from '../../services/authFacade';
 import { userProfile } from '../../store/auth.action';
 import { selectUserProfile } from '../../store/auth.selector';
 import { UserProfileResponse } from '../../types/user-profile';
@@ -16,12 +15,7 @@ import { UserProfileResponse } from '../../types/user-profile';
 })
 export class ProfileComponent implements OnInit{
   store = inject(Store);
-  authFacade = inject(AuthFacade);
-  
-  user$: Observable<{user: UserProfileResponse}> =this.store.select(selectUserProfile)
-  ngOnInit() {
-    this.store.dispatch(userProfile()); // აუცილებელია effect-ის გასაშვებად
-  }
+  user$: Observable<UserProfileResponse | null> =this.store.select(selectUserProfile);
 
   profileFields = [
     { label: '📧 Email', value: (u: UserProfileResponse) => u.email },
@@ -34,5 +28,8 @@ export class ProfileComponent implements OnInit{
     { label: '⭐ Age', value: (u: UserProfileResponse) => u.age }
   ];
 
+  ngOnInit() {
+    this.store.dispatch(userProfile()); // აუცილებელია effect-ის გასაშვებად
+  }
 
 }

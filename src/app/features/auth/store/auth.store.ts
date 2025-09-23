@@ -1,3 +1,4 @@
+import { UserProfileResponse } from "../types/user-profile";
 
 export type AuthUserResponse = {
   id: number;
@@ -16,6 +17,7 @@ export interface AuthTokens {
 
 export interface AuthState {
   user: AuthUserResponse | null;
+  userProfile: UserProfileResponse | null;
   tokens: AuthTokens | null; 
   isLoggedIn: boolean;
   loading: boolean;
