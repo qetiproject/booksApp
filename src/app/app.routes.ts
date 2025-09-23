@@ -1,9 +1,7 @@
-import { provideHttpClient, withInterceptors, withRequestsMadeViaParent } from '@angular/common/http';
 import { Routes } from '@angular/router';
 import { IsUserAuthenticated } from './core/guards/auth.guard';
 import { LoginRedirectGuard } from './core/guards/loginRedirect.guard';
 import { RedirectBasedOnAuth } from './core/guards/redirectBasedOnAuth.guard';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { ProfileComponent } from './features/auth/pages/profile/profile.component';
 import { bookRoutes } from './features/books/book.router';
@@ -25,14 +23,6 @@ export const routes: Routes = [
       { path: 'favourites', component: WishlistComponent },
       { path: 'catalogue', component: CataloguesComponent },
       { path: 'profile', component: ProfileComponent }
-    ],
-    providers: [
-      provideHttpClient(
-        withInterceptors([
-          AuthInterceptor
-        ]),
-        withRequestsMadeViaParent()
-      )
     ],
   },
   {
