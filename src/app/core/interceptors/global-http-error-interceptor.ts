@@ -3,7 +3,7 @@ import { inject } from "@angular/core";
 import { catchError, retry, tap, throwError } from "rxjs";
 import { MessagesService } from "../services/messages.service";
 
-export const globalHttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
+export const GlobalHttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
     const messages = inject(MessagesService);
 
     return next(req).pipe(

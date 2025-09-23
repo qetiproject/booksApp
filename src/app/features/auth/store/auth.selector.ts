@@ -30,5 +30,5 @@ export const selectAuthError = createSelector(
 
 export const selectUserProfile = createSelector(
     selectAuthState,
-    (state: any) => state
+    (state: AuthState) => state.userProfile
 )

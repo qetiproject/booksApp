@@ -3,13 +3,13 @@ import { provideRouter } from '@angular/router';
 
 import { provideHttpClient, withFetch, withInterceptors } from "@angular/common/http";
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from "@ngrx/store-devtools";
 import { routes } from './app.routes';
-import { globalHttpErrorInterceptor } from './core/interceptors/global-http-error-interceptor';
-import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { GlobalHttpErrorInterceptor } from './core/interceptors/global-http-error-interceptor';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { AuthEffects } from './features/auth/store/auth.effects';
 import { AuthReducer } from './features/auth/store/auth.reducer';
 import { BookEffect } from './features/books/store/book.effect';
@@ -21,12 +21,12 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes), 
     provideClientHydration(withEventReplay()),
-    provideAnimationsAsync(),
     provideHttpClient(
       withFetch(),
       withInterceptors([
-        loadingInterceptor,
-        globalHttpErrorInterceptor,
+        AuthInterceptor,
+        LoadingInterceptor,
+        GlobalHttpErrorInterceptor,
       ])
     ),
     provideStore({

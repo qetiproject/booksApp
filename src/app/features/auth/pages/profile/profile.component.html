@@ -1,10 +1,9 @@
-@let userProfile = user$ | async;
-@let user = userProfile?.user;
-<div class="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-xl rounded-2xl">
-  @if (user) {
+@let user = user$ | async;
+@if (user) {
+  <div class="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-xl rounded-2xl">
     <div class="flex items-center space-x-6">
       <img [src]="user.image" alt="User Avatar"
-           class="w-28 h-28 rounded-full border-4 border-indigo-500 shadow-lg">
+          class="w-28 h-28 rounded-full border-4 border-indigo-500 shadow-lg">
       <div>
         <h2 class="text-2xl font-bold text-gray-800">
           {{ user.firstName }} {{ user.lastName }}
@@ -17,40 +16,12 @@
     </div>
     <div class="my-6 border-t border-gray-200"></div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
-      <div>
-        <p class="font-semibold">📧 Email:</p>
-        <p>{{ user.email }}</p>
-      </div>
-      <div>
-        <p class="font-semibold">📞 Phone:</p>
-        <p>{{ user.phone }}</p>
-      </div>
-      <div>
-        <p class="font-semibold">🎂 Birth Date:</p>
-        <p>{{ user.birthDate }}</p>
-      </div>
-      <div>
-        <p class="font-semibold">⚧ Gender:</p>
-        <p>{{ user.gender }}</p>
-      </div>
-      <div>
-        <p class="font-semibold">🏠 Address:</p>
-        <p>{{ user?.address?.city }}, {{ user?.address?.country }}</p>
-      </div>
-      <div>
-        <p class="font-semibold">💼 Company:</p>
-        <p>{{ user?.company?.name }} — {{ user?.company?.title }}</p>
-      </div>
-      <div>
-        <p class="font-semibold">🎓 University:</p>
-        <p>{{ user.university }}</p>
-      </div>
-      <div>
-        <p class="font-semibold">⭐ Age:</p>
-        <p>{{ user.age }}</p>
-      </div>
+      @for (field of profileFields; track field.label) {
+        <div>
+          <p class="font-semibold">{{ field.label }}:</p>
+          <p>{{ field.value(user) }}</p>
+        </div>
+      }
     </div>
-  } @else {
-    <div class="text-center text-gray-500">Loading profile...</div>
-  }
-</div>
+  </div>
+}

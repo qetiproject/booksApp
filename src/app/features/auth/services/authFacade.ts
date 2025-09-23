@@ -37,7 +37,11 @@ export class AuthFacade {
     )}
 
     getProfile(): Observable<UserProfileResponse> {
-        return this.http.get<UserProfileResponse>(`${environment.authApi}/me`);
+        // const accessToken = sessionStorage.getItem(environment.ACCESS_TOKEN_KEY);
+        // const headers = new HttpHeaders({
+        //     Authorization: `Bearer ${accessToken}`
+        // });
+        return this.http.get<UserProfileResponse>(`${environment.authApi}/me`, );
     }
 
     refresh(refreshToken: string): Observable<{ accessToken: string; refreshToken: string }> {
