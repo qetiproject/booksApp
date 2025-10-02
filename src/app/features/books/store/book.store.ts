@@ -8,4 +8,5 @@ export interface BookState {
   maxResults: number;
   currentPage: number;
   windowSize: number;
+  startIndex: number;
 }

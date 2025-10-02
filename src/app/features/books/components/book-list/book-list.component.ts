@@ -1,9 +1,9 @@
 
 import { Component, effect, inject, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BookFacadeService } from '../../services/book.facade';
 import { BooksView } from '../../types/book';
 import { BookCardComponent } from '../book-card/book-card.component';
-import { BookFacadeService } from './book.facade';
 
 @Component({
   selector: 'app-book-list',

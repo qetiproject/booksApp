@@ -1,12 +1,12 @@
 import { computed, inject, Injectable, signal, WritableSignal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Store } from "@ngrx/store";
-import { PagingService } from "../../../../components/paging/paging.service";
-import { FavouriteBookService } from "../../../../pages/wishlist/services/favouriteBook.service";
-import { BookService } from "../../services/book.service";
-import { LoadBooks, LoadBooksFailure } from "../../store/book.action";
-import { selectBooks } from "../../store/book.selector";
-import { BooksView } from "../../types/book";
+import { PagingService } from "../../../components/paging/paging.service";
+import { FavouriteBookService } from "../../../pages/wishlist/services/favouriteBook.service";
+import { LoadBooks, LoadBooksFailure } from "../store/book.action";
+import { selectBooks } from "../store/book.selector";
+import { BooksView } from "../types/book";
+import { BookService } from "./book.service";
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +28,8 @@ export class BookFacadeService {
         return Array.from(uniqueBooksMap.values())
     })
 
+    startIndex: number = this.#pagingService.currentPage() - 1
+
     getBooksWithPaging = computed(() => {
         return this.getBooks();
     });
@@ -40,7 +42,7 @@ export class BookFacadeService {
         this.#bookService.searchBooksByName(
             query, 
             this.#pagingService.maxResults(), 
-            this.#pagingService.currentPage()
+            this.startIndex
         ).subscribe(result => this.searchedBooks.set(result));
     }
 
@@ -50,11 +52,11 @@ export class BookFacadeService {
             this.#store.select(selectBooks)
             return;
         }
-        console.log(this.#pagingService.currentPage())
+        
         this.#store.dispatch(LoadBooks({
             query: category,
             maxResults: this.#pagingService.maxResults(),
-            startIndex: 1
+            startIndex: this.startIndex
         }))
     }
    

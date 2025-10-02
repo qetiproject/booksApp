@@ -37,3 +37,8 @@ export const selectWindowSize = createSelector(
   selectBookState,
   state => state.windowSize
 )
+
+export const selectStartIndex = createSelector(
+  selectBookState,
+  state => state.startIndex
+)
