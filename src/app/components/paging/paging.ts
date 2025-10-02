@@ -19,19 +19,20 @@ export class PagingComponent {
         this.#pagingService.prevPage();
     }
 
-    goToPage(page: number): void {
-        this.#pagingService.currentPage.set(page);
+    goToPage(page: number) {
+        this.#pagingService.goToPage(page); 
     }
 
-    currentPage(): number {
+    get currentPage() {
         return this.#pagingService.currentPage();
     }
 
-    maxPage(): number {
+    get maxPage() {
         return this.#pagingService.maxPage();
     }
 
-    visiblePages(): number[] {
-        return this.#pagingService.visiblePages()
+    get visiblePages() {
+        return this.#pagingService.visiblePages();
     }
+
 }

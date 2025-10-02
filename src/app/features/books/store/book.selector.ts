@@ -32,3 +32,8 @@ export const selectCurrentPage = createSelector(
   selectBookState,
   state => state.currentPage
 );
+
+export const selectWindowSize = createSelector(
+  selectBookState,
+  state => state.windowSize
+)

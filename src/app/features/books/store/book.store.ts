@@ -7,4 +7,5 @@ export interface BookState {
   error: string | null;
   maxResults: number;
   currentPage: number;
+  windowSize: number;
 }

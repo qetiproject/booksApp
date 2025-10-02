@@ -29,9 +29,7 @@ export class BookFacadeService {
     })
 
     getBooksWithPaging = computed(() => {
-        const books = this.getBooks();
-        const { start, end } = this.#pagingService.getCurrentRange();
-        return books.slice(start, end);
+        return this.getBooks();
     });
 
     searchBooksByName(query: string): void {
@@ -52,10 +50,11 @@ export class BookFacadeService {
             this.#store.select(selectBooks)
             return;
         }
+        console.log(this.#pagingService.currentPage())
         this.#store.dispatch(LoadBooks({
             query: category,
             maxResults: this.#pagingService.maxResults(),
-            startIndex: (this.#pagingService.currentPage() - 1) * this.#pagingService.maxResults()
+            startIndex: 1
         }))
     }
    

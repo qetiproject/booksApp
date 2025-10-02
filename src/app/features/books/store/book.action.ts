@@ -13,3 +13,8 @@ export const LoadBooksFailure = createAction(
     '[Books] Load Books Failure', 
     props<{error: string}>()
 );
+
+export const setCurrentPage = createAction(
+  '[Books] Set Current Page',
+  props<{ page: number }>()
+);
