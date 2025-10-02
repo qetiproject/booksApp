@@ -29,7 +29,7 @@ export class BookService {
     );
   }
 
- loadBooksByCategory(
+  loadBooksByCategory(
     category: string | null, 
     maxResults: number = 10, 
     startIndex: number = 0
@@ -56,10 +56,6 @@ export class BookService {
     );
   }
 
-
-  // {
-  //     context: new HttpContext().set(SkipLoading, true)
-  //   }
   bookById(id: string): Observable<BookDetails> {
     return this.http.get<BookDetailsResult>(`${environment.bookApiBase}/${id}`, {
       context: new HttpContext().set(SkipLoading, true)
