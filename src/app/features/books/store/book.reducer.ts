@@ -8,7 +8,7 @@ export const initialBookState: BookState = {
     loading: false,
     error: null,
     currentPage: 0,
-    pageSize: 10 
+    maxResults: 10 
 }
 
 export const BookReducer = createReducer(
@@ -20,12 +20,14 @@ export const BookReducer = createReducer(
         error: null
     })),
 
-    on(LoadBooksSuccess, (state, { books, page, pageSize }) => ({
+    on(LoadBooksSuccess, (state, { books, maxResults, startIndex }) => ({
         ...state,
-        items: books.items,
+        items: startIndex === 0 
+            ? books.items 
+            : [...state.items, ...books.items],
         totalItems: books.totalItems,
-        pageSize,
-        page,
+        maxResults,
+        currentPage: startIndex /maxResults + 1,
         loading: false,
         error: null
     })),

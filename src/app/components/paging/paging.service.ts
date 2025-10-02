@@ -1,44 +1,42 @@
 import { computed, inject, Injectable, signal, WritableSignal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Store } from "@ngrx/store";
-import { selectPageSize, selectTotalItems } from "../../features/books/store/book.selector";
+import { selectMaxResults, selectTotalItems } from "../../features/books/store/book.selector";
 
 @Injectable({
     providedIn: 'root'
 })
-export class PagingFacadeService {
+export class PagingService {
     #store = inject(Store);
     currentPage: WritableSignal<number> = signal(1);
-    pageSize = toSignal(this.#store.select(selectPageSize), { initialValue: 10 });
+    maxResults = toSignal(this.#store.select(selectMaxResults), { initialValue: 10 });
     totalItems = toSignal(this.#store.select(selectTotalItems), { initialValue: 0 });
     maxPage = computed(() => {
-        const size = this.pageSize() ?? 5;
-        const total = this.totalItems() ?? 0;
-        return Math.ceil(total / size);
+        const maxResults = this.maxResults();
+        const total = this.totalItems();
+        return Math.ceil(total / maxResults);
     });
-    windowSize: number = 10
+    windowSize: number = 5
 
     nextPage(): void {
-        console.log(this.currentPage(), "current");
-        console.log(this.maxPage(), "maxpage")
-        if (this.currentPage() < this.maxPage()) {
+        if ((this.currentPage() - 1) < this.maxPage()) {
             this.currentPage.update(p => p + 1);
         }
     }
 
     prevPage(): void {
-        if (this.currentPage() > 1) {
+        if ((this.currentPage() - 1) > 0) {
             this.currentPage.update(p => p - 1);
         }
     }
 
     getCurrentRange() {
         const currentPage = this.currentPage();
-        const pageSize = this.pageSize();
+        const maxResults = this.maxResults();
         const total = this.totalItems();
 
-        const start = (currentPage - 1) * pageSize;
-        const end = Math.min(start + pageSize, total);
+        const start = (currentPage - 1) * maxResults;
+        const end = Math.min(start + maxResults, total);
 
         return { start, end };
     }

@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal, WritableSignal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Store } from "@ngrx/store";
-import { PagingFacadeService } from "../../../../components/paging/paging.facade";
+import { PagingService } from "../../../../components/paging/paging.service";
 import { FavouriteBookService } from "../../../../pages/wishlist/services/favouriteBook.service";
 import { BookService } from "../../services/book.service";
 import { LoadBooks, LoadBooksFailure } from "../../store/book.action";
@@ -15,7 +15,7 @@ export class BookFacadeService {
     #bookService = inject(BookService);
     #favouriteService = inject(FavouriteBookService);
     #store = inject(Store);
-    #pagingService = inject(PagingFacadeService);
+    #pagingService = inject(PagingService);
     
     //signal
     private searchedBooks: WritableSignal<BooksView[]> = signal([]);
@@ -39,18 +39,23 @@ export class BookFacadeService {
             this.searchedBooks.set([]);
             return;
         }
-        this.#bookService.searchBooksByName(query).subscribe(result => this.searchedBooks.set(result));
+        this.#bookService.searchBooksByName(
+            query, 
+            this.#pagingService.maxResults(), 
+            this.#pagingService.currentPage()
+        ).subscribe(result => this.searchedBooks.set(result));
     }
 
     getBooksByCategory(category: string | null): void {
         if(!category) {
             this.#store.dispatch(LoadBooksFailure({error: 'No category selected'}));
+            this.#store.select(selectBooks)
             return;
         }
         this.#store.dispatch(LoadBooks({
             query: category,
-            page: this.#pagingService.currentPage(),
-            pageSize: this.#pagingService.pageSize()
+            maxResults: this.#pagingService.maxResults(),
+            startIndex: (this.#pagingService.currentPage() - 1) * this.#pagingService.maxResults()
         }))
     }
    

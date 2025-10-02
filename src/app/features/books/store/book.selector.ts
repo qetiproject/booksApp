@@ -23,9 +23,9 @@ export const selectError = createSelector(
   state => state.error
 );
 
-export const selectPageSize = createSelector(
+export const selectMaxResults = createSelector(
   selectBookState,
-  state => state.pageSize 
+  state => state.maxResults 
 );
 
 export const selectCurrentPage = createSelector(

@@ -13,8 +13,12 @@ export class BookService {
 
   http = inject(HttpClient);
 
-  searchBooksByName(name: string): Observable<BooksView[]> {
-    return this.http.get<BookResult>(`${environment.bookApiBase}?q=${name}`).pipe(
+  searchBooksByName(
+    name: string, 
+    maxResults: number, 
+    startIndex: number
+  ): Observable<BooksView[]> {
+    return this.http.get<BookResult>(`${environment.bookApiBase}?q=${name}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
       map(response => {
         const items = response.items || [];
         return items.map(item => ({
@@ -31,8 +35,8 @@ export class BookService {
 
   loadBooksByCategory(
     category: string | null, 
-    maxResults: number = 10, 
-    startIndex: number = 0
+    maxResults: number, 
+    startIndex: number
   ): Observable<{ items: BooksView[]; totalItems: number }> {
 
     return this.http.get<BookResult>(`${environment.bookApiBase}?q=${category}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(

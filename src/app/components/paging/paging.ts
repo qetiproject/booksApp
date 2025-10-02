@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { PagingFacadeService } from "./paging.facade";
+import { PagingService } from "./paging.service";
 
 @Component({
     selector: 'app-paging',
@@ -9,29 +9,29 @@ import { PagingFacadeService } from "./paging.facade";
     templateUrl: './paging.html',
 })
 export class PagingComponent {
-    #pagingFacade = inject(PagingFacadeService);
+    #pagingService = inject(PagingService);
 
     nextPage(): void {
-        this.#pagingFacade.nextPage();
+        this.#pagingService.nextPage();
     }
 
     prevPage(): void {
-        this.#pagingFacade.prevPage();
+        this.#pagingService.prevPage();
     }
 
     goToPage(page: number): void {
-        this.#pagingFacade.currentPage.set(page);
+        this.#pagingService.currentPage.set(page);
     }
 
     currentPage(): number {
-        return this.#pagingFacade.currentPage();
+        return this.#pagingService.currentPage();
     }
 
     maxPage(): number {
-        return this.#pagingFacade.maxPage();
+        return this.#pagingService.maxPage();
     }
 
     visiblePages(): number[] {
-        return this.#pagingFacade.visiblePages()
+        return this.#pagingService.visiblePages()
     }
 }
