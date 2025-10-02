@@ -1,0 +1,26 @@
+<div class="flex items-center justify-center gap-2 mt-4">
+  <button
+    class="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+    [disabled]="currentPage() <= 1"
+    (click)="prevPage()">
+    Prev
+  </button>
+
+  <ng-container *ngFor="let page of visiblePages()">
+    <button
+      class="px-3 py-1 rounded"
+      [class.bg-blue-500]="page === currentPage()"
+      [class.text-white]="page === currentPage()"
+      [class.bg-gray-200]="page !== currentPage()"
+      (click)="goToPage(page)">
+      {{ page }}
+    </button>
+  </ng-container>
+
+  <button
+    class="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+    [disabled]="currentPage() >= maxPage()"
+    (click)="nextPage()">
+    Next
+  </button>
+</div>

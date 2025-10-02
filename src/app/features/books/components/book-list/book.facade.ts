@@ -1,6 +1,7 @@
 import { computed, inject, Injectable, signal, WritableSignal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Store } from "@ngrx/store";
+import { PagingFacadeService } from "../../../../components/paging/paging.facade";
 import { FavouriteBookService } from "../../../../pages/wishlist/services/favouriteBook.service";
 import { BookService } from "../../services/book.service";
 import { LoadBooks, LoadBooksFailure } from "../../store/book.action";
@@ -14,17 +15,24 @@ export class BookFacadeService {
     #bookService = inject(BookService);
     #favouriteService = inject(FavouriteBookService);
     #store = inject(Store);
-
+    #pagingService = inject(PagingFacadeService);
+    
     //signal
     private searchedBooks: WritableSignal<BooksView[]> = signal([]);
     booksByCategory = toSignal(this.#store.select(selectBooks), { initialValue: [] });
     
-    getBooks = computed(() => {
+    private getBooks = computed(() => {
         const combined = [...this.searchedBooks(), ...this.booksByCategory()];
         const uniqueBooksMap = new Map<string, BooksView>();
         combined.forEach(book => uniqueBooksMap.set(book.id, book));
         return Array.from(uniqueBooksMap.values())
     })
+
+    getBooksWithPaging = computed(() => {
+        const books = this.getBooks();
+        const { start, end } = this.#pagingService.getCurrentRange();
+        return books.slice(start, end);
+    });
 
     searchBooksByName(query: string): void {
         if(!query || query.length <=3) {
@@ -40,7 +48,9 @@ export class BookFacadeService {
             return;
         }
         this.#store.dispatch(LoadBooks({
-            query: category
+            query: category,
+            page: this.#pagingService.currentPage(),
+            pageSize: this.#pagingService.pageSize()
         }))
     }
    

@@ -1,6 +1,7 @@
 
 import { Component, effect, inject, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PagingComponent } from "../../../../components/paging/paging";
 import { BooksView } from '../../types/book';
 import { BookCardComponent } from '../book-card/book-card.component';
 import { BookFacadeService } from './book.facade';
@@ -8,7 +9,7 @@ import { BookFacadeService } from './book.facade';
 @Component({
   selector: 'app-book-list',
   standalone: true,
-  imports: [ReactiveFormsModule, BookCardComponent],
+  imports: [ReactiveFormsModule, BookCardComponent, PagingComponent],
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.css']
 })
@@ -18,7 +19,7 @@ export class BookListComponent {
   // signals
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
-  bookToShow = this.#bookFacadeService.getBooks;
+  bookToShow = this.#bookFacadeService.getBooksWithPaging;
 
   constructor() {
     this.initEffects();
@@ -37,4 +38,5 @@ export class BookListComponent {
   onAddInFavouriteEvent(book: BooksView) {
     this.#bookFacadeService.onAddInFavouriteEvent(book);
   }
+
 }
