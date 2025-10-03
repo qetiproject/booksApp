@@ -1,6 +1,6 @@
-@if (bookToShow()) {
+@if (books()) {
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-    @for (item of bookToShow(); track item.id) {
+    @for (item of books(); track item.id) {
       <app-book-card 
         [book]="item"
         [showFavourite]="true" 

@@ -9,21 +9,23 @@ export class BookEffect {
     actions$ = inject(Actions);
     bookService = inject(BookService);
 
-    loadBooksByCategory$ = createEffect(() => 
+    loadBooks$ = createEffect(() => 
         this.actions$.pipe(
             ofType(LoadBooks),
-            switchMap(action => 
-                this.bookService.loadBooksByCategory(action.query, action.maxResults, action.startIndex,  ).pipe(
+            switchMap(action => { 
+                const apiCall$ = action.query.length > 3 
+                    ? this.bookService.searchBooksByName(action.query, action.maxResults, action.startIndex)
+                    : this.bookService.loadBooksByCategory(action.query, action.maxResults, action.startIndex);
+
+                 return apiCall$.pipe(
                     map(books => LoadBooksSuccess({
                         books,
                         maxResults: action.maxResults,
-                        startIndex: action.startIndex,
+                        startIndex: action.startIndex
                     })),
-                    catchError((error) => of(LoadBooksFailure({error: error.message })))
-                )
+                    catchError(error => of(LoadBooksFailure({ error: error.message })))
+                )}
             )
         )
     )
-
-    
 }

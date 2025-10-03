@@ -49,4 +49,8 @@ export class PagingService {
 
         return Array.from({ length: end - start + 1 }, (_, i) => start + i);
     }
+
+    setCurrentPage(page: number = 1): void {
+        this.#store.dispatch(setCurrentPage({page}))
+    }
 }

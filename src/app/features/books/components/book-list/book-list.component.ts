@@ -18,7 +18,7 @@ export class BookListComponent {
   // signals
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
-  bookToShow = this.#bookFacadeService.getBooksWithPaging;
+  books = this.#bookFacadeService.books;
 
   constructor() {
     this.initEffects();
@@ -26,11 +26,15 @@ export class BookListComponent {
 
   initEffects() {
     effect(() => {
-      this.#bookFacadeService.searchBooksByName(this.searchQuery())
+      if(this.searchQuery()){
+        this.#bookFacadeService.searchBooksByName(this.searchQuery())
+      }
     });
 
     effect(() => {
-      this.#bookFacadeService.getBooksByCategory(this.categorySelected())
+      if(this.categorySelected()){
+        this.#bookFacadeService.getBooksByCategory(this.categorySelected())
+      }
     });
   }
 

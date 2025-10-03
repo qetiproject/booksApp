@@ -14,14 +14,14 @@ export class BookService {
   http = inject(HttpClient);
 
   searchBooksByName(
-    name: string, 
+    name: string | null, 
     maxResults: number, 
     startIndex: number
-  ): Observable<BooksView[]> {
+  ): Observable<{ items: BooksView[]; totalItems: number }> {
     return this.http.get<BookResult>(`${environment.bookApiBase}?q=${name}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
       map(response => {
         const items = response.items || [];
-        return items.map(item => ({
+        const mappedItems: BooksView[] = items.map(item => ({
           id: item.id,
           title: item.volumeInfo.title,
           authors: item.volumeInfo.authors || [],
@@ -29,6 +29,11 @@ export class BookService {
           language: item.volumeInfo.language || '',
           categories: item.volumeInfo.categories
         }));
+
+        return {
+          items: mappedItems,
+          totalItems: response.totalItems || 0
+        };
       }), shareReplay(1)
     );
   }
