@@ -27,13 +27,13 @@ export class BookListComponent {
   initEffects() {
     effect(() => {
       if(this.searchQuery()){
-        this.#bookFacadeService.searchBooksByName(this.searchQuery())
+        this.#bookFacadeService.getBooks(this.searchQuery(), null)
       }
     });
 
     effect(() => {
-      if(this.categorySelected()){
-        this.#bookFacadeService.getBooksByCategory(this.categorySelected())
+      if(this.categorySelected() != null){
+        this.#bookFacadeService.getBooks(null, this.categorySelected())
       }
     });
   }

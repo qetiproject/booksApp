@@ -21,36 +21,27 @@ export class BookFacadeService {
     private getStartIndex() {
         return this.#pagingService.currentPage() - 1;
     }
-
-    searchBooksByName(query: string): void {
-        if(!query || query.length <=3) {
-            this.#store.dispatch(LoadBooksFailure({error: 'No query'}));
-            this.#store.select(selectBooks)
-            return;
+    
+    getBooks(query: string | null, category: string | null): void {
+        if (query && query.length > 3) {
+            category = null;
+            this.#store.dispatch(LoadBooks({
+                query,
+                maxResults: this.#pagingService.maxResults(),
+                startIndex: this.getStartIndex()
+            }));
+        } else if (category) {
+            query = null;
+            this.#store.dispatch(LoadBooks({
+                query: category, 
+                maxResults: this.#pagingService.maxResults(),
+                startIndex: this.getStartIndex()
+            }));
+        } else {
+            this.#store.dispatch(LoadBooksFailure({ error: 'No query or category selected' }));
         }
-        this.resetPage();
-        this.#store.dispatch(LoadBooks({
-            query,
-            maxResults: this.#pagingService.maxResults(),
-            startIndex: this.getStartIndex()
-        }))
     }
 
-    getBooksByCategory(category: string | null): void {
-        if(!category) {
-            this.#store.dispatch(LoadBooksFailure({error: 'No category selected'}));
-            this.#store.select(selectBooks)
-            return;
-        }
-
-        this.resetPage();
-        
-        this.#store.dispatch(LoadBooks({
-            query: category,
-            maxResults: this.#pagingService.maxResults(),
-            startIndex: this.getStartIndex()
-        }))
-    }
    
     onAddInFavouriteEvent(book: BooksView): void {
         this.#favouriteService.addBookInFavourite(book);
