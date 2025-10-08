@@ -13,3 +13,5 @@ export interface Message {
   duration?: number;
   position?: MessagePosition;
 }
+
+export type ThemeColor = "primary" | "accent" | "warn";
