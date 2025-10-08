@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { MessagesService } from '../../../core/services/messages.service';
 import { CatalogueService } from '../../../pages/catalogues/services/catalogue.service';
 import { FavouriteBookService } from '../../../pages/wishlist/services/favouriteBook.service';
+import { MessageSeverity } from '../../../types/common';
 import { Tab } from "../../../types/tabs";
 import { BooksView } from '../types/book';
 import { BookDetails } from '../types/book-details';
@@ -50,7 +51,7 @@ export class BookDetailsFacade {
         this.#router.navigateByUrl('/favourites')
         this.#messages.showMessage({
             text: `📚 "${book.volumeInfo.title}" წარმატებით დაემატა თქვენს ფავორიტებში!`,
-            severity: 'success'
+            severity: MessageSeverity.Success
         })
     }
 
@@ -59,7 +60,7 @@ export class BookDetailsFacade {
         this.#router.navigateByUrl('/catalogue')
         this.#messages.showMessage({
         text: `📚 "${book.volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`,
-        severity: 'success'
+        severity: MessageSeverity.Success
         })
     }
 }

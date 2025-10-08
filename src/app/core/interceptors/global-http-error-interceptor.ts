@@ -1,6 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from "@angular/common/http";
 import { inject } from "@angular/core";
 import { catchError, retry, tap, throwError } from "rxjs";
+import { MessageSeverity } from "../../types/common";
 import { MessagesService } from "../services/messages.service";
 
 export const GlobalHttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
@@ -12,7 +13,7 @@ export const GlobalHttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
             error: (error: HttpErrorResponse) => {
                 messages.showMessage({
                     text: error.message, 
-                    severity: 'error',
+                    severity: MessageSeverity.Error,
                     duration: 5000
                 });
             }
@@ -21,7 +22,7 @@ export const GlobalHttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
             const message = error.error?.message ?? 'Unexpected error';
             messages.showMessage({
                 text: message, 
-                severity: 'error',
+                severity: MessageSeverity.Error,
                 duration: 5000
             });
             return throwError(() => error);

@@ -4,6 +4,7 @@ import { BackButtonComponent } from '../../components/back-button/back-button.co
 import { MessagesService } from '../../core/services/messages.service';
 import { BookCardComponent } from "../../features/books/components/book-card/book-card.component";
 import { BooksView } from '../../features/books/types/book';
+import { MessageSeverity } from '../../types/common';
 import { FavouriteBookService } from './services/favouriteBook.service';
 
 @Component({
@@ -24,7 +25,7 @@ export class WishlistComponent{
     this.favouriteBookService.removeBookFromFavourite(book);
     this.messages.showMessage({
       text: `📚 "${book.title}" წარმატებით წაიშალა სიიდან!`,
-      severity: 'success'
+      severity: MessageSeverity.Success
     })
   }
 

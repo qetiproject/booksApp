@@ -2,6 +2,7 @@
 import { Component, EventEmitter, inject, input, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MessagesService } from '../../../../core/services/messages.service';
+import { MessageSeverity } from '../../../../types/common';
 import { BooksView } from '../../types/book';
 
 @Component({
@@ -31,8 +32,8 @@ export class BookCardComponent {
     this.addInFavourite.emit(this.book());
     this.router.navigateByUrl('/favourites')
     this.messages.showMessage({
-      text: `📚 "${this.book().title}" წარმატებით დაემატა თქვენს ფავორიტებში!`,
-      severity: 'success',
+      text: `📚 "${this.book().title}" წარმატებით დაემატა თქვენს ფავორიტებში! Book Card`,
+      severity: MessageSeverity.Success,
     });
   }
 }
