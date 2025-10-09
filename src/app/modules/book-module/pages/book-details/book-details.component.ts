@@ -24,20 +24,6 @@ export class BookDetailsComponent {
   
   readonly book: WritableSignal<BookDetails> = signal(this.route.snapshot.data['book']);
 
-  // @ViewChild('addReviewTemplate') addReviewTemplate!: TemplateRef<unknown>;
-  // @ViewChild('reviewsTemplate') reviewsTemplate!: TemplateRef<unknown>;
-
-  // currentTab: TabKey = 'reviews';
-  // newReview: Review = { name: '', rating: 0, comment: '' };
-  // reviews: Review[] = [
-  //   { name: 'Anne Clark', rating: 5, comment: 'An excellent guide to modern UI design.' },
-  //   { name: 'Matthew Turner', rating: 4, comment: 'A solid read with practical advice.' }
-  // ];
-  
-  // get tabs(): Tab[] {
-  //   return this.#bookDetailsFacade.tabs(this.reviewsTemplate, this.addReviewTemplate)
-  // }
-
   goBack(): void {
     this.#bookDetailsFacade.goBack()
   }
@@ -49,9 +35,4 @@ export class BookDetailsComponent {
   addToCatalogueEvent(): void {
     this.#bookDetailsFacade.addToCatalogueEvent(this.book())
   }
-
-  // selectTab(tabKey: TabKey) {
-  //   this.currentTab = tabKey;
-  // }
-
 }

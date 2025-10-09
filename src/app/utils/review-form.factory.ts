@@ -1,5 +1,5 @@
 import { FormBuilder, Validators } from '@angular/forms';
-import { ReviewForm } from '../features/books/types/review';
+import { ReviewForm } from '../modules/book-module/types/review';
 
 export function starRange(min: number, max: number) {
   return Validators.compose([Validators.min(min), Validators.max(max)]);

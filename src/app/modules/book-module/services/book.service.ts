@@ -2,7 +2,7 @@ import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable, shareReplay } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { SkipLoading } from '../../loading/skip-loading.component';
+import { SkipLoading } from '../../../features/loading/skip-loading.component';
 import { BookResult, BooksView } from '../types/book';
 import { BookDetails, BookDetailsResult } from '../types/book-details';
 

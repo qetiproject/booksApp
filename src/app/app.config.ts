@@ -12,8 +12,9 @@ import { GlobalHttpErrorInterceptor } from './core/interceptors/global-http-erro
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { AuthEffects } from './features/auth/store/auth.effects';
 import { AuthReducer } from './features/auth/store/auth.reducer';
-import { BookEffect } from './features/books/store/book.effect';
-import { BookReducer } from './features/books/store/book.reducer';
+import { BookEffect } from './modules/book-module/store/book.effect';
+import { BookReducer } from './modules/book-module/store/book.reducer';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [

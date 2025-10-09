@@ -23,7 +23,13 @@
       "dom"
     ],
     "allowSyntheticDefaultImports": true,
-
+    "baseUrl": "/",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@book-module": ["src/modules/book-module"],
+      "@book-module-components": ["src/modules/book-modules/components"],
+      "@book-module-pages": ["src/modules/book-modules/pages"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
