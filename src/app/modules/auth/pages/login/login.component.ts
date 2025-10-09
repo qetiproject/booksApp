@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { AuthService } from '@auth-services/auth.service';
 import { login } from '@auth-store/auth.action';
 import { selectIsLoggedIn } from '@auth-store/auth.selector';
+import { InputComponent } from "@features/custom-form";
 import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs/operators';
 
@@ -11,8 +12,9 @@ import { filter, take } from 'rxjs/operators';
     selector: 'login',
     standalone: true,
     imports: [
-        ReactiveFormsModule
-    ],
+    ReactiveFormsModule,
+    InputComponent
+],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css'
 })
@@ -20,17 +22,17 @@ export class LoginComponent {
 
   fb = inject(FormBuilder);
   store = inject(Store);
-  
-  form = this.fb.group({
-    username: ['emilys'],
-    password: ['emilyspass']
-  })
-
   authService = inject(AuthService);
   router = inject(Router);
-
+  
+  form = this.fb.group({
+    username: ['', Validators.required],
+    password: ['', Validators.required]
+  })
+  
   onLogin() {
     try {
+      console.log(this.form.value, "value")
       const {username, password} = this.form.value;
       if(!username || !password) {
         return;
@@ -46,6 +48,7 @@ export class LoginComponent {
     catch(err) {
      console.error(err);
     }
+    console.log(this.form.value, "value")
   }
 
 
