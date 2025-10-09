@@ -2,8 +2,7 @@
 import { Component, signal } from '@angular/core';
 import { BookCategoryDropdownComponent } from '@book-module/components/book-category-dropdown/book-category-dropdown.component';
 import { BookListComponent } from '@book-module/components/book-list/book-list.component';
-import { DebounceSearchComponent } from '@components/debounce-search/debounce-search.component';
-import { PagingComponent } from '@components/paging/paging';
+import { DebounceSearchComponent, PagingComponent } from '@components';
 
 @Component({
   selector: 'app-home',

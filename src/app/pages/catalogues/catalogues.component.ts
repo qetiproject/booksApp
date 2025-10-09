@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, TemplateRef } from '@angular/core';
 import { BookCardComponent } from '@book-module/components/book-card/book-card.component';
 import { BooksView } from '@book-module/types/book';
-import { BackButtonComponent } from '@components/back-button/back-button.component';
+import { BackButtonComponent } from '@components';
 import { CatalogueService } from '@pages/catalogues/services/catalogue.service';
 
 @Component({

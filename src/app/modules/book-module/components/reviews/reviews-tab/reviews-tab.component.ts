@@ -1,13 +1,13 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, TemplateRef, ViewChild } from "@angular/core";
+import { AddReviewComponent, ReviewItemComponent } from "@book-module/components";
 import { BookDetailsFacade } from "@book-module/services/book-details.facade";
 import { Review } from "@book-module/types";
 import { Tab, TabKey } from "@types";
-import { AddReviewComponent } from "..";
 
 @Component({
     selector: 'app-reviews-tab',
-    imports: [AddReviewComponent, CommonModule],
+    imports: [AddReviewComponent, CommonModule, ReviewItemComponent],
     standalone: true,
     templateUrl: './reviews-tab.component.html'
 })

@@ -6,7 +6,7 @@ import { PagingService } from "./paging.service";
     selector: 'app-paging',
     standalone: true,
     imports: [CommonModule],
-    templateUrl: './paging.html',
+    templateUrl: './paging.component.html',
 })
 export class PagingComponent {
     #pagingService = inject(PagingService);

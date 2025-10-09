@@ -36,25 +36,7 @@
     <ng-template #reviewsTemplate let-tab>
     <div class="space-y-6">
         @for (review of reviews; track review.name) {
-        <div
-            class="flex gap-4 p-4 bg-slate-50 rounded-lg shadow-sm hover:shadow transition"
-        >
-            <div
-            class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center"
-            >
-            <span class="material-icons text-slate-500">person</span>
-            </div>
-            <div>
-            <p class="font-semibold text-slate-900">{{ review.name }}</p>
-            <p class="text-yellow-500 text-sm">
-                {{ '★'.repeat(review.rating) }} 
-                {{ '☆'.repeat(5 - review.rating) }}
-            </p>
-            <p class="text-slate-700 text-sm mt-1">
-                {{ review.comment }}
-            </p>
-            </div>
-        </div>
+            <app-review-item [review]="review"></app-review-item>
         }
     </div>
     </ng-template>
