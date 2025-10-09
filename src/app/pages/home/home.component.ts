@@ -1,9 +1,8 @@
 
 import { Component, signal } from '@angular/core';
-import { DebounceSearchComponent } from '../../components/debounce-search/debounce-search.component';
-import { PagingComponent } from '../../components/paging/paging';
-import { BookCategoryDropdownComponent } from '../../features/books/components/book-category-dropdown/book-category-dropdown.component';
-import { BookListComponent } from "../../features/books/components/book-list/book-list.component";
+import { BookCategoryDropdownComponent } from '@book-module/components/book-category-dropdown/book-category-dropdown.component';
+import { BookListComponent } from '@book-module/components/book-list/book-list.component';
+import { DebounceSearchComponent, PagingComponent } from '@components';
 
 @Component({
   selector: 'app-home',

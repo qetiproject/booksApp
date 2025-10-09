@@ -1,10 +1,10 @@
 import { HttpHandlerFn, HttpRequest } from "@angular/common/http";
 import { inject } from "@angular/core";
 import { Store } from "@ngrx/store";
+import { AuthFacade } from "modules/auth/services/authFacade";
+import { TokenStorageService } from "modules/auth/services/token.service";
+import { updateTokensSuccess } from "modules/auth/store/auth.action";
 import { catchError, from, switchMap, throwError } from "rxjs";
-import { AuthFacade } from "../../features/auth/services/authFacade";
-import { TokenStorageService } from "../../features/auth/services/token.service";
-import { updateTokensSuccess } from "../../features/auth/store/auth.action";
 
 export const AuthInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const authFacade = inject(AuthFacade);

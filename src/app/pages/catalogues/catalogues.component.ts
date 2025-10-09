@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, TemplateRef } from '@angular/core';
-import { BackButtonComponent } from "../../components/back-button/back-button.component";
-import { BookCardComponent } from '../../features/books/components/book-card/book-card.component';
-import { BooksView } from '../../features/books/types/book';
-import { CatalogueService } from './services/catalogue.service';
+import { BookCardComponent } from '@book-module/components/book-card/book-card.component';
+import { BooksView } from '@book-module/types/book';
+import { BackButtonComponent } from '@components';
+import { CatalogueService } from '@pages/catalogues/services/catalogue.service';
 
 @Component({
   selector: 'app-catalogues',

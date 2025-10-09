@@ -23,7 +23,25 @@
       "dom"
     ],
     "allowSyntheticDefaultImports": true,
-
+    "baseUrl": "src/app",
+    "paths": {
+      "@components": ["components/index.ts"],
+      "@core/*": ["core/*"],
+      "@features/*": ["features/*"],
+      "@pages/*": ["pages/*"],
+      "@types": ["types/index.ts"],
+      "@utils/*": ["utils/*"],
+      "@book-module/*": ["modules/book-module/*"],
+      "@book-module-components/*": ["modules/book-module/components/*"],
+      "@book-module-pages/*": ["modules/book-module/pages/*"],
+      "@book-module-services/*": ["modules/book-module/services/*"],
+      "@book-module-store/*": ["modules/book-module/store/*"],
+      "@book-module-types/*": ["modules/book-module/types/*"],
+      "@auth-pages/*": ["modules/auth/pages/*"],
+      "@auth-services/*": ["modules/auth/services/*"],
+      "@auth-store/*": ["modules/auth/store/*"],
+      "@auth-types/*": ["modules/auth/types/*"],
+    },
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -1,7 +1,9 @@
 import { TemplateRef } from "@angular/core";
 
-export type TabKey = 'reviews' | 'addReview';
-
+export enum TabKey {
+  reviews = 'reviews',
+  addReview = 'addReview'
+}
 export interface Tab {
   key: TabKey;
   label: string;

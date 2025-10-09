@@ -1,8 +1,8 @@
 import { computed, inject, Injectable } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { setCurrentPage } from "@book-module/store/book.action";
+import { selectCurrentPage, selectMaxResults, selectTotalItems, selectWindowSize } from "@book-module/store/book.selector";
 import { Store } from "@ngrx/store";
-import { setCurrentPage } from "../../features/books/store/book.action";
-import { selectCurrentPage, selectMaxResults, selectTotalItems, selectWindowSize } from "../../features/books/store/book.selector";
 
 @Injectable({
     providedIn: 'root'

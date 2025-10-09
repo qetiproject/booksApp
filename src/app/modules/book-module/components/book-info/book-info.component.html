@@ -1,0 +1,30 @@
+<figure class="w-full">
+    <img
+        [src]="thumbnail()"
+        [alt]="book().volumeInfo.title"
+        class="w-full h-auto object-cover rounded-lg shadow-md"
+        loading="lazy"
+    />
+    <figcaption class="sr-only">
+        {{ book().volumeInfo.title }}
+    </figcaption>
+</figure>
+
+<section class="mt-6 w-full">
+<h2 class="text-lg font-semibold text-slate-900 mb-3">Book details</h2>
+
+<ul class="space-y-2 text-sm text-slate-700">
+    <li class="flex justify-between">
+    <span class="font-medium text-slate-900">Publisher:</span>
+    <span>{{ book().volumeInfo.publisher }}</span>
+    </li>
+    <li class="flex justify-between">
+    <span class="font-medium text-slate-900">Pages:</span>
+    <span>{{ book().volumeInfo.pageCount }}</span>
+    </li>
+    <li class="flex justify-between">
+    <span class="font-medium text-slate-900">Language:</span>
+    <span class="uppercase">{{ book().volumeInfo.language }}</span>
+    </li>
+</ul>
+</section>
