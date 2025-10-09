@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
+import { AuthService } from '@features/auth/services/auth.service';
+import { login } from '@features/auth/store/auth.action';
+import { selectIsLoggedIn } from '@features/auth/store/auth.selector';
 import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs/operators';
-import { AuthService } from '../../services/auth.service';
-import { login } from '../../store/auth.action';
-import { selectIsLoggedIn } from '../../store/auth.selector';
 
 @Component({
     selector: 'login',

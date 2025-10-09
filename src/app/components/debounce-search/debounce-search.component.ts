@@ -2,7 +2,7 @@
 import { Component, effect, output, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debouncedSignal } from '../../utils/debouncedSignal';
+import { debouncedSignal } from '@utils/debouncedSignal';
 
 @Component({
   selector: 'app-debounce-search',

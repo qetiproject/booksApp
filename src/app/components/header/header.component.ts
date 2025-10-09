@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { TokenStorageService } from '@features/auth/services/token.service';
+import { logout } from '@features/auth/store/auth.action';
 import { Store } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
-import { TokenStorageService } from '../../features/auth/services/token.service';
-import { logout } from '../../features/auth/store/auth.action';
 
 @Component({
   selector: 'app-header',

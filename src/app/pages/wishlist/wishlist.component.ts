@@ -1,11 +1,13 @@
 
 import { Component, inject } from '@angular/core';
-import { BackButtonComponent } from '../../components/back-button/back-button.component';
-import { MessagesService } from '../../core/services/messages.service';
-import { BookCardComponent } from '../../modules/book-module/components/book-card/book-card.component';
-import { BooksView } from '../../modules/book-module/types/book';
-import { MessageSeverity } from '../../types/common';
+import { BookCardComponent } from '@book-module/components/book-card/book-card.component';
+import { BooksView } from '@book-module/types/book';
+import { BackButtonComponent } from '@components/back-button/back-button.component';
+import { MessagesService } from '@core/services/messages.service';
+import { MessageSeverity } from '../../types/index';
 import { FavouriteBookService } from './services/favouriteBook.service';
+
+
 @Component({
   selector: 'app-wishlist',
   standalone: true,

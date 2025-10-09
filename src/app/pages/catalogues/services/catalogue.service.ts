@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
+import { BooksView } from '@book-module/types/book';
+import { BookDetails } from '@book-module/types/book-details';
+import { MessagesService } from '@core/services/messages.service';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { MessagesService } from '../../../core/services/messages.service';
-import { BooksView } from '../../../modules/book-module/types/book';
-import { BookDetails } from '../../../modules/book-module/types/book-details';
 import { MessageSeverity } from '../../../types/common';
 
 @Injectable({
