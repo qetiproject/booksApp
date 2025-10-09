@@ -2,13 +2,13 @@ import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { AuthService } from 'modules/auth/services/auth.service';
+import { TokenStorageService } from 'modules/auth/services/token.service';
+import { loginSuccess } from 'modules/auth/store/auth.action';
+import { selectIsLoggedIn } from 'modules/auth/store/auth.selector';
 import { environment } from '../environments/environment';
 import { HeaderComponent } from './components/header/header.component';
 import { MessagesComponent } from "./components/messages/messages.component";
-import { AuthService } from './features/auth/services/auth.service';
-import { TokenStorageService } from './features/auth/services/token.service';
-import { loginSuccess } from './features/auth/store/auth.action';
-import { selectIsLoggedIn } from './features/auth/store/auth.selector';
 import { LoadingComponent } from "./features/loading/loading.component";
 
 @Component({

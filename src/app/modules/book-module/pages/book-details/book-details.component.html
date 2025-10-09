@@ -1,0 +1,17 @@
+<app-back-button/>
+
+<div @fadeInOut
+    class="max-w-6xl mx-auto my-10 bg-white shadow-xl rounded-2xl border border-slate-100 overflow-hidden"
+>
+  <div class="flex flex-col md:flex-row">
+    <app-book-info [book]="book()"></app-book-info>
+    <div class="flex-1 p-8">
+      <app-book-content [book]="book()"></app-book-content>
+      <app-book-actions 
+        (addToCatalogue)="addToCatalogueEvent()"
+        (addToFavourites)="addToFavouritesEvent()"
+      ></app-book-actions>
+      <app-reviews-tab></app-reviews-tab>
+    </div>
+  </div>
+</div>

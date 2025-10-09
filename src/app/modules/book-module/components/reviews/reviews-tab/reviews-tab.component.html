@@ -1,0 +1,25 @@
+<div class="border-b border-slate-200 mb-6">
+    <app-tabs 
+        [currentTab]="currentTab" 
+        (tabChange)="selectTab($event)">
+    </app-tabs>
+</div>
+<div class="tab-content mt-6">
+    @switch (currentTab) {
+      @case (TabKey.reviews) {
+        <ng-container 
+          [ngTemplateOutlet]="reviewsTemplate" 
+          [ngTemplateOutletContext]="{ $implicit: reviews }" 
+        />
+      }
+      @case (TabKey.addReview) {
+        <ng-container [ngTemplateOutlet]="addReviewTemplate" />
+      }
+    }
+</div>
+<ng-template #reviewsTemplate let-tabReviews>
+    <app-review-list [reviews]="tabReviews"></app-review-list>
+</ng-template>
+<ng-template #addReviewTemplate>
+    <app-add-review />
+</ng-template>
