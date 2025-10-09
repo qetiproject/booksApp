@@ -1,0 +1,21 @@
+<div class="md:w-1/3 bg-slate-50 p-6 flex flex-col items-center md:items-start">
+    <img
+        [src]="thumbnail()"
+        [alt]="book().volumeInfo.title"
+        class="w-full h-auto object-cover rounded-lg shadow-md"
+    />
+    <dl class="mt-6 space-y-2 text-sm text-slate-700 w-full">
+        <div>
+        <dt class="font-semibold text-slate-900">Publisher:</dt>
+        <dd>{{ book().volumeInfo.publisher }}</dd>
+        </div>
+        <div>
+        <dt class="font-semibold text-slate-900">Pages:</dt>
+        <dd>{{ book().volumeInfo.pageCount }}</dd>
+        </div>
+        <div>
+        <dt class="font-semibold text-slate-900">Language:</dt>
+        <dd class="uppercase">{{ book().volumeInfo.language }}</dd>
+        </div>
+    </dl>
+</div>
