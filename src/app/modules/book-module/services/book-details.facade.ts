@@ -1,13 +1,12 @@
 import { Location } from '@angular/common';
 import { inject, Injectable, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
+import { BookDetails } from '@book-module-types/book-details';
+import { BooksView } from '@book-module/types';
 import { MessagesService } from '@core/services/messages.service';
 import { CatalogueService } from '@pages/catalogues/services/catalogue.service';
 import { FavouriteBookService } from '@pages/wishlist/services/favouriteBook.service';
-import { MessageSeverity } from '../../../types/common';
-import { Tab } from "../../../types/tabs";
-import { BooksView } from '../types/book';
-import { BookDetails } from '../types/book-details';
+import { MessageSeverity, Tab } from '@types';
 
 @Injectable({
     providedIn: 'root'

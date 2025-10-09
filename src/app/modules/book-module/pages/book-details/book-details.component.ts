@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BookActionsComponent, BookContentComponent, BookInfoComponent, ReviewsTabComponent } from '@book-module/components';
 import { BookDetailsFacade } from '@book-module/services/book-details.facade';
-import { BackButtonComponent } from '@components/back-button/back-button.component';
-import { BookDetails } from '../../types/book-details';
+import { BookDetails } from '@book-module/types';
+import { BackButtonComponent } from '@components';
 
 @Component({
   selector: 'app-book-details',

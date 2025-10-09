@@ -25,11 +25,11 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "src/app",
     "paths": {
-      "@components/*": ["components/*"],
+      "@components": ["components/index.ts"],
       "@core/*": ["core/*"],
       "@features/*": ["features/*"],
       "@pages/*": ["pages/*"],
-      "@types/*": ["types/*"],
+      "@types": ["types/index.ts"],
       "@utils/*": ["utils/*"],
       "@book-module/*": ["modules/book-module/*"],
       "@book-module-components/*": ["modules/book-module/components/*"],

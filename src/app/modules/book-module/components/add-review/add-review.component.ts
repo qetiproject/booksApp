@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { createReviewForm } from '../../../../utils/review-form.factory';
-import { Readly, ReviewForm } from '../../types/review';
+import { Readly, ReviewForm } from '@book-module/types';
+import { createReviewForm } from '@utils/review-form.factory';
 
 @Component({
   selector: 'app-add-review',

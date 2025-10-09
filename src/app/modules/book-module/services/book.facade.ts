@@ -1,11 +1,11 @@
 import { inject, Injectable } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { LoadBooks, LoadBooksFailure } from "@book-module/store/book.action";
+import { selectBooks } from "@book-module/store/book.selector";
+import { BooksView } from "@book-module/types";
 import { Store } from "@ngrx/store";
-import { PagingService } from "../../../components/paging/paging.service";
-import { FavouriteBookService } from "../../../pages/wishlist/services/favouriteBook.service";
-import { LoadBooks, LoadBooksFailure } from "../store/book.action";
-import { selectBooks } from "../store/book.selector";
-import { BooksView } from "../types/book";
+import { FavouriteBookService } from "@pages/wishlist/services/favouriteBook.service";
+import { PagingService } from "components/paging/paging.service";
 
 @Injectable({
     providedIn: 'root'

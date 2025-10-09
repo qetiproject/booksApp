@@ -1,8 +1,8 @@
 import { inject } from "@angular/core";
 import { ActivatedRouteSnapshot, ResolveFn, Router } from "@angular/router";
+import { BookService } from "@book-module/services/book.service";
+import { BookDetails } from "@book-module/types";
 import { firstValueFrom } from "rxjs";
-import { BookService } from "../../services/book.service";
-import { BookDetails } from "../../types/book-details";
 
 export const BookDetailsResolver: ResolveFn<BookDetails > =
     async (route: ActivatedRouteSnapshot) => {

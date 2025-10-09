@@ -2,9 +2,9 @@
 import { Component, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SelectComponent } from '@components/select/select.component';
-import { SelectModel } from '../../../../types/common';
-import { BookCategories, } from '../../types/book';
+import { BookCategories } from '@book-module/types';
+import { SelectComponent } from '@components';
+import { SelectModel } from '@types';
 
 @Component({
   selector: 'app-book-category-dropdown',
