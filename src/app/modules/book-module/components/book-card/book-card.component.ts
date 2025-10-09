@@ -32,7 +32,7 @@ export class BookCardComponent {
     this.addInFavourite.emit(this.book());
     this.router.navigateByUrl('/favourites')
     this.messages.showMessage({
-      text: `📚 "${this.book().title}" წარმატებით დაემატა თქვენს ფავორიტებში! Book Card`,
+      text: `📚 "${this.book().title}" წარმატებით დაემატა თქვენს ფავორიტებში!`,
       severity: MessageSeverity.Success,
     });
   }

@@ -13,7 +13,7 @@ export type InputType = 'text' | 'password';
         <label class="block text-sm font-medium text-gray-700 mb-1">{{ label }}</label>
         <input
             [type]="type"
-            [placeholder]="placeholder || ('enter ' + label)"
+            [placeholder]="placeholder || ('Enter ' + label)"
             [value]="value"
             (input)="onChange($event.target.value)"
             class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -29,16 +29,16 @@ export type InputType = 'text' | 'password';
   ]
 })
 export class InputComponent implements ControlValueAccessor{
-    @Input() label!: string;
-    @Input() placeholder?: string;
-    @Input() type!: InputType;
+    @Input() label: string = '';
+    @Input() placeholder: string = '';
+    @Input() type: InputType = 'text';
 
     value: string = '';
     onChange = (value: string) => {}
     onTouched = () => {}
 
     writeValue(value: string): void {
-        this.value = value ?? ''
+        this.value = value
     }
 
     registerOnChange(fn: any): void {
