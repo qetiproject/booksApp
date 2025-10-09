@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
+import { LoginComponent } from 'modules/auth/pages/login/login.component';
+import { ProfileComponent } from 'modules/auth/pages/profile/profile.component';
 import { IsUserAuthenticated } from './core/guards/auth.guard';
 import { LoginRedirectGuard } from './core/guards/loginRedirect.guard';
 import { RedirectBasedOnAuth } from './core/guards/redirectBasedOnAuth.guard';
-import { LoginComponent } from './features/auth/pages/login/login.component';
-import { ProfileComponent } from './features/auth/pages/profile/profile.component';
 import { bookRoutes } from './modules/book-module/book.router';
 import { CataloguesComponent } from './pages/catalogues/catalogues.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';

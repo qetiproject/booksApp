@@ -1,9 +1,9 @@
 import { Location } from '@angular/common';
 import { inject, Injectable, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
-import { MessagesService } from '../../../core/services/messages.service';
-import { CatalogueService } from '../../../pages/catalogues/services/catalogue.service';
-import { FavouriteBookService } from '../../../pages/wishlist/services/favouriteBook.service';
+import { MessagesService } from '@core/services/messages.service';
+import { CatalogueService } from '@pages/catalogues/services/catalogue.service';
+import { FavouriteBookService } from '@pages/wishlist/services/favouriteBook.service';
 import { MessageSeverity } from '../../../types/common';
 import { Tab } from "../../../types/tabs";
 import { BooksView } from '../types/book';

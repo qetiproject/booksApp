@@ -2,7 +2,7 @@
 import { Component, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SelectComponent } from '../../../../components/select/select.component';
+import { SelectComponent } from '@components/select/select.component';
 import { SelectModel } from '../../../../types/common';
 import { BookCategories, } from '../../types/book';
 

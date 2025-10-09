@@ -1,8 +1,8 @@
-import { inject } from "@angular/core"
-import { CanActivateFn, Router } from "@angular/router"
-import { Store } from "@ngrx/store"
-import { filter, map, take } from "rxjs/operators"
-import { selectIsLoggedIn } from "../../features/auth/store/auth.selector"
+import { inject } from "@angular/core";
+import { CanActivateFn, Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { selectIsLoggedIn } from "modules/auth/store/auth.selector";
+import { filter, map, take } from "rxjs/operators";
 
 export const RedirectBasedOnAuth: CanActivateFn = () => {
   const store = inject(Store);

@@ -1,8 +1,8 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { userProfile } from '@features/auth/store/auth.action';
-import { selectUserProfile } from '@features/auth/store/auth.selector';
-import { UserProfileResponse } from '@features/auth/types/user-profile';
+import { userProfile } from '@auth-store/auth.action';
+import { selectUserProfile } from '@auth-store/auth.selector';
+import { UserProfileResponse } from '@auth-types/user-profile';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 

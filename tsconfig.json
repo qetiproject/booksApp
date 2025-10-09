@@ -37,6 +37,10 @@
       "@book-module-services/*": ["modules/book-module/services/*"],
       "@book-module-store/*": ["modules/book-module/store/*"],
       "@book-module-types/*": ["modules/book-module/types/*"],
+      "@auth-pages/*": ["modules/auth/pages/*"],
+      "@auth-services/*": ["modules/auth/services/*"],
+      "@auth-store/*": ["modules/auth/store/*"],
+      "@auth-types/*": ["modules/auth/types/*"],
     },
   },
   "angularCompilerOptions": {

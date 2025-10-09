@@ -1,12 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import { LoginResponse } from "@auth-types/user";
+import { UserProfileResponse } from "@auth-types/user-profile";
 import { Observable } from "rxjs";
-import { LoginResponse } from "../types/user";
-import { UserProfileResponse } from "../types/user-profile";
 import { AuthFacade } from "./authFacade";
 import { TokenStorageService } from "./token.service";
-
 
 @Injectable({
   providedIn: 'root'

@@ -2,12 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { BackButtonComponent } from '../../../../components/back-button/back-button.component';
-import { BookActionsComponent } from "../../components/book-actions/book-actions.component";
-import { BookContentComponent } from "../../components/book-content/book-content.component";
-import { BookInfoComponent } from "../../components/book-info/book-info.component";
-import { ReviewsTabComponent } from "../../components/reviews-tab/reviews-tab.component";
-import { BookDetailsFacade } from '../../services/book-details.facade';
+import { BookActionsComponent, BookContentComponent, BookInfoComponent, ReviewsTabComponent } from '@book-module/components';
+import { BookDetailsFacade } from '@book-module/services/book-details.facade';
+import { BackButtonComponent } from '@components/back-button/back-button.component';
 import { BookDetails } from '../../types/book-details';
 
 @Component({

@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
-import { BookDetailsComponent } from "./pages/book-details/book-details.component";
-import { BookDetailsResolver } from "./pages/book-details/book-details.resolver";
+
+import { BookDetailsComponent } from "@book-module-pages/book-details/book-details.component";
+import { BookDetailsResolver } from "@book-module-pages/book-details/book-details.resolver";
 import { BookDetailsRouteData } from "./types/book-details";
 
 export const bookRoutes: Routes = [
