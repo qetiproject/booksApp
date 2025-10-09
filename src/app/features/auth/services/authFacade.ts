@@ -2,9 +2,9 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
+import { AuthTokens } from "../store/auth.store";
 import { LoginRequest, LoginResponse } from "../types/user";
 import { UserProfileResponse } from "../types/user-profile";
-import { TokenStorageService } from "./token.service";
 
 @Injectable({
     providedIn: 'root'
@@ -12,39 +12,34 @@ import { TokenStorageService } from "./token.service";
 
 export class AuthFacade {
     private http = inject(HttpClient);
-    private tokenStorageService = inject(TokenStorageService);
 
     login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginRequest>(`${environment.authApi}/login`, {
-        username, password
-    }).pipe(
-        map((response) => {
-        const user: LoginResponse = {
-            user: {
-                id: response.id,
-                username: response.username,
-                email: response.email,
-                firstName: response.firstName,
-                lastName: response.lastName,
-                gender: response.gender,
-                image: response.image,
-            },
-            accessToken: response.accessToken,
-            refreshToken: response.refreshToken
-        }
-        return user;
-        })
+        return this.http.post<LoginRequest>(`${environment.authApi}/login`, {
+            username, password
+        }).pipe(
+            map((response) => {
+            const user: LoginResponse = {
+                user: {
+                    id: response.id,
+                    username: response.username,
+                    email: response.email,
+                    firstName: response.firstName,
+                    lastName: response.lastName,
+                    gender: response.gender,
+                    image: response.image,
+                },
+                accessToken: response.accessToken,
+                refreshToken: response.refreshToken
+            }
+            return user;
+            })
     )}
 
     getProfile(): Observable<UserProfileResponse> {
-        // const accessToken = sessionStorage.getItem(environment.ACCESS_TOKEN_KEY);
-        // const headers = new HttpHeaders({
-        //     Authorization: `Bearer ${accessToken}`
-        // });
         return this.http.get<UserProfileResponse>(`${environment.authApi}/me`, );
     }
 
-    refresh(refreshToken: string): Observable<{ accessToken: string; refreshToken: string }> {
-        return this.http.post<{ accessToken: string; refreshToken: string }>(`${environment.authApi}/refresh`, refreshToken);
+    refresh(refreshToken: string): Observable<AuthTokens> {
+        return this.http.post<AuthTokens>(`${environment.authApi}/refresh`, refreshToken);
     }
 }

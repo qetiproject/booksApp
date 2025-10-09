@@ -1,12 +1,7 @@
 
-import { Component, computed, effect, inject, input, signal, WritableSignal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, effect, inject, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { FavouriteBookService } from '../../../../pages/wishlist/services/favouriteBook.service';
-import { BookService } from '../../services/book.service';
-import { LoadBooks, LoadBooksFailure } from '../../store/book.action';
-import { selectBooks, selectPageSize, selectTotalItems } from '../../store/book.selector';
+import { BookFacadeService } from '../../services/book.facade';
 import { BooksView } from '../../types/book';
 import { BookCardComponent } from '../book-card/book-card.component';
 
@@ -18,50 +13,12 @@ import { BookCardComponent } from '../book-card/book-card.component';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent {
+  #bookFacadeService = inject(BookFacadeService)
 
-  private bookService = inject(BookService);
-  private favouriteService = inject(FavouriteBookService);
-  private store = inject(Store);
-
-  // inputs
+  // signals
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
-
-  // Signals
-  searchedBooks: WritableSignal<BooksView[]> = signal([]);
-  currentPage: WritableSignal<number> = signal(0);
-
-  // Store signals
-  booksByCategory = toSignal(this.store.select(selectBooks), { initialValue: [] });
-  totalItems = toSignal(this.store.select(selectTotalItems), { initialValue: 0 });
-  pageSize = toSignal(this.store.select(selectPageSize), { initialValue: 5 });
-
-  // Computed books
-  bookToShow = computed(() => {
-    const combined = [...this.searchedBooks(), ...this.booksByCategory()];
-    const uniqueBooksMap = new Map<string, BooksView>();
-    combined.forEach(book => uniqueBooksMap.set(book.id, book));
-    return Array.from(uniqueBooksMap.values());
-  });
-
-  // Pagination helpers
-  maxPage = computed(() => Math.floor((this.totalItems() - 1) / this.pageSize()));
-
-  visiblePages = computed(() => {
-    const totalPages = this.maxPage() + 1; 
-    const current = this.currentPage();
-    const maxVisible = 5; 
-
-    let start = Math.floor(current / maxVisible) * maxVisible;
-    let end = Math.min(start + maxVisible, totalPages);
-
-    const pagesArr: number[] = [];
-    for (let i = start; i < end; i++) {
-      pagesArr.push(i);
-    }
-
-    return pagesArr;
-  });
+  books = this.#bookFacadeService.books;
 
   constructor() {
     this.initEffects();
@@ -69,62 +26,20 @@ export class BookListComponent {
 
   initEffects() {
     effect(() => {
-      const query = this.searchQuery();
-      if (!query || query.length <= 3) {
-        this.searchedBooks.set([]);
-        return;
+      if(this.searchQuery()){
+        this.#bookFacadeService.getBooks(this.searchQuery(), null)
       }
-      this.bookService.searchBooksByName(query)
-        .subscribe(result => this.searchedBooks.set(result));
     });
 
     effect(() => {
-      const category = this.categorySelected();
-      if (!category) {
-        this.store.dispatch(LoadBooksFailure({ error: 'No category selected' }));
-        return;
+      if(this.categorySelected() != null){
+        this.#bookFacadeService.getBooks(null, this.categorySelected())
       }
-
-      this.store.dispatch(LoadBooks({
-        query: category,
-        page: this.currentPage(),
-        pageSize: this.pageSize()
-      }));
     });
   }
 
-  nextPage() {
-    if (this.currentPage() < this.maxPage()) {
-      this.currentPage.update(p => p + 1);
-      this.loadCurrentPage();
-    }
-  }
-
-  prevPage() {
-    if (this.currentPage() > 0) {
-      this.currentPage.update(p => p - 1);
-      this.loadCurrentPage();
-    }
-  }
-
-  goToPage(page: number) {
-    this.currentPage.set(page);
-    this.loadCurrentPage();
-  }
-
-  loadCurrentPage() {
-    const category = this.categorySelected();
-    if (!category) return;
-
-    this.store.dispatch(LoadBooks({
-      query: category,
-      page: this.currentPage(),
-      pageSize: this.pageSize()
-    }));
-  }
-
   onAddInFavouriteEvent(book: BooksView) {
-    this.favouriteService.addBookInFavourite(book);
+    this.#bookFacadeService.onAddInFavouriteEvent(book);
   }
 
 }

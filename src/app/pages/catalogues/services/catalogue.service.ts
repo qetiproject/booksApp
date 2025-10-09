@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { MessagesService } from '../../../core/services/messages.service';
 import { BooksView } from "../../../features/books/types/book";
 import { BookDetails } from '../../../features/books/types/book-details';
+import { MessageSeverity } from '../../../types/common';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +60,7 @@ export class CatalogueService {
     catch(err){
       this.messages.showMessage({
         text: `📚 ${this.errorMessage}- ${err}`,
-        severity: 'error',
+        severity: MessageSeverity.Error,
         duration: 5000
       })
     }

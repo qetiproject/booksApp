@@ -4,8 +4,19 @@ export interface SelectModel  {
   value: string | null;
 }
 
-export type MessageSeverity = "error" | "warning" | "info" | "success";
-export type MessagePosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+export enum MessageSeverity {
+  Error = 'error',
+  Warning = 'warning',
+  Info = 'info',
+  Success = 'success'
+}
+
+export enum MessagePosition {
+  TopRight = 'top-right',
+  TopLeft = 'top-left',
+  BottomRight = 'bottom-right',
+  BottomLeft = 'bottom-left'
+}
 
 export interface Message {
   severity: MessageSeverity;
@@ -13,3 +24,5 @@ export interface Message {
   duration?: number;
   position?: MessagePosition;
 }
+
+export type ThemeColor = "primary" | "accent" | "warn";

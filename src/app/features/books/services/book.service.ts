@@ -13,11 +13,15 @@ export class BookService {
 
   http = inject(HttpClient);
 
-  searchBooksByName(name: string): Observable<BooksView[]> {
-    return this.http.get<BookResult>(`${environment.bookApiBase}?q=${name}`).pipe(
+  searchBooksByName(
+    name: string | null, 
+    maxResults: number, 
+    startIndex: number
+  ): Observable<{ items: BooksView[]; totalItems: number }> {
+    return this.http.get<BookResult>(`${environment.bookApiBase}?q=${name}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
       map(response => {
         const items = response.items || [];
-        return items.map(item => ({
+        const mappedItems: BooksView[] = items.map(item => ({
           id: item.id,
           title: item.volumeInfo.title,
           authors: item.volumeInfo.authors || [],
@@ -25,14 +29,19 @@ export class BookService {
           language: item.volumeInfo.language || '',
           categories: item.volumeInfo.categories
         }));
+
+        return {
+          items: mappedItems,
+          totalItems: response.totalItems || 0
+        };
       }), shareReplay(1)
     );
   }
 
- loadBooksByCategory(
+  loadBooksByCategory(
     category: string | null, 
-    maxResults: number = 10, 
-    startIndex: number = 0
+    maxResults: number, 
+    startIndex: number
   ): Observable<{ items: BooksView[]; totalItems: number }> {
 
     return this.http.get<BookResult>(`${environment.bookApiBase}?q=${category}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
@@ -56,10 +65,6 @@ export class BookService {
     );
   }
 
-
-  // {
-  //     context: new HttpContext().set(SkipLoading, true)
-  //   }
   bookById(id: string): Observable<BookDetails> {
     return this.http.get<BookDetailsResult>(`${environment.bookApiBase}/${id}`, {
       context: new HttpContext().set(SkipLoading, true)

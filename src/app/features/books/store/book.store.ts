@@ -5,6 +5,8 @@ export interface BookState {
   totalItems: number;
   loading: boolean;
   error: string | null;
-  pageSize: number;
+  maxResults: number;
   currentPage: number;
+  windowSize: number;
+  startIndex: number;
 }
