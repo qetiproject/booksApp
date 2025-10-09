@@ -15,7 +15,7 @@ export class MessagesService {
       this.#messagesSignal.set({
         text: message.text,
         severity: message.severity,
-        position: message.position ?? 'bottom-right'
+        position: message.position
       })
 
       setTimeout(() => {

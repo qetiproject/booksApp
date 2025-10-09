@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { LoadBooks, LoadBooksFailure, LoadBooksSuccess } from "./book.action";
+import { LoadBooks, LoadBooksFailure, LoadBooksSuccess, setCurrentPage } from "./book.action";
 import { BookState } from "./book.store";
 
 export const initialBookState: BookState = {
@@ -7,8 +7,10 @@ export const initialBookState: BookState = {
     totalItems: 0,
     loading: false,
     error: null,
-    currentPage: 0,
-    pageSize: 10 
+    currentPage: 1,
+    maxResults: 10,
+    windowSize: 5,
+    startIndex: 0
 }
 
 export const BookReducer = createReducer(
@@ -20,12 +22,13 @@ export const BookReducer = createReducer(
         error: null
     })),
 
-    on(LoadBooksSuccess, (state, { books, page, pageSize }) => ({
+    on(LoadBooksSuccess, (state, { books, maxResults, startIndex }) => ({
         ...state,
-        items: books.items,
+        items: books.items ,
         totalItems: books.totalItems,
-        pageSize,
-        page,
+        maxResults,
+        currentPage: startIndex  + 1,
+        startIndex,
         loading: false,
         error: null
     })),
@@ -36,5 +39,9 @@ export const BookReducer = createReducer(
         totalItems: 0,
         loading: false,
         error
+    })),
+    on(setCurrentPage, (state, { page }) => ({
+        ...state,
+        currentPage: page
     }))
 );

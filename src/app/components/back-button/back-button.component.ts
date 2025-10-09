@@ -1,17 +1,17 @@
-import { CommonModule, Location } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { BackButtonDirective } from '../../features/directives/back-button.directive';
 
 @Component({
   selector: 'app-back-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [BackButtonDirective],
   template: `
     <div class="pt-4 pl-4">
       <button
         (click)="goBack()"
-        [title]="tooltip()"
-        [ngClass]="buttonClasses"
+        appBackBtnClass
       >
         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -21,29 +21,9 @@ import { Router } from '@angular/router';
   `
 })
 export class BackButtonComponent {
-  readonly themeColor = input<'primary' | 'accent' | 'warn'>('primary');
-  readonly tooltip = input('Go Back');
 
   private location = inject(Location);
   private router = inject(Router);
-
-  /** Tailwind კლასების მეპინგი themeColor-ზე */
-  private readonly colorMap = {
-    primary: 'focus:ring-blue-300',
-    accent: 'focus:ring-green-300',
-    warn: 'focus:ring-red-400'
-  } as const;
-
-  /** button classes როგორც getter */
-  get buttonClasses(): string {
-    return `
-      w-12 h-12 flex items-center justify-center rounded-full 
-      bg-white text-gray-700 shadow-md hover:shadow-lg 
-      hover:bg-gray-100 focus:outline-none 
-      transition-transform transform hover:-translate-y-1 active:scale-95
-      ${this.colorMap[this.themeColor()]}
-    `;
-  }
 
   goBack() {
     if (window.history.length > 1) {

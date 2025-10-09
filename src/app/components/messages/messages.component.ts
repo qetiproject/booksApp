@@ -1,25 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MessagesService } from '../../core/services/messages.service';
+import { MessageDirective } from '../../features/directives/message.directive';
 
 @Component({
   selector: 'app-messages',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MessageDirective],
   template: `
   @if (message()){
     <div
-      [ngClass]="positionClasses[message()?.position || 'top-right']" 
+      appMessageClass 
       class="fixed z-50 flex flex-col gap-2">
       <div
         class="flex items-center justify-between px-4 py-2 rounded-lg shadow-lg max-w-xs w-full
               text-white text-sm font-medium animate-slide-in"
-        [ngClass]="{
-          'bg-green-500': message()?.severity === 'success',
-          'bg-red-500': message()?.severity === 'error',
-          'bg-blue-500': message()?.severity === 'info',
-          'bg-yellow-400': message()?.severity === 'warning'
-        }"
       >
         <span>{{ message()?.text }}</span>
         <button (click)="onClose()" class="ml-2 text-white font-bold hover:opacity-80 transition">
@@ -45,20 +40,12 @@ import { MessagesService } from '../../core/services/messages.service';
 
     .animate-slide-out {
       animation: slide-out 0.3s ease-in forwards;
-    }`
+  }`
 })
 export class MessagesComponent {
   messageService = inject(MessagesService);
-
   message = this.messageService.message;
-
-  positionClasses = {
-    'top-right': 'top-5 right-5',
-    'top-left': 'top-5 left-5',
-    'bottom-right': 'bottom-5 right-5',
-    'bottom-left': 'bottom-5 left-5'
-  } as const;
-
+  
   onClose(): void {
     this.messageService.clear();
   }

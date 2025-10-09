@@ -9,18 +9,22 @@ export class BookEffect {
     actions$ = inject(Actions);
     bookService = inject(BookService);
 
-    loadBooksByCategory$ = createEffect(() => 
+    loadBooks$ = createEffect(() => 
         this.actions$.pipe(
             ofType(LoadBooks),
-            switchMap(action => 
-                this.bookService.loadBooksByCategory(action.query, action.pageSize || 6, action.page || 0).pipe(
+            switchMap(action => { 
+                const apiCall$ = action.query.length > 3 
+                    ? this.bookService.searchBooksByName(action.query, action.maxResults, action.startIndex)
+                    : this.bookService.loadBooksByCategory(action.query, action.maxResults, action.startIndex);
+
+                 return apiCall$.pipe(
                     map(books => LoadBooksSuccess({
                         books,
-                        pageSize: action.pageSize || 6,
-                        page: action.page || 0,
+                        maxResults: action.maxResults,
+                        startIndex: action.startIndex
                     })),
-                    catchError((error) => of(LoadBooksFailure({error: error.message })))
-                )
+                    catchError(error => of(LoadBooksFailure({ error: error.message })))
+                )}
             )
         )
     )
