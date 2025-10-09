@@ -6,6 +6,9 @@ import { BookDetails } from "../../types/book-details";
     standalone: true,
     imports: [],
     templateUrl: './book-info.component.html',
+    host: {
+        class: 'md:w-1/3 bg-slate-50 p-6 flex flex-col items-center md:items-start'
+    }
 })
 export class BookInfoComponent {
     book = input.required<BookDetails>();
