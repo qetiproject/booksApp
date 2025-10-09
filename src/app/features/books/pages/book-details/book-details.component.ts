@@ -1,21 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal, TemplateRef, ViewChild, WritableSignal } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BackButtonComponent } from '../../../../components/back-button/back-button.component';
-import { Tab, TabKey } from '../../../../types/tabs';
-import { AddReviewComponent } from '../../components/add-review/add-review.component';
 import { BookActionsComponent } from "../../components/book-actions/book-actions.component";
 import { BookContentComponent } from "../../components/book-content/book-content.component";
 import { BookInfoComponent } from "../../components/book-info/book-info.component";
+import { ReviewsTabComponent } from "../../components/reviews-tab/reviews-tab.component";
 import { BookDetailsFacade } from '../../services/book-details.facade';
-import { BookDetails, Review } from '../../types/book-details';
+import { BookDetails } from '../../types/book-details';
 
 @Component({
   selector: 'app-book-details',
   standalone: true,
   imports: [CommonModule, RouterModule,
-    BackButtonComponent, FormsModule, AddReviewComponent, BookInfoComponent, BookContentComponent, BookActionsComponent],
+    BackButtonComponent, FormsModule, BookInfoComponent, BookContentComponent, BookActionsComponent, ReviewsTabComponent],
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.css'],
 })
@@ -24,27 +23,20 @@ export class BookDetailsComponent {
   #bookDetailsFacade = inject(BookDetailsFacade);
   
   readonly book: WritableSignal<BookDetails> = signal(this.route.snapshot.data['book']);
-  // readonly authorList = computed(() => this.book().volumeInfo.authors ?? []);
-  // readonly categoryList = computed(() => this.book().volumeInfo.categories ?? []);
-  // readonly thumbnail = computed(() => 
-  //   this.book().volumeInfo.imageLinks?.thumbnail 
-  //   || this.book().volumeInfo.imageLinks?.smallThumbnail 
-  //   || 'assets/default-thumbnail.png'
-  // );
 
-  @ViewChild('addReviewTemplate') addReviewTemplate!: TemplateRef<unknown>;
-  @ViewChild('reviewsTemplate') reviewsTemplate!: TemplateRef<unknown>;
+  // @ViewChild('addReviewTemplate') addReviewTemplate!: TemplateRef<unknown>;
+  // @ViewChild('reviewsTemplate') reviewsTemplate!: TemplateRef<unknown>;
 
-  currentTab: TabKey = 'reviews';
-  newReview: Review = { name: '', rating: 0, comment: '' };
-  reviews: Review[] = [
-    { name: 'Anne Clark', rating: 5, comment: 'An excellent guide to modern UI design.' },
-    { name: 'Matthew Turner', rating: 4, comment: 'A solid read with practical advice.' }
-  ];
+  // currentTab: TabKey = 'reviews';
+  // newReview: Review = { name: '', rating: 0, comment: '' };
+  // reviews: Review[] = [
+  //   { name: 'Anne Clark', rating: 5, comment: 'An excellent guide to modern UI design.' },
+  //   { name: 'Matthew Turner', rating: 4, comment: 'A solid read with practical advice.' }
+  // ];
   
-  get tabs(): Tab[] {
-    return this.#bookDetailsFacade.tabs(this.reviewsTemplate, this.addReviewTemplate)
-  }
+  // get tabs(): Tab[] {
+  //   return this.#bookDetailsFacade.tabs(this.reviewsTemplate, this.addReviewTemplate)
+  // }
 
   goBack(): void {
     this.#bookDetailsFacade.goBack()
@@ -58,8 +50,8 @@ export class BookDetailsComponent {
     this.#bookDetailsFacade.addToCatalogueEvent(this.book())
   }
 
-  selectTab(tabKey: TabKey) {
-    this.currentTab = tabKey;
-  }
+  // selectTab(tabKey: TabKey) {
+  //   this.currentTab = tabKey;
+  // }
 
 }

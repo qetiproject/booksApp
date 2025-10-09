@@ -1,0 +1,63 @@
+<div class="border-b border-slate-200 mb-6">
+    <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+        <button
+        (click)="selectTab('reviews')"
+        [ngClass]="
+            currentTab === 'reviews'
+            ? 'border-blue-600 text-blue-600'
+            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+        "
+        class="py-2 px-4 font-medium"
+        >
+        Reviews
+        </button>
+        <button
+        (click)="selectTab('addReview')"
+        [ngClass]="
+            currentTab === 'addReview'
+            ? 'border-blue-600 text-blue-600'
+            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+        "
+        class="py-2 px-4 font-medium"
+        >
+        Add Review
+        </button>
+    </nav>
+    </div>
+    <div class="tab-content mt-6">
+    @if (currentTab === 'reviews') {
+        <ng-container [ngTemplateOutlet]="reviewsTemplate"
+        [ngTemplateOutletContext]="{ $implicit: reviews }"
+        />
+    }@else if (currentTab === 'addReview') {
+        <ng-container [ngTemplateOutlet]="addReviewTemplate" />
+    }
+    </div>
+    <ng-template #reviewsTemplate let-tab>
+    <div class="space-y-6">
+        @for (review of reviews; track review.name) {
+        <div
+            class="flex gap-4 p-4 bg-slate-50 rounded-lg shadow-sm hover:shadow transition"
+        >
+            <div
+            class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center"
+            >
+            <span class="material-icons text-slate-500">person</span>
+            </div>
+            <div>
+            <p class="font-semibold text-slate-900">{{ review.name }}</p>
+            <p class="text-yellow-500 text-sm">
+                {{ '★'.repeat(review.rating) }} 
+                {{ '☆'.repeat(5 - review.rating) }}
+            </p>
+            <p class="text-slate-700 text-sm mt-1">
+                {{ review.comment }}
+            </p>
+            </div>
+        </div>
+        }
+    </div>
+    </ng-template>
+    <ng-template #addReviewTemplate let-tab>
+    <app-add-review />
+</ng-template>
