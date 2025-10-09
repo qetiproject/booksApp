@@ -3,6 +3,7 @@
         [src]="thumbnail()"
         [alt]="book().volumeInfo.title"
         class="w-full h-auto object-cover rounded-lg shadow-md"
+        loading="lazy"
     />
     <figcaption class="sr-only">
         {{ book().volumeInfo.title }}
