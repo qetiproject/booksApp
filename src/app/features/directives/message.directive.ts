@@ -30,7 +30,7 @@ export class MessageDirective {
     if (!msg) return '';
 
     const severityClass = this.severityClasses[msg.severity];
-    const positionClass = this.positionClasses[msg.position || MessagePosition.TopRight];
+    const positionClass = this.positionClasses[msg.position || MessagePosition.BottomRight];
 
     return `fixed z-50 flex flex-col gap-2 ${positionClass} ${severityClass}`;
   }

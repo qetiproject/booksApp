@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MessagesService } from '../../core/services/messages.service';
+import { MessageDirective } from '../../features/directives/message.directive';
 
 @Component({
   selector: 'app-messages',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MessageDirective],
   template: `
   @if (message()){
     <div
