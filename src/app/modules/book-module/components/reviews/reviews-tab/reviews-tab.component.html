@@ -7,20 +7,19 @@
 <div class="tab-content mt-6">
     @switch (currentTab) {
       @case (TabKey.reviews) {
-        <ng-container [ngTemplateOutlet]="reviewsTemplate" [ngTemplateOutletContext]="{ $implicit: reviews }" />
+        <ng-container 
+          [ngTemplateOutlet]="reviewsTemplate" 
+          [ngTemplateOutletContext]="{ $implicit: reviews }" 
+        />
       }
       @case (TabKey.addReview) {
         <ng-container [ngTemplateOutlet]="addReviewTemplate" />
       }
     }
 </div>
-<ng-template #reviewsTemplate let-tab>
-    <div class="space-y-6">
-        @for (review of reviews; track review.name) {
-            <app-review-item [review]="review"></app-review-item>
-        }
-    </div>
+<ng-template #reviewsTemplate let-tabReviews>
+    <app-review-list [reviews]="tabReviews"></app-review-list>
 </ng-template>
-<ng-template #addReviewTemplate let-tab>
+<ng-template #addReviewTemplate>
     <app-add-review />
 </ng-template>

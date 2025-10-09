@@ -5,5 +5,6 @@ export * from './book-content/book-content.component';
 export * from './book-info/book-info.component';
 export * from './book-list/book-list.component';
 export * from './reviews/add-review/add-review.component';
-export * from './reviews/review-item/review-item.component';
+export * from './reviews/review-list/review-list.component';
 export * from './reviews/reviews-tab/reviews-tab.component';
+

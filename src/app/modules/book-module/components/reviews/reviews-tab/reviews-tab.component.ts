@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, TemplateRef, ViewChild } from "@angular/core";
-import { AddReviewComponent, ReviewItemComponent } from "@book-module/components";
+import { AddReviewComponent, ReviewListComponent } from "@book-module/components";
 import { BookDetailsFacade } from "@book-module/services/book-details.facade";
 import { Review } from "@book-module/types";
 import { Tab, TabKey } from "@types";
@@ -8,7 +8,7 @@ import { TabsComponent } from "../tabs/tabs.component";
 
 @Component({
     selector: 'app-reviews-tab',
-    imports: [AddReviewComponent, CommonModule, ReviewItemComponent, TabsComponent],
+    imports: [AddReviewComponent, CommonModule, TabsComponent, ReviewListComponent],
     standalone: true,
     templateUrl: './reviews-tab.component.html'
 })
