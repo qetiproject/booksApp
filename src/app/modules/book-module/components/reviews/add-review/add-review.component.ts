@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Readly, ReviewForm } from '@book-module/types';
+import { TabKey } from '@types';
 import { createReviewForm } from '@utils/review-form.factory';
 
 @Component({
@@ -19,7 +20,7 @@ export class AddReviewComponent {
   get starCtrl() { return this.form.controls.star; }
   get Readly() { return Readly; }
   hoveredStar = 0;
-  currentTab = 'reviews';
+  currentTab = TabKey.reviews;
   reviews = [
     { name: 'Anne Clark', rating: 5, comment: 'An excellent guide to modern UI design.' },
     { name: 'Matthew Turner', rating: 4, comment: 'A solid read with practical advice.' },

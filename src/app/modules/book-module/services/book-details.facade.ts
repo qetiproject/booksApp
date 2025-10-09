@@ -6,7 +6,7 @@ import { BooksView } from '@book-module/types';
 import { MessagesService } from '@core/services/messages.service';
 import { CatalogueService } from '@pages/catalogues/services/catalogue.service';
 import { FavouriteBookService } from '@pages/wishlist/services/favouriteBook.service';
-import { MessageSeverity, Tab } from '@types';
+import { MessageSeverity, Tab, TabKey } from '@types';
 
 @Injectable({
     providedIn: 'root'
@@ -24,8 +24,8 @@ export class BookDetailsFacade {
     ): Tab[] {
         if (!reviewsTemplate || !addReviewTemplate) return [];
         return [
-            { key: 'reviews', label: 'Reviews', template: reviewsTemplate },
-            { key: 'addReview', label: 'Add Review', template: addReviewTemplate }
+            { key: TabKey.reviews, label: TabKey.reviews, template: reviewsTemplate },
+            { key: TabKey.addReview, label: TabKey.addReview, template: addReviewTemplate }
         ];
     }
 
