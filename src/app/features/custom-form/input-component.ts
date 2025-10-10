@@ -9,13 +9,14 @@ export type InputType = 'text' | 'password';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <div class="mb-4">
+    <div class="mb-2">
         <label class="block text-sm font-medium text-gray-700 mb-1">{{ label }}</label>
         <input
             [type]="type"
             [placeholder]="placeholder || ('Enter ' + label)"
             [value]="value"
-            (input)="onChange($event.target.value)"
+            (input)="handleInput($event.target.value)"
+            (blur)="onTouched()"
             class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
     </div>
@@ -47,5 +48,10 @@ export class InputComponent implements ControlValueAccessor{
 
     registerOnTouched(fn: any): void {
         this.onTouched = fn;
+    }
+
+    handleInput(val: string) {
+        this.value = val;
+        this.onChange(val); 
     }
 }
