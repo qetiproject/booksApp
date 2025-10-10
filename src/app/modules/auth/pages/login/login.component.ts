@@ -7,7 +7,7 @@ import { selectIsLoggedIn } from '@auth-store/auth.selector';
 import { LoginCredentials } from '@auth-types/user';
 import { MessagesService } from '@core/services/messages.service';
 import { InputComponent } from "@features/custom-form";
-import { DynamicValidatorMessage } from '@features/custom-form/validators/dynamic-validator-message.directive';
+import { DynamicValidatorMessage } from '@features/custom-form/validators';
 import { Store } from '@ngrx/store';
 import { MessageSeverity } from '@types';
 import { from, of } from 'rxjs';
