@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
+import { selectIsLoggedIn } from '@auth-module/store/auth.selector';
 import { Store } from '@ngrx/store';
-import { selectIsLoggedIn } from 'modules/auth/store/auth.selector';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, take } from 'rxjs/operators';
 
