@@ -12,11 +12,13 @@
         type="text"
         formControlName="username"
       ></app-input>
+      <app-input-error [errors]="form.get('username')?.errors"></app-input-error>
       <app-input
         label="Password"
         type="password"
         formControlName="password"
       ></app-input>
+      <app-input-error [errors]="form.get('password')?.errors"></app-input-error>
       <button
         type="submit"
         class="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition"
