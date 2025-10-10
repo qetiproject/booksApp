@@ -12,26 +12,14 @@
         type="text"
         formControlName="username"
       ></app-input>
-      @let username = form.get('username')?.touched;
-      @if(username){
-        <app-input-error 
-          [errors]="form.get('username')?.errors">
-        </app-input-error>
-      }
       <app-input
         label="Password"
         type="password"
         formControlName="password"
       ></app-input>
-      @let password = form.get('password')?.touched;
-      @if(password){
-        <app-input-error 
-          [errors]="form.get('password')?.errors">
-        </app-input-error>
-      }
       <button
         type="submit"
-        class="w-full mt-2 bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition"
+        class="w-full mt-3 bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition"
       >
         Login
       </button>

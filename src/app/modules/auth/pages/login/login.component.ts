@@ -7,7 +7,7 @@ import { selectIsLoggedIn } from '@auth-store/auth.selector';
 import { LoginCredentials } from '@auth-types/user';
 import { MessagesService } from '@core/services/messages.service';
 import { InputComponent } from "@features/custom-form";
-import { InputErrorComponent } from "@features/custom-form/validators/input-error/input-error.component";
+import { DynamicValidatorMessage } from '@features/custom-form/validators/dynamic-validator-message.directive';
 import { Store } from '@ngrx/store';
 import { MessageSeverity } from '@types';
 import { from, of } from 'rxjs';
@@ -20,8 +20,7 @@ import { exhaustMap, filter, switchMap, take, tap } from 'rxjs/operators';
     ReactiveFormsModule,
     InputComponent,
     FormsModule,
-    InputErrorComponent,
-    
+    DynamicValidatorMessage
   ],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css'
