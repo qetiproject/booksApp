@@ -8,9 +8,11 @@ import { ErrorMessagePipe } from "../error-message.pipe";
     standalone: true,
     imports: [CommonModule, ErrorMessagePipe],
     template: `
-        <div *ngFor="let error of errors | keyvalue; trackBy: trackByFn" class="input-error">
-            {{ error.key | errorMessage: error.value}}
-        </div>
+       <ul class="mt-1 text-sm text-red-600 list-disc list-inside">
+        <li *ngFor="let error of errors | keyvalue; trackBy: trackByFn">
+          {{ error.key | errorMessage: error.value }}
+        </li>
+      </ul>
     `,
     styles: [
     `
@@ -22,6 +24,7 @@ import { ErrorMessagePipe } from "../error-message.pipe";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputErrorComponent{
+
     @Input() errors: ValidationErrors | null | undefined = null;
 
     trackByFn(index: number, item: KeyValue<string, any>) {
