@@ -9,7 +9,7 @@
       @case (TabKey.reviews) {
         <ng-container 
           [ngTemplateOutlet]="reviewsTemplate" 
-          [ngTemplateOutletContext]="{ $implicit: reviews }" 
+          [ngTemplateOutletContext]="{ $implicit: reviews() }" 
         />
       }
       @case (TabKey.addReview) {

@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Readly, ReviewForm } from '@book-module/types';
+import { User } from '@auth-types/user';
+import { ReviewService } from '@book-module/services/review.service';
+import { Readly, Review, ReviewForm } from '@book-module/types';
 import { TabKey } from '@types';
 import { createReviewForm } from '@utils/review-form.factory';
+import { environment } from '../../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-add-review',
@@ -14,19 +17,31 @@ import { createReviewForm } from '@utils/review-form.factory';
 })
 export class AddReviewComponent {
   fb = inject(FormBuilder);
+  #reviewService = inject(ReviewService);
+
   @ViewChild(FormGroupDirective, { static: false })
   private formDir!: FormGroupDirective;
   form: FormGroup<ReviewForm> = createReviewForm(this.fb);
+  
   get starCtrl() { return this.form.controls.star; }
   get Readly() { return Readly; }
+  
   hoveredStar = 0;
   currentTab = TabKey.reviews;
-  reviews = [
-    { name: 'Anne Clark', rating: 5, comment: 'An excellent guide to modern UI design.' },
-    { name: 'Matthew Turner', rating: 4, comment: 'A solid read with practical advice.' },
-  ];
+
 
   onSubmit(e: Event): void {
+    const userString = sessionStorage.getItem(environment.USER_STORAGE_KEY);
+    const user: User = userString ? JSON.parse(userString) : null;
+
+    const { comment, star } = this.form.getRawValue();
+    const addReviewValue: Review = {
+      userId: user.id,
+      userFullname: `${user.firstName} ${user.lastName}`,
+      comment,
+      rating: star
+    } 
+    this.#reviewService.addReview(addReviewValue)
     this.formDir.resetForm(this.form.value);
   }
 

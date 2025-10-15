@@ -20,10 +20,3 @@ export interface BookDetailsVolumeInfo extends VolumeInfo {
     printType: string;
     previewLink: string;
 }
-
-
-export interface Review {
-  name: string;
-  rating: number;
-  comment: string;
-}
