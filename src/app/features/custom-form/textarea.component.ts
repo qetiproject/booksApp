@@ -12,6 +12,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
                 [placeholder]="placeholder || ('Enter ' + label)"
                 [value]="value"
                 (input)="handleInput($event)"
+                type="text"
                 rows="3"
                 class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
             ></textarea>

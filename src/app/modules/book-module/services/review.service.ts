@@ -12,6 +12,17 @@ export class ReviewService {
     reviews = new BehaviorSubject<Review[]>([]);
     reviews$ = this.reviews.asObservable();
 
+    constructor() {
+        this.reviews.next(this.loadReviews());
+
+        window.addEventListener('storage', (event) => {
+            if(event.key === this.REVIEWS_KEY) {
+                const updateReviews = this.loadReviews();
+                this.reviews.next(updateReviews);
+            }
+        })
+    }
+
     loadReviews(): Review[] {
         const currentReviews = sessionStorage.getItem(this.REVIEWS_KEY);
         return currentReviews ? JSON.parse(currentReviews) : []
