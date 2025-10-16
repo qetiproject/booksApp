@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Review } from "@book-module/types";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment.development";
 
 @Injectable({
@@ -13,14 +13,15 @@ export class ReviewService {
     reviews$ = this.reviews.asObservable();
 
     loadReviews(): Review[] {
-        const currentReviews = localStorage.getItem(this.REVIEWS_KEY);
+        const currentReviews = sessionStorage.getItem(this.REVIEWS_KEY);
         return currentReviews ? JSON.parse(currentReviews) : []
     }
 
-    addReview(review: Review): void {
+    addReview(review: Review): Observable<boolean> {
         const currentReviews = this.reviews.value;
         const updated = [review, ...currentReviews];
         this.reviews.next(updated);
-        localStorage.setItem(this.REVIEWS_KEY, JSON.stringify(updated))
+        sessionStorage.setItem(this.REVIEWS_KEY, JSON.stringify(updated));
+        return of(true);
     }
 }

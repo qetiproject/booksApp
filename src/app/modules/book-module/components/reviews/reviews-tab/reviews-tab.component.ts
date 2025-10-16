@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, TemplateRef, ViewChild } from "@angular/core";
+import { Component, inject, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { AddReviewComponent, ReviewListComponent } from "@book-module/components";
 import { BookDetailsFacade } from "@book-module/services/book-details.facade";
@@ -13,7 +13,7 @@ import { TabsComponent } from "../tabs/tabs.component";
     standalone: true,
     templateUrl: './reviews-tab.component.html'
 })
-export class ReviewsTabComponent {
+export class ReviewsTabComponent implements OnInit{
     #bookDetailsFacade = inject(BookDetailsFacade);
     #reviewsService = inject(ReviewService);
 
@@ -24,6 +24,11 @@ export class ReviewsTabComponent {
     currentTab: TabKey = TabKey.reviews;
     reviews = toSignal(this.#reviewsService.reviews);
     
+    ngOnInit(): void {
+        const loaded = this.#reviewsService.loadReviews();
+        this.#reviewsService.reviews.next(loaded);
+    }
+
     get tabs(): Tab[] {
         return this.#bookDetailsFacade.tabs(this.reviewsTemplate, this.addReviewTemplate)
     }
@@ -32,4 +37,7 @@ export class ReviewsTabComponent {
         this.currentTab = tabKey;
     }
 
+    onReviewAdded(): void {
+        this.currentTab = TabKey.reviews;
+    }
 }

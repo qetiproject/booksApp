@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { User } from '@auth-types/user';
 import { ReviewService } from '@book-module/services/review.service';
 import { Readly, Review, ReviewForm } from '@book-module/types';
 import { TabKey } from '@types';
 import { createReviewForm } from '@utils/review-form.factory';
+import { exhaustMap, from } from 'rxjs';
 import { environment } from '../../../../../../environments/environment.development';
 
 @Component({
@@ -22,6 +23,7 @@ export class AddReviewComponent {
   @ViewChild(FormGroupDirective, { static: false })
   private formDir!: FormGroupDirective;
   form: FormGroup<ReviewForm> = createReviewForm(this.fb);
+  reviewAdded = output();
   
   get starCtrl() { return this.form.controls.star; }
   get Readly() { return Readly; }
@@ -41,8 +43,14 @@ export class AddReviewComponent {
       comment,
       rating: star
     } 
-    this.#reviewService.addReview(addReviewValue)
-    this.formDir.resetForm(this.form.value);
+    from([addReviewValue]).pipe(
+      exhaustMap(() => this.#reviewService.addReview(addReviewValue))
+    ).subscribe({
+      next: () => {
+        this.formDir.resetForm(this.form.value);
+        this.reviewAdded.emit();
+      }
+    })
   }
 
   onReset(e: Event) {
