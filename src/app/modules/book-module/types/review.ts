@@ -14,3 +14,10 @@ export interface ReviewForm {
     comment: FormControl<string>; 
     star: FormControl<number>; 
 }
+
+export interface Review {
+    userId: number;
+    userFullname: string;
+    rating: number;
+    comment: string;
+}
