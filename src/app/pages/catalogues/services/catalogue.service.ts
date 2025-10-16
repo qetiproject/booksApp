@@ -10,7 +10,7 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root'
 })
 export class CatalogueService {
-  private readonly STORAGE_KEY = environment.catalogueStorageKey;
+  private readonly STORAGE_KEY = environment.CATALOGUE_STORAGE_KEY;
   private messages = inject(MessagesService);
   private errorMessage = 'Failed to save catalogue to localStorage';
 
