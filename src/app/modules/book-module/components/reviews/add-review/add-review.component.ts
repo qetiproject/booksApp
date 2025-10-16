@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { User } from '@auth-types/user';
+import { canUserAddReview } from '@book-module/services/canuserAddReview';
 import { ReviewService } from '@book-module/services/review.service';
 import { Readly, Review, ReviewForm } from '@book-module/types';
+import { TextareaComponent } from "@features/custom-form/textarea.component";
 import { TabKey } from '@types';
 import { createReviewForm } from '@utils/review-form.factory';
 import { exhaustMap, from } from 'rxjs';
@@ -12,7 +14,7 @@ import { environment } from '../../../../../../environments/environment.developm
 @Component({
   selector: 'app-add-review',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TextareaComponent],
   templateUrl: './add-review.component.html',
   styleUrls: ['./add-review.component.css']
 })
@@ -36,13 +38,23 @@ export class AddReviewComponent {
     const userString = sessionStorage.getItem(environment.USER_STORAGE_KEY);
     const user: User = userString ? JSON.parse(userString) : null;
 
+    if(!user) return;
+
+     if(canUserAddReview(user.id)) {
+      alert('you have already submitted a review');
+      return;
+    };
+
     const { comment, star } = this.form.getRawValue();
+    console.log(this.form.value, "value")
+
     const addReviewValue: Review = {
       userId: user.id,
       userFullname: `${user.firstName} ${user.lastName}`,
-      comment,
+      comment: comment,
       rating: star
     } 
+
     from([addReviewValue]).pipe(
       exhaustMap(() => this.#reviewService.addReview(addReviewValue))
     ).subscribe({
