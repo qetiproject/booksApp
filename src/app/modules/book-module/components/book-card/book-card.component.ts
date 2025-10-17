@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, inject, input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, model, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { BooksView } from '@book-module/types';
 import { MessagesService } from '@core/services/messages.service';
@@ -14,12 +14,14 @@ import { MessageSeverity } from '@types';
 })
 export class BookCardComponent {
 
-  book = input.required<BooksView>();
-  readonly showDelete = input(false); 
-  readonly showFavourite = input(false);
-  readonly showDetailsBtn = input(false);
+  book = model.required<BooksView>();
+  showDelete = model(false);
+  showFavourite = model(false);
+  showDetailsBtn = model(false);
+  
   @Output() bookDelete = new EventEmitter<BooksView>();
   @Output() addInFavourite = new EventEmitter<BooksView>();
+  
   
   private router = inject(Router);
   private messages = inject(MessagesService);
