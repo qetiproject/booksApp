@@ -1,10 +1,10 @@
 import { signal } from '@angular/core';
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
+import { HomeComponent } from './home.component';
 
 import { BookCategoryDropdownComponent } from '@book-module/components/book-category-dropdown/book-category-dropdown.component';
 import { BookListComponent } from '@book-module/components/book-list/book-list.component';
 import { DebounceSearchComponent } from '@components';
-import { HomeComponent } from './home.component';
 
 const meta: Meta<HomeComponent> = {
   title: 'Pages/Home',
@@ -19,8 +19,8 @@ const meta: Meta<HomeComponent> = {
     }),
   ],
   argTypes: {
-    onSearchEvent: { action: 'Search emitted' },
-    onCategorySelectedEvent: { action: 'Category selected emitted' },
+    onSearchEvent: { action: 'searchQuery emitted' },
+    onCategorySelectedEvent: { action: 'categorySelected emitted' },
   },
 };
 
@@ -28,18 +28,13 @@ export default meta;
 type Story = StoryObj<HomeComponent>;
 
 export const Default: Story = {
-  render: (args) => {
-    const searchQuery = signal('');
-    const categorySelected = signal<string | null>(null);
-
-    return {
-      props: {
-        ...args,
-        searchQuery,
-        categorySelected,
-        onSearchEvent: (value: string) => searchQuery.set(value),
-        onCategorySelectedEvent: (value: string | null) => categorySelected.set(value),
-      },
-    };
-  },
+  render: (args) => ({
+    props: {
+      ...args,
+      searchQuery: signal(''), 
+      categorySelected: signal(null),
+      onSearchEvent: (value: string) => args.onSearchEvent(value),
+      onCategorySelectedEvent: (value: string | null) => args.onCategorySelectedEvent(value),
+    },
+  }),
 };
