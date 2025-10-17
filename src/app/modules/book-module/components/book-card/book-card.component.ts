@@ -17,7 +17,7 @@ export class BookCardComponent {
   book = input.required<BooksView>();
   readonly showDelete = input(false); 
   readonly showFavourite = input(false);
-  readonly showDetailsBtn = input(false);
+  readonly showDetailsBtn = input(false);  
   @Output() bookDelete = new EventEmitter<BooksView>();
   @Output() addInFavourite = new EventEmitter<BooksView>();
   

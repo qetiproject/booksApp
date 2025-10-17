@@ -6,7 +6,7 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root',
 })
 export class FavouriteBookService {
-  private readonly STORAGE_KEY =  environment.favouritesStorageKey;
+  private readonly STORAGE_KEY =  environment.FAVOURITE_STORAGE_KEY;
   
   favouriteBooks: WritableSignal<BooksView[]> = signal([]);
   
