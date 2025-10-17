@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'storybook-button',
@@ -26,7 +26,7 @@ export class ButtonComponent {
 
   /** How large should the button be? */
   @Input()
-  size: 'small' | 'medium' | 'large' = 'medium';
+  size: 'small' | 'medium' | 'large' = 'large';
 
   /**
    * Button contents
