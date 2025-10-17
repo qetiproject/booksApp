@@ -11,13 +11,14 @@ import { environment } from '../../../../environments/environment';
 export class BookService {
 
   http = inject(HttpClient);
+  readonly BOOK_API = environment.BOOK_API;
 
   searchBooksByName(
     name: string | null, 
     maxResults: number, 
     startIndex: number
   ): Observable<{ items: BooksView[]; totalItems: number }> {
-    return this.http.get<BookResult>(`${environment.bookApiBase}?q=${name}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
+    return this.http.get<BookResult>(`${this.BOOK_API}?q=${name}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
       map(response => {
         const items = response.items || [];
         const mappedItems: BooksView[] = items.map(item => ({
@@ -43,7 +44,7 @@ export class BookService {
     startIndex: number
   ): Observable<{ items: BooksView[]; totalItems: number }> {
 
-    return this.http.get<BookResult>(`${environment.bookApiBase}?q=${category}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
+    return this.http.get<BookResult>(`${this.BOOK_API}?q=${category}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
       map(response => {
         const items = response.items || [];
         const mappedItems: BooksView[] = items.map(item => ({
@@ -65,7 +66,7 @@ export class BookService {
   }
 
   bookById(id: string): Observable<BookDetails> {
-    return this.http.get<BookDetailsResult>(`${environment.bookApiBase}/${id}`, {
+    return this.http.get<BookDetailsResult>(`${this.BOOK_API}/${id}`, {
       context: new HttpContext().set(SkipLoading, true)
     }).pipe(
       map(response => {

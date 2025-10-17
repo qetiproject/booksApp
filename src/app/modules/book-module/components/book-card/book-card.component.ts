@@ -17,7 +17,7 @@ export class BookCardComponent {
   book = input.required<BooksView>();
   readonly showDelete = input(false); 
   readonly showFavourite = input(false);
-  readonly showDetailsBtn = input(false);
+  readonly showDetailsBtn = input(false);  
   @Output() bookDelete = new EventEmitter<BooksView>();
   @Output() addInFavourite = new EventEmitter<BooksView>();
   
@@ -32,7 +32,7 @@ export class BookCardComponent {
     this.addInFavourite.emit(this.book());
     this.router.navigateByUrl('/favourites')
     this.messages.showMessage({
-      text: `📚 "${this.book().title}" წარმატებით დაემატა თქვენს ფავორიტებში! Book Card`,
+      text: `📚 "${this.book().title}" წარმატებით დაემატა თქვენს ფავორიტებში!`,
       severity: MessageSeverity.Success,
     });
   }

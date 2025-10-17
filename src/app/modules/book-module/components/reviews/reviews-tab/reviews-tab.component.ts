@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, TemplateRef, ViewChild } from "@angular/core";
+import { Component, inject, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { AddReviewComponent, ReviewListComponent } from "@book-module/components";
 import { BookDetailsFacade } from "@book-module/services/book-details.facade";
-import { Review } from "@book-module/types";
+import { ReviewService } from "@book-module/services/review.service";
 import { Tab, TabKey } from "@types";
 import { TabsComponent } from "../tabs/tabs.component";
 
@@ -12,18 +13,22 @@ import { TabsComponent } from "../tabs/tabs.component";
     standalone: true,
     templateUrl: './reviews-tab.component.html'
 })
-export class ReviewsTabComponent {
+export class ReviewsTabComponent implements OnInit{
     #bookDetailsFacade = inject(BookDetailsFacade);
+    #reviewsService = inject(ReviewService);
+
     @ViewChild('addReviewTemplate') addReviewTemplate!: TemplateRef<unknown>;
     @ViewChild('reviewsTemplate') reviewsTemplate!: TemplateRef<unknown>;
+    
     readonly TabKey = TabKey;
     currentTab: TabKey = TabKey.reviews;
-    newReview: Review = { name: '', rating: 0, comment: '' };
-    reviews: Review[] = [
-        { name: 'Anne Clark', rating: 5, comment: 'An excellent guide to modern UI design.' },
-        { name: 'Matthew Turner', rating: 4, comment: 'A solid read with practical advice.' }
-    ];
+    reviews = toSignal(this.#reviewsService.reviews);
     
+    ngOnInit(): void {
+        const loaded = this.#reviewsService.loadReviews();
+        this.#reviewsService.reviews.next(loaded);
+    }
+
     get tabs(): Tab[] {
         return this.#bookDetailsFacade.tabs(this.reviewsTemplate, this.addReviewTemplate)
     }
@@ -32,4 +37,7 @@ export class ReviewsTabComponent {
         this.currentTab = tabKey;
     }
 
+    onReviewAdded(): void {
+        this.currentTab = TabKey.reviews;
+    }
 }

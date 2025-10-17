@@ -1,2 +1,6 @@
 @import "tailwindcss";
 
+li {
+    list-style-type: none;
+}
+

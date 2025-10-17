@@ -41,6 +41,9 @@
       "@auth-services/*": ["modules/auth/services/*"],
       "@auth-store/*": ["modules/auth/store/*"],
       "@auth-types/*": ["modules/auth/types/*"],
+      "@custom-form/*": ["features/custom-form/*"],
+      "@custom-form-validators": ["features/custom-form-validators/index.ts"],
+      "@auth-module/*": ["modules/auth/*"],
     },
   },
   "angularCompilerOptions": {

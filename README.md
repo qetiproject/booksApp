@@ -25,6 +25,9 @@
 - Follows **clean architecture principles** for maintainability
 - Designed for **easy extension** and **modular component usage**
 
+## User
+- username: emilys
+- password: emilyspass
 
 ## Server
 - npm install -g json-server@0

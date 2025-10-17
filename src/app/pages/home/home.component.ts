@@ -11,7 +11,6 @@ import { DebounceSearchComponent, PagingComponent } from '@components';
     DebounceSearchComponent, 
     BookListComponent, 
     BookCategoryDropdownComponent, 
-    BookCategoryDropdownComponent,
     PagingComponent
   ],
   templateUrl: './home.component.html',

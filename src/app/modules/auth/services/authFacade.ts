@@ -12,9 +12,10 @@ import { UserProfileResponse } from "../types/user-profile";
 
 export class AuthFacade {
     private http = inject(HttpClient);
+    readonly  AUTH_API = environment.AUTH_API;
 
     login(username: string, password: string): Observable<LoginResponse> {
-        return this.http.post<LoginRequest>(`${environment.authApi}/login`, {
+        return this.http.post<LoginRequest>(`${this.AUTH_API}/login`, {
             username, password
         }).pipe(
             map((response) => {
@@ -36,10 +37,10 @@ export class AuthFacade {
     )}
 
     getProfile(): Observable<UserProfileResponse> {
-        return this.http.get<UserProfileResponse>(`${environment.authApi}/me`, );
+        return this.http.get<UserProfileResponse>(`${this.AUTH_API}/me`, );
     }
 
     refresh(refreshToken: string): Observable<AuthTokens> {
-        return this.http.post<AuthTokens>(`${environment.authApi}/refresh`, refreshToken);
+        return this.http.post<AuthTokens>(`${this.AUTH_API}/refresh`, refreshToken);
     }
 }
