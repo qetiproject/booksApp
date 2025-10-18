@@ -5,7 +5,7 @@ import { BookDetailsFacade } from "@book-module/services/book-details.facade";
 import { ReviewService } from "@book-module/services/review.service";
 import { Review } from "@book-module/types";
 import { Tab, TabKey } from "@types";
-import { Observable } from "rxjs";
+import { Observable, take } from "rxjs";
 import { TabsComponent } from "../tabs/tabs.component";
 
 @Component({
@@ -29,7 +29,10 @@ export class ReviewsTabComponent implements OnInit{
     ngOnInit(): void {
         this.reviews$ =this.#reviewsService.loadReviewsByBookid(this.bookId());
 
-        this.reviews$.subscribe(reviews => {
+        this.reviews$
+            .pipe(
+                take(1)
+            ).subscribe(reviews => {
             this.currentTab = reviews.length > 0 ? TabKey.reviews : TabKey.addReview
         })
     }

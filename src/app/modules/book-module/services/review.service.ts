@@ -13,7 +13,7 @@ export class ReviewService {
     reviews$ = this.reviews.asObservable();
 
     constructor() {
-        this.loadReviews()
+        this.reviews.next(this.loadReviews())
     }
 
     private loadReviews(): Review[] {
