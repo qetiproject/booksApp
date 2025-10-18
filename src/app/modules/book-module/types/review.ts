@@ -17,6 +17,7 @@ export interface ReviewForm {
 
 export interface Review {
     userId: number;
+    bookId: string;
     userFullname: string;
     rating: number;
     comment: string;
