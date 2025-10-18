@@ -7,15 +7,21 @@
  />
 
 <ng-template #bookCardTemplate let-books>
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        @for ( book of books; track book.id) {
-          <app-book-card 
-            [book]="book"
-            [showDelete]="true"
-            (bookDelete)="onDeleteBookEvent($event)"
-          />
-        }
+  @defer (when books) {
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          @for ( book of books; track book.id) {
+            <app-book-card 
+              [book]="book"
+              [showDelete]="true"
+              (bookDelete)="onDeleteBookEvent($event)"
+            />
+          }@empty {
+            <p class="text-center text-gray-500 text-lg italic py-10">
+              No Categories
+            </p>
+          }
+      </div>
     </div>
-  </div>
+  }
 </ng-template>

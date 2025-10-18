@@ -6,5 +6,6 @@ export const environment = {
   AUTH_API: 'https://dummyjson.com/auth',
   ACCESS_TOKEN_KEY: 'accessToken',
   REFRESH_TOKEN_KEY: 'refreshToken',
-  BOOK_REVIEWS: 'BOOK_REVIEWS'
+  BOOK_REVIEWS: 'BOOK_REVIEWS',
+  AUTH_MODULE: 'https://api.freeprojectapi.com/api/UserApp/CreateNewUser'
 };

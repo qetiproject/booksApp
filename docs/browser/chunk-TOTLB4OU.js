@@ -1,1 +1,0 @@
-import{a}from"./chunk-WZE2TEZU.js";import"./chunk-3HKYJRIY.js";import"./chunk-FWKQOSOW.js";import"./chunk-6CWPCSKA.js";import"./chunk-HAAGQVTK.js";import"./chunk-ALFWPUQN.js";import"./chunk-VG73PTL2.js";export{a as BookListComponent};

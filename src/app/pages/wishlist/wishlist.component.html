@@ -1,14 +1,20 @@
 <app-back-button />
 
-<div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-     @for ( book of favouriteBooks(); track book.id) {
-        <app-book-card [book]="book"
-          [showDelete]="true"
-          [showDetailsBtn]="true"
-          (bookDelete)="onBookDeleteFromFavouritesEvent($event)"  
-         />
-      }
-    </div>
+@defer (when favouriteBooks()) {
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      @for ( book of favouriteBooks(); track book.id) {
+          <app-book-card [book]="book"
+            [showDelete]="true"
+            [showDetailsBtn]="true"
+            (bookDelete)="onBookDeleteFromFavouritesEvent($event)"  
+          />
+        }@empty {
+          <p class="text-center text-gray-500 text-lg italic py-10">
+            No Favourites
+          </p>
+        }
+      </div>
   </div>
- 
+}
+
