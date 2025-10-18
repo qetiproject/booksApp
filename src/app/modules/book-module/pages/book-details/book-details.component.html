@@ -11,7 +11,7 @@
         (addToCatalogue)="addToCatalogueEvent()"
         (addToFavourites)="addToFavouritesEvent()"
       ></app-book-actions>
-      <app-reviews-tab></app-reviews-tab>
+      <app-reviews-tab [bookId]="book().id"></app-reviews-tab>
     </div>
   </div>
 </div>

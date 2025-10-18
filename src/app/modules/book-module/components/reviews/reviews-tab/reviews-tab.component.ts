@@ -1,10 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, OnInit, TemplateRef, ViewChild } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
+import { Component, inject, input, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { AddReviewComponent, ReviewListComponent } from "@book-module/components";
 import { BookDetailsFacade } from "@book-module/services/book-details.facade";
 import { ReviewService } from "@book-module/services/review.service";
+import { Review } from "@book-module/types";
 import { Tab, TabKey } from "@types";
+import { Observable } from "rxjs";
 import { TabsComponent } from "../tabs/tabs.component";
 
 @Component({
@@ -16,17 +17,21 @@ import { TabsComponent } from "../tabs/tabs.component";
 export class ReviewsTabComponent implements OnInit{
     #bookDetailsFacade = inject(BookDetailsFacade);
     #reviewsService = inject(ReviewService);
-
+    bookId = input.required<string>();
+    
     @ViewChild('addReviewTemplate') addReviewTemplate!: TemplateRef<unknown>;
     @ViewChild('reviewsTemplate') reviewsTemplate!: TemplateRef<unknown>;
     
     readonly TabKey = TabKey;
     currentTab: TabKey = TabKey.reviews;
-    reviews = toSignal(this.#reviewsService.reviews);
+    reviews$!: Observable<Review[]>;
     
     ngOnInit(): void {
-        const loaded = this.#reviewsService.loadReviews();
-        this.#reviewsService.reviews.next(loaded);
+        this.reviews$ =this.#reviewsService.loadReviewsByBookid(this.bookId());
+
+        this.reviews$.subscribe(reviews => {
+            this.currentTab = reviews.length > 0 ? TabKey.reviews : TabKey.addReview
+        })
     }
 
     get tabs(): Tab[] {

@@ -9,7 +9,7 @@
       @case (TabKey.reviews) {
         <ng-container 
           [ngTemplateOutlet]="reviewsTemplate" 
-          [ngTemplateOutletContext]="{ $implicit: reviews() }" 
+          [ngTemplateOutletContext]="{ $implicit: reviews$ | async }" 
         />
       }
       @case (TabKey.addReview) {
@@ -21,5 +21,5 @@
     <app-review-list [reviews]="tabReviews"></app-review-list>
 </ng-template>
 <ng-template #addReviewTemplate>
-    <app-add-review (reviewAdded)="onReviewAdded()" />
+    <app-add-review (reviewAdded)="onReviewAdded()" [bookId]="bookId()" />
 </ng-template>

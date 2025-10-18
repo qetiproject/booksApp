@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, output, ViewChild } from '@angular/core';
+import { Component, inject, input, output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { User } from '@auth-types/user';
 import { canUserAddReview } from '@book-module/services/canuserAddReview';
@@ -23,6 +23,7 @@ import { environment } from '../../../../../../environments/environment.developm
 export class AddReviewComponent {
   fb = inject(FormBuilder);
   #reviewService = inject(ReviewService);
+  bookId = input.required<string>();
 
   @ViewChild(FormGroupDirective, { static: false })
   private formDir!: FormGroupDirective;
@@ -37,7 +38,6 @@ export class AddReviewComponent {
   hoveredStar = 0;
   currentTab = TabKey.reviews;
 
-
   onSubmit(e: Event): void {
     const userString = sessionStorage.getItem(environment.USER_STORAGE_KEY);
     const user: User = userString ? JSON.parse(userString) : null;
@@ -50,12 +50,13 @@ export class AddReviewComponent {
       userId: user.id,
       userFullname: `${user.firstName} ${user.lastName}`,
       comment: comment,
-      rating: star
+      rating: star,
+      bookId: this.bookId()
     } 
 
-    if(canUserAddReview(user.id)) {
+    if(canUserAddReview(this.bookId())) {
       this.#messages.showMessage({
-        text: 'უკვე დამატებულია კომენტარი!',
+        text: 'უკვე დამატებულია კომენტარი ამ წიგნზე!',
         severity: MessageSeverity.Info,
       });
       return;
