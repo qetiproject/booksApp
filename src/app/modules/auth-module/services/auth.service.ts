@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { LoginResponse } from "@auth-types/user";
 import { UserProfileResponse } from "@auth-types/user-profile";
 import { Observable } from "rxjs";
+import { RegisterUserRequest, RegisterUserResponse } from "../types/user";
 import { AuthFacade } from "./authFacade";
 import { TokenStorageService } from "./token.service";
 
@@ -19,6 +20,10 @@ export class AuthService {
   
   constructor() {}
 
+  registerUser(user: RegisterUserRequest): Observable<RegisterUserResponse> {
+    return this.authFacade.registerUser(user)
+  }
+      
   login(username: string, password: string): Observable<LoginResponse> {
     return this.authFacade.login(username, password);  
   }

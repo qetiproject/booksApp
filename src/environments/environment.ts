@@ -7,5 +7,4 @@ export const environment = {
   ACCESS_TOKEN_KEY: 'accessToken',
   REFRESH_TOKEN_KEY: 'refreshToken',
   BOOK_REVIEWS: 'BOOK_REVIEWS',
-  AUTH_MODULE: 'https://api.freeprojectapi.com/api/UserApp/CreateNewUser'
 };

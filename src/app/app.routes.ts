@@ -3,13 +3,14 @@ import { bookRoutes } from '@book-module/book.router';
 import { IsUserAuthenticated } from '@core/guards/auth.guard';
 import { LoginRedirectGuard } from '@core/guards/loginRedirect.guard';
 import { RedirectBasedOnAuth } from '@core/guards/redirectBasedOnAuth.guard';
+import { RegisterUserComponent } from 'modules/auth-module/pages/register-user/register-user.component';
 
 export const routes: Routes = [
   {
     path: '',
     canActivate: [RedirectBasedOnAuth],
     loadComponent: () => 
-      import('@auth-module/pages/login/login.component').then(c => c.LoginComponent),
+      import('../app/modules/auth-module/pages/login/login.component').then(c => c.LoginComponent),
     pathMatch: 'full'
   },
   {
@@ -31,9 +32,13 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'register',
+    component: RegisterUserComponent
+  },
+  {
     path: 'login',
     loadComponent: () => 
-      import('@auth-module/pages/login/login.component').then(c => c.LoginComponent),
+      import('../app/modules/auth-module/pages/login/login.component').then(c => c.LoginComponent),
     canActivate: [LoginRedirectGuard]
   },
   { path: '**', redirectTo: '' }

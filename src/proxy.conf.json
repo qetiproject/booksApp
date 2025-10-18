@@ -1,0 +1,10 @@
+{
+  "/UserApp": {
+    "target": "https://api.freeprojectapi.com/api",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/UserApp": "/UserApp"
+    }
+  }
+}

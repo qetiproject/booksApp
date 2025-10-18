@@ -3,7 +3,7 @@ import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { AuthTokens } from "../store/auth.store";
-import { LoginRequest, LoginResponse } from "../types/user";
+import { LoginRequest, LoginResponse, RegisterUserRequest, RegisterUserResponse } from "../types/user";
 import { UserProfileResponse } from "../types/user-profile";
 
 @Injectable({
@@ -13,6 +13,10 @@ import { UserProfileResponse } from "../types/user-profile";
 export class AuthFacade {
     private http = inject(HttpClient);
     readonly  AUTH_API = environment.AUTH_API;
+
+    registerUser(user: RegisterUserRequest): Observable<RegisterUserResponse> {
+        return this.http.post<RegisterUserResponse>(`/UserApp/CreateNewUser`, user)
+    }
 
     login(username: string, password: string): Observable<LoginResponse> {
         return this.http.post<LoginRequest>(`${this.AUTH_API}/login`, {

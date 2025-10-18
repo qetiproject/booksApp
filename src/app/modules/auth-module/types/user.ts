@@ -22,3 +22,16 @@ export interface LoginCredentials {
 }
 
 export type LoginRequest = User & AuthTokens;
+
+export interface RegisterUserRequest {
+  userId: number,
+  emailId: string,
+  fullName: string,
+  password: string
+}
+
+export interface RegisterUserResponse {
+  message: string,
+  result: boolean,
+  data: RegisterUserRequest
+}
