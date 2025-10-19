@@ -2,7 +2,8 @@
   <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Sign Up </h2>
     <form  [formGroup]="form" (ngSubmit)="onSubmit($event)">
-      <app-input name="email" label="Email" [type] = InputType.Text formControlName="emailId"></app-input>
+      <app-input 
+        name="email" label="Email" [type] = InputType.Text formControlName="emailId"></app-input>
       <app-input name="fullName" label="FullName" [type] = InputType.Text formControlName="fullName"></app-input>
       <app-input name="password" label="Password" [type] = InputType.Password formControlName="password"></app-input>
       <button type="submit" [disabled]="!form.valid"
