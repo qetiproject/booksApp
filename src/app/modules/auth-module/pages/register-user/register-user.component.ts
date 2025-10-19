@@ -1,7 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { MessagesService } from '@core/services/messages.service';
+import { InputComponent, InputType } from '@features/custom-form';
+import { DynamicValidatorMessage } from '@features/custom-form/validators';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'modules/auth-module/services/auth.service';
 import { RegisterUserRequest } from 'modules/auth-module/types/user';
@@ -10,9 +13,12 @@ import { RegisterUserRequest } from 'modules/auth-module/types/user';
     selector: 'register-user',
     standalone: true,
     imports: [
-    ReactiveFormsModule,
-    FormsModule,
-  ],
+      CommonModule,
+      ReactiveFormsModule,
+      FormsModule,
+      InputComponent,
+      DynamicValidatorMessage,
+    ],
     templateUrl: './register-user.component.html',
 })
 export class RegisterUserComponent {
@@ -21,21 +27,16 @@ export class RegisterUserComponent {
   authService = inject(AuthService);
   messages = inject(MessagesService);
   store = inject(Store);
+  InputType = InputType;
   @ViewChild(FormGroupDirective, { static: false }) private formDir!: FormGroupDirective;
   
-  form = this.fb.group({
-    emailId: [],
-    fullName: [],
-    password: []
+  form = this.fb.nonNullable.group({
+    emailId: ['', [Validators.required, Validators.email]],
+    fullName: ['', [Validators.required, Validators.minLength(8)]],
+    password: ['', [Validators.required, Validators.minLength(4)]]
   })
   
   onSubmit(e: Event): void {
-    // const credentials: RegisterUserRequest = {
-    //   userId: Math.floor(Math.random() * 1000000),
-    //   emailId: "keti@gmail.com",
-    //   fullName: "keti Khetsuriani",
-    //   password: "password"
-    // }
     const credentials: RegisterUserRequest = {
       emailId: this.form.value.emailId!,
       fullName: this.form.value.fullName!,
@@ -44,9 +45,9 @@ export class RegisterUserComponent {
     }
     
     console.log(credentials, "credentials")
-    this.authService.registerUser(credentials).subscribe({
-      next: (user) => console.log(user, "user")
-    })
+    // this.authService.registerUser(credentials).subscribe({
+    //   next: (user) => console.log(user, "user")
+    // })
   }
 
 

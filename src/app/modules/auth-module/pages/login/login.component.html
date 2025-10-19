@@ -9,12 +9,12 @@
     >
       <app-input
         label="Username"
-        type="text"
+        [type] = InputType.Text
         formControlName="username"
       ></app-input>
       <app-input
         label="Password"
-        type="password"
+        [type] = InputType.Password
         formControlName="password"
       ></app-input>
       <button
