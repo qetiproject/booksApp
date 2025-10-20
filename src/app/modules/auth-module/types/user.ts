@@ -33,5 +33,5 @@ export interface RegisterUserRequest {
 export interface RegisterUserResponse {
   message: string,
   result: boolean,
-  data: RegisterUserRequest
+  data: Omit<RegisterUserRequest, 'password'>
 }

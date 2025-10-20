@@ -1,8 +1,10 @@
 import { Injectable, inject } from "@angular/core";
-import { AuthService } from "@auth-services/auth.service";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
+import { AuthService } from "../services/auth.service";
+import { RegisterUserRequest } from "../types/user";
+import * as AuthActions from './auth.action';
 import { login, loginFailure, loginSuccess, logout, userProfile, userProfileFailure, userProfileSuccess } from "./auth.action";
 
 @Injectable()
@@ -35,6 +37,26 @@ export class AuthEffects {
       )
     )
   );
+
+  register$ = createEffect(() => 
+    this.actions$.pipe(
+      ofType(AuthActions.register),
+      map(action => ({
+        ...action.user,
+        userId: Math.floor(Math.random() * 1000000)
+      })),
+      switchMap((user: RegisterUserRequest) =>
+        this.authService.registerUser(user).pipe(
+          map((response) => 
+            AuthActions.registerSuccess({ response })
+          ),
+          catchError((error) => 
+             of(AuthActions.registerFailure({ response: error }))
+          )
+        )
+      )
+    )
+  )
 
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(logout),

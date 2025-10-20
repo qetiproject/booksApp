@@ -6,7 +6,8 @@
         name="email" label="Email" [type] = InputType.Text formControlName="emailId"></app-input>
       <app-input name="fullName" label="FullName" [type] = InputType.Text formControlName="fullName"></app-input>
       <app-input name="password" label="Password" [type] = InputType.Password formControlName="password"></app-input>
-      <button type="submit" [disabled]="!form.valid"
+      <!-- [disabled]="!form.valid" -->
+      <button type="submit" 
         [ngClass]="{
           'bg-blue-600 hover:bg-blue-700 text-white': form.valid,
           'bg-gray-200 text-gray-500 cursor-not-allowed opacity-70': form.invalid

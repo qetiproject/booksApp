@@ -3,32 +3,37 @@ import { AuthState } from "./auth.store";
 
 export const selectAuthState = createFeatureSelector<AuthState>('auth');
 
-export const selectUser = createSelector(
+export const selectuserRegistered = createSelector(
     selectAuthState,
-    (state: AuthState) => state.user
+    (state: AuthState) => state.userRegistered
 )
 
-export const selectTokens = createSelector(
-    selectAuthState,
-    (state: AuthState) => state.tokens
-)
+// export const selectUser = createSelector(
+//     selectAuthState,
+//     (state: AuthState) => state.user
+// )
 
-export const selectIsLoggedIn = createSelector(
-    selectAuthState,
-    (state: AuthState) => state.isLoggedIn
-)
+// export const selectTokens = createSelector(
+//     selectAuthState,
+//     (state: AuthState) => state.tokens
+// )
 
-export const selectAuthloading = createSelector(
-    selectAuthState,
-    (state: AuthState) => state.loading
-)
+// export const selectIsLoggedIn = createSelector(
+//     selectAuthState,
+//     (state: AuthState) => state.isLoggedIn
+// )
 
-export const selectAuthError = createSelector(
-    selectAuthState,
-    (state: AuthState) => state.error
-)
+// export const selectAuthloading = createSelector(
+//     selectAuthState,
+//     (state: AuthState) => state.loading
+// )
 
-export const selectUserProfile = createSelector(
-    selectAuthState,
-    (state: AuthState) => state.userProfile
-)
+// export const selectAuthError = createSelector(
+//     selectAuthState,
+//     (state: AuthState) => state.error
+// )
+
+// export const selectUserProfile = createSelector(
+//     selectAuthState,
+//     (state: AuthState) => state.userProfile
+// )

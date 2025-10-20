@@ -1,4 +1,4 @@
-import { UserProfileResponse } from "../types/user-profile";
+import { RegisterUserResponse } from "../types/user";
 
 export type AuthUserResponse = {
   id: number;
@@ -15,12 +15,20 @@ export interface AuthTokens {
   refreshToken: string;
 }
 
-export interface AuthState {
-  user: AuthUserResponse | null;
-  userProfile: UserProfileResponse | null;
-  tokens: AuthTokens | null; 
-  isLoggedIn: boolean;
-  loading: boolean;
-  error: string | null;
-}
+// export interface AuthState {
+//   user: AuthUserResponse | null;
+//   userProfile: UserProfileResponse | null;
+//   tokens: AuthTokens | null; 
+//   isLoggedIn: boolean;
+//   loading: boolean;
+//   error: string | null;
+//   isRegistered: boolean;
+//   userRegistered: RegisterUserResponse | null;
+// }
 
+
+
+export interface AuthState {
+  loading: boolean;
+  userRegistered: RegisterUserResponse | null;
+}

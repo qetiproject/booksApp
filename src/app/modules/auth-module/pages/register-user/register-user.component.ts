@@ -7,8 +7,12 @@ import { InputComponent, InputType } from '@features/custom-form';
 import { DynamicValidatorMessage } from '@features/custom-form/validators';
 import { UniqueEmailValidator } from '@features/custom-form/validators/unique-email.validator';
 import { Store } from '@ngrx/store';
+import { MessageSeverity } from '@types';
 import { AuthService } from 'modules/auth-module/services/auth.service';
+import { selectuserRegistered } from 'modules/auth-module/store/auth.selector';
 import { RegisterUserRequest } from 'modules/auth-module/types/user';
+import { exhaustMap, from, of, switchMap, take, tap } from 'rxjs';
+import * as AuthActions from '../../store/auth.action';
 
 @Component({
     selector: 'register-user',
@@ -39,26 +43,38 @@ export class RegisterUserComponent {
     password: ['', 
       {
         validators: [Validators.required, Validators.minLength(8)],
-        asyncValidators: [
-          this.uniqueEmailValidator.validate.bind(this.uniqueEmailValidator)
-        ],
-        updateOn: 'blur'
+        // asyncValidators: [
+        //   this.uniqueEmailValidator.validate.bind(this.uniqueEmailValidator)
+        // ],
+        // updateOn: 'blur'
       }
     ]
   })
   
   onSubmit(e: Event): void {
-    const credentials: RegisterUserRequest = {
-      emailId: this.form.value.emailId!,
-      fullName: this.form.value.fullName!,
-      password: this.form.value.password!,
-      userId: Math.floor(Math.random() * 1000000),
-    }
+    const credentials: RegisterUserRequest = this.form.value as RegisterUserRequest
     
-    console.log(credentials, "credentials")
-    // this.authService.registerUser(credentials).subscribe({
-    //   next: (user) => console.log(user, "user")
-    // })
+    from([credentials])
+      .pipe(
+        exhaustMap(creds =>
+          of(this.store.dispatch(AuthActions.register({user: creds})))
+          .pipe(
+            switchMap(() => this.store.select(selectuserRegistered).pipe(
+              take(1),
+              tap(() => this.router.navigate(['/login']))
+            ))
+          )
+        )
+      ).subscribe({
+        next: () => {
+          this.messages.showMessage({
+            text: ` ${credentials.fullName} წარმატებით გაიარა რეგისტრაცია  სისტემაში!`,
+            severity: MessageSeverity.Success,
+          });
+        }
+      })
+      this.formDir.resetForm(this.form.value);
+
   }
 
 
