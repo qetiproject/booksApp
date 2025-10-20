@@ -38,7 +38,7 @@ export class AuthEffects {
     )
   );
 
-  register$ = createEffect(() => 
+  register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.register),
       map(action => ({
@@ -47,16 +47,12 @@ export class AuthEffects {
       })),
       switchMap((user: RegisterUserRequest) =>
         this.authService.registerUser(user).pipe(
-          map((response) => 
-            AuthActions.registerSuccess({ response })
-          ),
-          catchError((error) => 
-             of(AuthActions.registerFailure({ response: error }))
-          )
+          map((response) => AuthActions.registerSuccess({ response })),
+          catchError((error) => of(AuthActions.registerFailure({ response: error })))
         )
       )
     )
-  )
+  );
 
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(logout),

@@ -28,10 +28,10 @@ export const selectuserRegistered = createSelector(
 //     (state: AuthState) => state.loading
 // )
 
-// export const selectAuthError = createSelector(
-//     selectAuthState,
-//     (state: AuthState) => state.error
-// )
+export const selectAuthError = createSelector(
+    selectAuthState,
+    (state: AuthState) => state.userRegistered?.message
+)
 
 // export const selectUserProfile = createSelector(
 //     selectAuthState,

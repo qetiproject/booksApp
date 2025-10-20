@@ -22,3 +22,10 @@ export interface LoginCredentials {
 }
 
 export type LoginRequest = User & AuthTokens;
+
+export interface UserResponse  {
+  data: unknown[],
+  pageNumber: number,
+  pageSize: number,
+  totalRecords: number
+}

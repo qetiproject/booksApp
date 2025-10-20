@@ -11,7 +11,7 @@ import { MessageSeverity } from '@types';
 import { AuthService } from 'modules/auth-module/services/auth.service';
 import { selectuserRegistered } from 'modules/auth-module/store/auth.selector';
 import { RegisterUserRequest } from 'modules/auth-module/types/user';
-import { exhaustMap, from, of, switchMap, take, tap } from 'rxjs';
+import { filter, take } from 'rxjs';
 import * as AuthActions from '../../store/auth.action';
 
 @Component({
@@ -54,28 +54,23 @@ export class RegisterUserComponent {
   onSubmit(e: Event): void {
     const credentials: RegisterUserRequest = this.form.value as RegisterUserRequest
     
-    from([credentials])
-      .pipe(
-        exhaustMap(creds =>
-          of(this.store.dispatch(AuthActions.register({user: creds})))
-          .pipe(
-            switchMap(() => this.store.select(selectuserRegistered).pipe(
-              take(1),
-              tap(() => this.router.navigate(['/login']))
-            ))
-          )
-        )
-      ).subscribe({
-        next: () => {
-          this.messages.showMessage({
-            text: ` ${credentials.fullName} წარმატებით გაიარა რეგისტრაცია  სისტემაში!`,
-            severity: MessageSeverity.Success,
-          });
+    this.store.dispatch(AuthActions.register({user: credentials}))
+    
+    this.store.select(selectuserRegistered).pipe(
+      filter(response => !!response),
+      take(1),
+    ).subscribe({
+      next: (response) => {
+        this.messages.showMessage({
+          text: response.message,
+          severity: response.result ? MessageSeverity.Success : MessageSeverity.Error,
+        });
+
+        if(response.result) {
+          this.router.navigate(['/login']);
         }
-      })
-      this.formDir.resetForm(this.form.value);
-
+      },
+    })
+    this.formDir.resetForm(this.form.value);
   }
-
-
 }

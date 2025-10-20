@@ -6,8 +6,8 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from "@ngrx/store-devtools";
-import { AuthEffects } from 'modules/auth/store/auth.effects';
-import { AuthReducer } from 'modules/auth/store/auth.reducer';
+import { AuthEffects } from 'modules/auth-module/store/auth.effects';
+import { AuthReducer } from 'modules/auth-module/store/auth.reducer';
 import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { GlobalHttpErrorInterceptor } from './core/interceptors/global-http-error-interceptor';
