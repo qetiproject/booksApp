@@ -6,7 +6,8 @@ import { AuthState } from "./auth.store";
 export const initialAuthState: AuthState = {
     loading: false,
     isLoggedIn: false,
-    response: null      
+    response: null,
+    error: null      
 };
 
 export const AuthReducer = createReducer(
@@ -29,23 +30,23 @@ export const AuthReducer = createReducer(
     on(login, (state) => ({
         ...state,
         isLoggedIn: false,
-        loading: true
+        loading: true,
     })),
     on(loginSuccess, (state, {response,}) =>({
         ...state,
-        response: response,
-        isLoggedIn: true,
-        loading: false
-    })),
-    on(loginFailure, (state, { response }) => ({
-        ...state,
         response,
+        isLoggedIn: true,
+        loading: false,
+    })),
+    on(loginFailure, (state, { error }) => ({
+        ...state,
+        error,
+        response: null,
         loading: false
     })),
     on(logout, (state) => ({
         ...state,
-        user: null,
-        tokens: null,
+        response: null,
         isLoggedIn: false,
         loading: false,
         error: null

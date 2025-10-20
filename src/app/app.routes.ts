@@ -25,10 +25,10 @@ export const routes: Routes = [
         loadComponent: () => 
           import('@pages/catalogues/catalogues.component').then(c => c.CataloguesComponent)
       },
-      { path: 'profile', 
-        loadComponent: () => 
-          import('@auth-module/pages/profile/profile.component').then(c => c.ProfileComponent)
-      }
+      // { path: 'profile', 
+      //   loadComponent: () => 
+      //     import('@auth-module/pages/profile/profile.component').then(c => c.ProfileComponent)
+      // }
     ],
   },
   {

@@ -5,8 +5,12 @@ import { MessagesService } from '@core/services/messages.service';
 import { InputComponent, InputType } from "@features/custom-form";
 import { DynamicValidatorMessage } from '@features/custom-form/validators';
 import { Store } from '@ngrx/store';
+import { MessageSeverity } from '@types';
 import { AuthService } from 'modules/auth-module/services/auth.service';
+import { selectIsLoggedIn } from 'modules/auth-module/store/auth.selector';
 import { LoginCredentials } from 'modules/auth-module/types/user';
+import { filter, take, tap } from 'rxjs';
+import * as AuthActions from '../../store/auth.action';
 
 @Component({
     selector: 'login',
@@ -37,30 +41,20 @@ export class LoginComponent {
   onSubmit(e: Event): void {
     const credentials: LoginCredentials = this.form.value as LoginCredentials;
     
-    // from([credentials])
-    //   .pipe(
-    //     exhaustMap(creds =>
-    //       of(this.store.dispatch(login(creds))).pipe(
-    //         switchMap(() =>
-    //           this.store.select(selectIsLoggedIn).pipe(
-    //             filter(isLoggedIn => isLoggedIn),
-    //             take(1),
-    //             tap(() => this.router.navigate(['/books']))
-    //           )
-    //         ),
-    //       )
-    //     )
-    //   )
-    //   .subscribe({
-    //     next: () => {
-    //       this.messages.showMessage({
-    //         text: ` ${credentials.username} წარმატებით შევიდა სისტემაში!`,
-    //         severity: MessageSeverity.Success,
-    //       });
-    //     },
-    //   });
-      this.formDir.resetForm(this.form.value);
+    this.store.dispatch(AuthActions.login(credentials));
+
+    this.store.select(selectIsLoggedIn).pipe(
+        filter(isLoggedIn => isLoggedIn),
+        take(1),
+        tap(() => {
+          this.router.navigate(['/books']);
+          this.messages.showMessage({
+            text: `${credentials.emailId} წარმატებით შევიდა სისტემაში!`,
+            severity: MessageSeverity.Success,
+          });
+          this.formDir.resetForm();
+      })
+    ).subscribe();
+    this.formDir.resetForm(this.form.value);
   }
-
-
 }

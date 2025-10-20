@@ -16,8 +16,6 @@ export class AuthService {
   tokenStorageService = inject(TokenStorageService)
   authFacade = inject(AuthFacade);
   
-  constructor() {}
-
   registerUser(user: RegisterUserRequest): Observable<RegisterUserResponse> {
     return this.authFacade.registerUser(user)
   }

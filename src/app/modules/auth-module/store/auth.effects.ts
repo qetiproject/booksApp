@@ -2,7 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { AuthService } from "../services/auth.service";
-import { RegisterUserRequest } from "../types/user";
+import { LoginCredentials, LoginResponse, RegisterUserRequest } from "../types/user";
 import * as AuthActions from './auth.action';
 import { logout } from "./auth.action";
 
@@ -10,32 +10,6 @@ import { logout } from "./auth.action";
 export class AuthEffects {
   actions$ = inject(Actions);
   authService = inject(AuthService);
-
-  // login$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(login),
-  //     switchMap(({ username, password }) =>
-  //       this.authService.login(username, password).pipe(
-  //         tap( response => {
-  //             sessionStorage.setItem(environment.ACCESS_TOKEN_KEY, response.accessToken);
-  //             sessionStorage.setItem(environment.REFRESH_TOKEN_KEY, response.refreshToken);
-  //             sessionStorage.setItem(environment.USER_STORAGE_KEY, JSON.stringify(response.user));
-  //         }),
-  //         map((response) =>
-  //           loginSuccess({
-  //             user: response.user,
-  //             tokens: { 
-  //               accessToken: response.accessToken, 
-  //               refreshToken: response.refreshToken 
-  //           }})
-  //         ),
-  //         catchError((error) =>
-  //           of(loginFailure({ error: error.message || 'Login failed' }))
-  //         )
-  //       )
-  //     )
-  //   )
-  // );
 
   register$ = createEffect(() =>
     this.actions$.pipe(
@@ -52,6 +26,25 @@ export class AuthEffects {
       )
     )
   );
+
+  login$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.login),
+      switchMap((user: LoginCredentials) =>
+        this.authService.login(user).pipe(
+          map((response: LoginResponse) =>
+            AuthActions.loginSuccess({response})
+          ),
+          catchError((error) => {
+            console.log(error, "login error message from effect")
+            return of(AuthActions.loginFailure({ error: error.message || 'Login failed' }))
+          })
+        )
+      )
+    )
+  );
+
+ 
 
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(logout),

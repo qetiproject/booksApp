@@ -13,20 +13,15 @@ export const selectUser = createSelector(
     (state: AuthState) => state.response?.data
 )
 
-// export const selectTokens = createSelector(
-//     selectAuthState,
-//     (state: AuthState) => state.tokens
-// )
-
 export const selectIsLoggedIn = createSelector(
     selectAuthState,
     (state: AuthState) => state.isLoggedIn
 )
 
-// export const selectAuthloading = createSelector(
-//     selectAuthState,
-//     (state: AuthState) => state.loading
-// )
+export const selectAuthloading = createSelector(
+    selectAuthState,
+    (state: AuthState) => state.loading
+)
 
 export const selectAuthError = createSelector(
     selectAuthState,
@@ -36,4 +31,9 @@ export const selectAuthError = createSelector(
 // export const selectUserProfile = createSelector(
 //     selectAuthState,
 //     (state: AuthState) => state.userProfile
+// )
+
+// export const selectTokens = createSelector(
+//     selectAuthState,
+//     (state: AuthState) => state.tokens
 // )
