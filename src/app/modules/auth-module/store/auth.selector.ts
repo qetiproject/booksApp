@@ -5,23 +5,23 @@ export const selectAuthState = createFeatureSelector<AuthState>('auth');
 
 export const selectuserRegistered = createSelector(
     selectAuthState,
-    (state: AuthState) => state.userRegistered
+    (state: AuthState) => state.response
 )
 
-// export const selectUser = createSelector(
-//     selectAuthState,
-//     (state: AuthState) => state.user
-// )
+export const selectUser = createSelector(
+    selectAuthState,
+    (state: AuthState) => state.response?.data
+)
 
 // export const selectTokens = createSelector(
 //     selectAuthState,
 //     (state: AuthState) => state.tokens
 // )
 
-// export const selectIsLoggedIn = createSelector(
-//     selectAuthState,
-//     (state: AuthState) => state.isLoggedIn
-// )
+export const selectIsLoggedIn = createSelector(
+    selectAuthState,
+    (state: AuthState) => state.isLoggedIn
+)
 
 // export const selectAuthloading = createSelector(
 //     selectAuthState,
@@ -30,7 +30,7 @@ export const selectuserRegistered = createSelector(
 
 export const selectAuthError = createSelector(
     selectAuthState,
-    (state: AuthState) => state.userRegistered?.message
+    (state: AuthState) => state.response?.message
 )
 
 // export const selectUserProfile = createSelector(

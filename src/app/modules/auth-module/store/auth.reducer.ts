@@ -1,11 +1,12 @@
 import { createReducer, on } from "@ngrx/store";
 import * as AuthActions from './auth.action';
-import { login, loginFailure, loginSuccess, logout, registerFailure, registerSuccess, updateTokensSuccess, userProfileFailure, userProfileSuccess } from "./auth.action";
+import { login, loginFailure, loginSuccess, logout, registerFailure, registerSuccess } from "./auth.action";
 import { AuthState } from "./auth.store";
 
 export const initialAuthState: AuthState = {
     loading: false,
-    userRegistered: null      
+    isLoggedIn: false,
+    response: null      
 };
 
 export const AuthReducer = createReducer(
@@ -13,33 +14,32 @@ export const AuthReducer = createReducer(
     on(AuthActions.register, (state) => ({
         ...state,
         loading: true,
-        userRegistered: null
+        response: null
     })),
     on(registerSuccess, (state, {response}) =>({
         ...state,
         loading: false,
-        userRegistered: response,
+        response,
     })),
     on(registerFailure, (state, { response }) => ({
         ...state,
         loading: false,
-        userRegistered: response
+        response
     })),
     on(login, (state) => ({
         ...state,
         isLoggedIn: false,
         loading: true
     })),
-    on(loginSuccess, (state, {user, tokens}) =>({
+    on(loginSuccess, (state, {response,}) =>({
         ...state,
-        user,
-        tokens,
+        response: response,
         isLoggedIn: true,
         loading: false
     })),
-    on(loginFailure, (state, { error }) => ({
+    on(loginFailure, (state, { response }) => ({
         ...state,
-        error,
+        response,
         loading: false
     })),
     on(logout, (state) => ({
@@ -50,19 +50,20 @@ export const AuthReducer = createReducer(
         loading: false,
         error: null
     })),
-    on(updateTokensSuccess, (state, { tokens}) => ({
-        ...state,
-        tokens
-    })),
-    on(userProfileSuccess, (state, { user }) => ({
-        ...state,
-        userProfile: user,
-        isLoggedIn: true,
-    })),
-    on(userProfileFailure, (state, { error }) => ({
-        ...state,
-        error,
-        isLoggedIn: false,
-        user: null
-    }))
+
+    // on(updateTokensSuccess, (state, { tokens}) => ({
+    //     ...state,
+    //     tokens
+    // })),
+    // on(userProfileSuccess, (state, { user }) => ({
+    //     ...state,
+    //     userProfile: user,
+    //     isLoggedIn: true,
+    // })),
+    // on(userProfileFailure, (state, { error }) => ({
+    //     ...state,
+    //     error,
+    //     isLoggedIn: false,
+    //     user: null
+    // }))
 )

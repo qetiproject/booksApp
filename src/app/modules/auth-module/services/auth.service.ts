@@ -1,10 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { LoginResponse } from "@auth-types/user";
-import { UserProfileResponse } from "@auth-types/user-profile";
 import { Observable } from "rxjs";
-import { RegisterUserRequest, RegisterUserResponse } from "../types/user";
+import { LoginCredentials, LoginResponse, RegisterUserRequest, RegisterUserResponse } from "../types/user";
 import { AuthFacade } from "./authFacade";
 import { TokenStorageService } from "./token.service";
 
@@ -24,8 +22,8 @@ export class AuthService {
     return this.authFacade.registerUser(user)
   }
       
-  login(username: string, password: string): Observable<LoginResponse> {
-    return this.authFacade.login(username, password);  
+  login(user: LoginCredentials): Observable<LoginResponse> {
+    return this.authFacade.login(user);  
   }
 
   async logout() {
@@ -33,11 +31,11 @@ export class AuthService {
     await this.router.navigateByUrl('/login')
   }
 
-  refresh(refreshToken: string): Observable<{ accessToken: string; refreshToken: string}> {
-    return this.authFacade.refresh(refreshToken);
-  }
+  // refresh(refreshToken: string): Observable<{ accessToken: string; refreshToken: string}> {
+  //   return this.authFacade.refresh(refreshToken);
+  // }
 
-  getProfile(): Observable<UserProfileResponse> {
-    return this.authFacade.getProfile();
-  }
+  // getProfile(): Observable<UserProfileResponse> {
+  //   return this.authFacade.getProfile();
+  // }
 }

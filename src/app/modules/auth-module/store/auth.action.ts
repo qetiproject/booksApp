@@ -1,11 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { LoginCredentials, RegisterUserRequest, RegisterUserResponse, User } from "../types/user";
-import { UserProfileResponse } from "../types/user-profile";
-import { AuthTokens } from "./auth.store";
-
-export const login = createAction('[Auth] login', props<LoginCredentials>());
-export const loginSuccess = createAction('[Auth] login success', props<{user: User, tokens: AuthTokens}>());
-export const loginFailure = createAction('[Auth] login failure', props<{error: string}>());
+import { LoginCredentials, LoginResponse, RegisterUserRequest, RegisterUserResponse } from "../types/user";
 
 export const register = createAction(
   '[Auth] Register',
@@ -20,18 +14,31 @@ export const registerFailure = createAction(
   props<{ response: RegisterUserResponse }>()
 );
 
+export const login = createAction(
+  '[Auth] login', 
+  props<LoginCredentials>()
+);
+export const loginSuccess = createAction(
+  '[Auth] login success', 
+  props<{response: LoginResponse}>()
+);
+export const loginFailure = createAction(
+  '[Auth] login failure', 
+  props<{error: string}>()
+);
+
 export const logout = createAction('[Auth] logout')
 
-export const userProfile = createAction('[Auth] user profile ');
-export const userProfileSuccess = createAction('[Auth] user profile success', props<{user: UserProfileResponse}>());
-export const userProfileFailure = createAction('[Auth] user profile failure', props<{error: string}>());
+// export const userProfile = createAction('[Auth] user profile ');
+// export const userProfileSuccess = createAction('[Auth] user profile success', props<{user: UserProfileResponse}>());
+// export const userProfileFailure = createAction('[Auth] user profile failure', props<{error: string}>());
 
-export const updateTokensSuccess = createAction(
-    '[Auth] Update Tokens Success',
-    props<any>()
-);
+// export const updateTokensSuccess = createAction(
+//     '[Auth] Update Tokens Success',
+//     props<any>()
+// );
 
-export const updateTokensFailure = createAction(
-    '[Auth]  Update Tokens Failure',
-    props<{error: string}>()
-);
+// export const updateTokensFailure = createAction(
+//     '[Auth]  Update Tokens Failure',
+//     props<{error: string}>()
+// );

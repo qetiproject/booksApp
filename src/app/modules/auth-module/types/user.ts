@@ -1,28 +1,3 @@
-import { AuthTokens } from "../store/auth.store";
-
-export type User = {
-  id: number;
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  gender: string; 
-  image: string;
-}
-
-export interface LoginResponse {
-  user: User;
-  accessToken: string;
-  refreshToken: string;
-}
-
-export interface LoginCredentials {
-  username: string;
-  password: string;
-}
-
-export type LoginRequest = User & AuthTokens;
-
 export interface RegisterUserRequest {
   userId: number,
   emailId: string,
@@ -34,4 +9,20 @@ export interface RegisterUserResponse {
   message: string,
   result: boolean,
   data: Omit<RegisterUserRequest, 'password'>
+}
+
+export interface LoginCredentials {
+  emailId: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  message: string,
+  result: boolean,
+  data: {
+    userId: number,
+    emailId: string,
+    token: string,
+    refreshToken: string
+  }
 }

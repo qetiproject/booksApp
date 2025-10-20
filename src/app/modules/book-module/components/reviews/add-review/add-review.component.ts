@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { User } from '@auth-types/user';
 import { canUserAddReview } from '@book-module/services/canuserAddReview';
 import { ReviewService } from '@book-module/services/review.service';
 import { Readly, Review, ReviewForm } from '@book-module/types';
@@ -40,7 +39,7 @@ export class AddReviewComponent {
 
   onSubmit(e: Event): void {
     const userString = sessionStorage.getItem(environment.USER_STORAGE_KEY);
-    const user: User = userString ? JSON.parse(userString) : null;
+    const user: any = userString ? JSON.parse(userString) : null;
 
     if(!user) return;
 
