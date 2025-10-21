@@ -1,8 +1,6 @@
-import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { MessagesService } from "@core/services/messages.service";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { MessageSeverity } from "@types";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { AuthService } from "../services/auth.service";
 import { LoginCredentials, LoginResponse, RegisterCredentionals } from "../types/user";
@@ -25,23 +23,8 @@ export class AuthEffects {
       switchMap((user: RegisterCredentionals) =>
         this.authService.registerUser(user).pipe(
           map((response) => AuthActions.registerSuccess({ response })),
-          catchError(error => {
-            console.log(error, "error")
-            let message = ''
-            if (error.status === 404) {
-              message = 'Login service not found. Please contact support.';
-            } else if (error.status === 0) {
-              message = 'Cannot connect to the server. Please check your internet connection.';
-            }
-
-            this.messages.showMessage({
-              text: message,
-              severity: MessageSeverity.Error,
-              duration: 5000
-            });
-            return of(AuthActions.registerFailure({ error: message }))
-          })
-        )
+          catchError(error =>  of(AuthActions.registerFailure({ error }))
+        ))
       )
     )
   );
@@ -51,26 +34,8 @@ export class AuthEffects {
       ofType(AuthActions.login),
       switchMap((user: LoginCredentials) =>
         this.authService.login(user).pipe(
-          map((response: LoginResponse) =>
-            AuthActions.loginSuccess({response})
-          ),
-          catchError((error: HttpErrorResponse) => {
-            let message = ''
-            if (error.status === 401) {
-              message = 'Unable to log in. Check your email and password.';
-            }else if (error.status === 404) {
-              message = 'Login service not found. Please contact support.';
-            } else if (error.status === 0) {
-              message = 'Cannot connect to the server. Please check your internet connection.';
-            }
-
-            this.messages.showMessage({
-              text: message,
-              severity: MessageSeverity.Error,
-              duration: 5000
-            });
-            return of(AuthActions.loginFailure({ error: message }))
-          })
+          map((response: LoginResponse) => AuthActions.loginSuccess({response})),
+          catchError(error =>  of(AuthActions.loginFailure({ error })))
         )
       )
     )
