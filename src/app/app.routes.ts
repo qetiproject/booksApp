@@ -1,15 +1,14 @@
 import { Routes } from '@angular/router';
-import { ForgotPasswordComponent, ResetPasswordComponent } from '@auth-module';
-import { bookRoutes } from '@book-module/book.router';
+import { ForgotPasswordComponent, RegisterUserComponent, ResetPasswordComponent } from '@auth-module';
 import { IsUserAuthenticated, LoginRedirectGuard, RedirectBasedOnAuth } from '@core';
-import { RegisterUserComponent } from 'modules/auth-module/pages/register-user/register-user.component';
+import { bookRoutes } from 'modules/book-module/book.router';
 
 export const routes: Routes = [
   {
     path: '',
     canActivate: [RedirectBasedOnAuth],
     loadComponent: () => 
-      import('../app/modules/auth-module/pages/login/login.component').then(c => c.LoginComponent),
+      import('@auth-module').then(c => c.LoginComponent),
     pathMatch: 'full'
   },
   {
@@ -45,7 +44,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => 
-      import('../app/modules/auth-module/pages/login/login.component').then(c => c.LoginComponent),
+      import('@auth-module').then(c => c.LoginComponent),
     canActivate: [LoginRedirectGuard]
   },
   { path: '**', redirectTo: '' }

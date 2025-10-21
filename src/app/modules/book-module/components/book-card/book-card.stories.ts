@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { BooksView } from '@book-module/types';
+import { BookCardComponent, BooksView } from '@book-module';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-import { BookCardComponent } from './book-card.component';
 
 const meta: Meta<BookCardComponent> = {
   title: 'Components/BookCard',

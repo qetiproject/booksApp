@@ -1,5 +1,5 @@
 import { Component, input } from "@angular/core";
-import { Review } from "@book-module/types";
+import { Review } from "@book-module";
 
 @Component({
     selector: 'app-review-list',

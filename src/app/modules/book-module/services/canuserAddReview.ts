@@ -1,4 +1,4 @@
-import { Review } from "@book-module/types";
+import { Review } from "@book-module";
 import { environment } from "../../../../environments/environment.development";
 
 export function canUserAddReview(bookId: string): boolean {

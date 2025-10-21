@@ -3,8 +3,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChang
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { AuthEffects, AuthReducer } from "@auth-module";
-import { BookEffect } from '@book-module/store/book.effect';
-import { BookReducer } from '@book-module/store/book.reducer';
+import { BookEffect, BookReducer } from "@book-module";
 import { AuthInterceptor, GlobalHttpErrorInterceptor, LoadingInterceptor } from '@core';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';

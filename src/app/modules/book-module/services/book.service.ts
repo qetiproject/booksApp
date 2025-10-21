@@ -1,6 +1,6 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BookDetails, BookDetailsResult, BookResult, BooksView } from '@book-module/types';
+import { BookDetails, BookDetailsResult, BookResult, BooksView } from '@book-module';
 import { SkipLoading } from '@features';
 import { map, Observable, shareReplay } from 'rxjs';
 import { environment } from '../../../../environments/environment';

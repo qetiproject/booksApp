@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { BooksView } from '@book-module/types';
+import { BooksView } from '@book-module';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({

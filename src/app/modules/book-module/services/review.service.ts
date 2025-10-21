@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Review } from "@book-module/types";
+import { Review } from "@book-module";
 import { BehaviorSubject, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment.development";
 

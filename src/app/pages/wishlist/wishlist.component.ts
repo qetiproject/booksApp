@@ -1,7 +1,6 @@
 
 import { Component, inject } from '@angular/core';
-import { BookCardComponent } from '@book-module/components/book-card/book-card.component';
-import { BooksView } from '@book-module/types/book';
+import { BookCardComponent, BooksView } from '@book-module';
 import { BackButtonComponent } from '@components';
 import { MessagesService } from '@core';
 import { MessageSeverity } from '@types';

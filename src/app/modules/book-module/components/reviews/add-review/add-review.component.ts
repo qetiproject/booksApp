@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { canUserAddReview } from '@book-module/services/canuserAddReview';
-import { ReviewService } from '@book-module/services/review.service';
-import { Readly, Review, ReviewForm } from '@book-module/types';
+import { canUserAddReview, Readly, Review, ReviewForm, ReviewService } from '@book-module';
 import { MessagesService } from '@core';
 import { DynamicValidatorMessage, TextareaComponent } from '@features';
 import { MessageSeverity, TabKey } from '@types';

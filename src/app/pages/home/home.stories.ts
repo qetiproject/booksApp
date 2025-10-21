@@ -2,8 +2,7 @@ import { signal } from '@angular/core';
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { HomeComponent } from './home.component';
 
-import { BookCategoryDropdownComponent } from '@book-module/components/book-category-dropdown/book-category-dropdown.component';
-import { BookListComponent } from '@book-module/components/book-list/book-list.component';
+import { BookCategoryDropdownComponent, BookListComponent } from '@book-module';
 import { DebounceSearchComponent } from '@components';
 
 const meta: Meta<HomeComponent> = {

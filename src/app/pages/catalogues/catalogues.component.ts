@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, TemplateRef } from '@angular/core';
-import { BookCardComponent } from '@book-module/components/book-card/book-card.component';
-import { BooksView } from '@book-module/types/book';
+import { BookCardComponent, BooksView } from '@book-module';
 import { BackButtonComponent } from '@components';
 import { CatalogueService } from '@pages/catalogues/services/catalogue.service';
 

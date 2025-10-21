@@ -2,9 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { BookActionsComponent, BookContentComponent, BookInfoComponent, ReviewsTabComponent } from '@book-module/components';
-import { BookDetailsFacade } from '@book-module/services/book-details.facade';
-import { BookDetails } from '@book-module/types';
+import { BookActionsComponent, BookContentComponent, BookDetails, BookDetailsFacade, BookInfoComponent, ReviewsTabComponent } from '@book-module';
 import { BackButtonComponent } from '@components';
 
 @Component({
