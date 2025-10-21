@@ -2,8 +2,7 @@ import { provideHttpClient, withFetch, withInterceptors } from "@angular/common/
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
-import { AuthEffects } from '@auth-store/auth.effects';
-import { AuthReducer } from '@auth-store/auth.reducer';
+import { AuthEffects, AuthReducer } from "@auth-module";
 import { BookEffect } from '@book-module/store/book.effect';
 import { BookReducer } from '@book-module/store/book.reducer';
 import { AuthInterceptor, GlobalHttpErrorInterceptor, LoadingInterceptor } from '@core';

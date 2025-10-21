@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { AbstractControl, AsyncValidator, ValidationErrors } from "@angular/forms";
-import { SafeUserData, UserResponse, Users } from "@auth-types/user";
+import { SafeUserData, UserResponse, Users } from "@auth-module";
 import { catchError, map, Observable, of } from "rxjs";
 
 @Injectable({

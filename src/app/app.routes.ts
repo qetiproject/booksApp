@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-import { ForgotPasswordComponent } from '@auth-pages/forget-password/forget-password.component';
-import { ResetPasswordComponent } from '@auth-pages/reset-password/reset-password.component';
+import { ForgotPasswordComponent, ResetPasswordComponent } from '@auth-module';
 import { bookRoutes } from '@book-module/book.router';
 import { IsUserAuthenticated, LoginRedirectGuard, RedirectBasedOnAuth } from '@core';
 import { RegisterUserComponent } from 'modules/auth-module/pages/register-user/register-user.component';

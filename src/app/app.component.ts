@@ -1,10 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
-import * as AuthActions from '@auth-module/store/auth.action';
-import { AuthService } from '@auth-services/auth.service';
-import { TokenStorageService } from '@auth-services/token.service';
-import { selectIsLoggedIn } from '@auth-store/auth.selector';
+import * as AuthActions from '@auth-module';
+import { AuthService, TokenStorageService } from '@auth-module';
 import { Store } from '@ngrx/store';
 import { environment } from '../environments/environment.development';
 import { HeaderComponent } from './components/header/header.component';
@@ -27,7 +25,7 @@ export class AppComponent{
     isLoggedIn: boolean = false;
     
     constructor(private store: Store) {
-        this.store.select(selectIsLoggedIn).subscribe(isLoggedIn => {
+        this.store.select(AuthActions.selectIsLoggedIn).subscribe(isLoggedIn => {
             this.isLoggedIn =isLoggedIn;
         });
         this.init();

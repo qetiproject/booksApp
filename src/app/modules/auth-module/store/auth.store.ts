@@ -1,4 +1,4 @@
-import { LoginResponse, RegisterUserResponse } from "@auth-types/auth";
+import { LoginResponse, RegisterUserResponse } from "@auth-module";
 
 export interface AuthState {
   loading: boolean;

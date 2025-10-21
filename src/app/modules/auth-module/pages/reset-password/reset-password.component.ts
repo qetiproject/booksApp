@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '@auth-services/auth.service';
+import { AuthService } from '@auth-module';
 import { MessagesService } from '@core';
 import { DynamicValidatorMessage, InputComponent, InputType } from '@features';
 import { MessageSeverity } from '@types';

@@ -2,13 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router, RouterModule } from '@angular/router';
-import { RegisterCredentionals } from '@auth-types/auth';
+import { AuthService, RegisterCredentionals, selectUserResponse } from '@auth-module';
 import { MessagesService } from '@core';
 import { DynamicValidatorMessage, InputComponent, InputType, UniqueEmailValidator } from '@features';
 import { Store } from '@ngrx/store';
 import { MessageSeverity } from '@types';
-import { AuthService } from 'modules/auth-module/services/auth.service';
-import { selectUserResponse } from 'modules/auth-module/store/auth.selector';
 import { filter, take } from 'rxjs';
 import * as AuthActions from '../../store/auth.action';
 
