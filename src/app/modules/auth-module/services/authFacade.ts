@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse } from "../types/auth";
+import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse, ResetPassword } from "../types/auth";
 
 @Injectable({
     providedIn: 'root'
@@ -18,6 +18,14 @@ export class AuthFacade {
         return this.http.post<LoginResponse>('/UserApp/login', user)
     }
 
+    sendResetOtp(emailId: string): Observable<{message: string}> {
+        return this.http.post<{message: string}>(`/UserApp/send-reset-otp?emailId=${emailId}`, null)
+    }
+
+    resetPassword(data: ResetPassword): Observable<any> {
+        return this.http.post<any>(`/UserApp/verify-otp-reset-password`, data)
+    }
+    
     // getProfile(): Observable<UserProfileResponse> {
     //     return this.http.get<UserProfileResponse>(`${this.AUTH_API}/me`, );
     // }

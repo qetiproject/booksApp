@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { ResetPasswordComponent } from '@auth-pages/forget-password/components/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from '@auth-pages/forget-password/forget-password.component';
 import { bookRoutes } from '@book-module/book.router';
 import { IsUserAuthenticated } from '@core/guards/auth.guard';
 import { LoginRedirectGuard } from '@core/guards/loginRedirect.guard';
@@ -34,6 +36,14 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterUserComponent
+  },
+  {
+    path: 'forget-password',
+    component: ForgotPasswordComponent
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent
   },
   {
     path: 'login',

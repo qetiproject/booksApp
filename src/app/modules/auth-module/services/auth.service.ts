@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse } from "../types/auth";
+import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse, ResetPassword } from "../types/auth";
 import { AuthFacade } from "./authFacade";
 import { TokenStorageService } from "./token.service";
 
@@ -24,6 +24,14 @@ export class AuthService {
     return this.authFacade.login(user);  
   }
 
+  sendResetotp(emailId: string) {
+    return this.authFacade.sendResetOtp(emailId);
+  }
+
+  resetPassword(data: ResetPassword): Observable<any> {
+    return this.authFacade.resetPassword(data);
+  }
+  
   async logout() {
     this.tokenStorageService.clear();
     await this.router.navigateByUrl('/login')
