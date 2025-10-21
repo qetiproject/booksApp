@@ -3,7 +3,7 @@ import { AuthState } from "./auth.store";
 
 export const selectAuthState = createFeatureSelector<AuthState>('auth');
 
-export const selectuserRegistered = createSelector(
+export const selectUserResponse = createSelector(
     selectAuthState,
     (state: AuthState) => state.response
 )

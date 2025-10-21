@@ -7,7 +7,7 @@ import { DynamicValidatorMessage } from '@features/custom-form/validators';
 import { Store } from '@ngrx/store';
 import { MessageSeverity } from '@types';
 import { AuthService } from 'modules/auth-module/services/auth.service';
-import { selectIsLoggedIn } from 'modules/auth-module/store/auth.selector';
+import { selectUserResponse } from 'modules/auth-module/store/auth.selector';
 import { LoginCredentials } from 'modules/auth-module/types/user';
 import { filter, take, tap } from 'rxjs';
 import * as AuthActions from '../../store/auth.action';
@@ -43,15 +43,17 @@ export class LoginComponent {
     
     this.store.dispatch(AuthActions.login(credentials));
 
-    this.store.select(selectIsLoggedIn).pipe(
-        filter(isLoggedIn => isLoggedIn),
+    this.store.select(selectUserResponse).pipe(
+        filter(response => !!response),
         take(1),
-        tap(() => {
-          this.router.navigate(['/books']);
-          this.messages.showMessage({
-            text: `${credentials.emailId} წარმატებით შევიდა სისტემაში!`,
-            severity: MessageSeverity.Success,
-          });
+        tap((response) => {
+          if(response.result) {
+            this.messages.showMessage({
+              text: response.message,
+              severity: MessageSeverity.Success,
+            });
+            this.router.navigate(['/books']);
+          }
           this.formDir.resetForm();
       })
     ).subscribe();

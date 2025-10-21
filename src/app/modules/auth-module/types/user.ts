@@ -1,4 +1,4 @@
-export interface RegisterUserRequest {
+export interface RegisterCredentionals {
   userId: number,
   emailId: string,
   fullName: string,
@@ -8,7 +8,7 @@ export interface RegisterUserRequest {
 export interface RegisterUserResponse {
   message: string,
   result: boolean,
-  data: Omit<RegisterUserRequest, 'password'>
+  data: Omit<RegisterCredentionals, 'password'>
 }
 
 export interface LoginCredentials {

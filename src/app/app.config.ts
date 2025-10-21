@@ -1,10 +1,11 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
 import { provideHttpClient, withFetch, withInterceptors } from "@angular/common/http";
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
 import { AuthEffects } from '@auth-store/auth.effects';
 import { AuthReducer } from '@auth-store/auth.reducer';
+import { BookEffect } from '@book-module/store/book.effect';
+import { BookReducer } from '@book-module/store/book.reducer';
 import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
@@ -12,8 +13,6 @@ import { provideStoreDevtools } from "@ngrx/store-devtools";
 import { routes } from './app.routes';
 import { GlobalHttpErrorInterceptor } from './core/interceptors/global-http-error-interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
-import { BookEffect } from './modules/book-module/store/book.effect';
-import { BookReducer } from './modules/book-module/store/book.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -1,8 +1,11 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
+import { MessagesService } from "@core/services/messages.service";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { MessageSeverity } from "@types";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { AuthService } from "../services/auth.service";
-import { LoginCredentials, LoginResponse, RegisterUserRequest } from "../types/user";
+import { LoginCredentials, LoginResponse, RegisterCredentionals } from "../types/user";
 import * as AuthActions from './auth.action';
 import { logout } from "./auth.action";
 
@@ -10,7 +13,8 @@ import { logout } from "./auth.action";
 export class AuthEffects {
   actions$ = inject(Actions);
   authService = inject(AuthService);
-
+  messages = inject(MessagesService);
+  
   register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.register),
@@ -18,10 +22,25 @@ export class AuthEffects {
         ...action.user,
         userId: Math.floor(Math.random() * 1000000)
       })),
-      switchMap((user: RegisterUserRequest) =>
+      switchMap((user: RegisterCredentionals) =>
         this.authService.registerUser(user).pipe(
           map((response) => AuthActions.registerSuccess({ response })),
-          catchError((error) => of(AuthActions.registerFailure({ response: error })))
+          catchError(error => {
+            console.log(error, "error")
+            let message = ''
+            if (error.status === 404) {
+              message = 'Login service not found. Please contact support.';
+            } else if (error.status === 0) {
+              message = 'Cannot connect to the server. Please check your internet connection.';
+            }
+
+            this.messages.showMessage({
+              text: message,
+              severity: MessageSeverity.Error,
+              duration: 5000
+            });
+            return of(AuthActions.registerFailure({ error: message }))
+          })
         )
       )
     )
@@ -35,16 +54,27 @@ export class AuthEffects {
           map((response: LoginResponse) =>
             AuthActions.loginSuccess({response})
           ),
-          catchError((error) => {
-            console.log(error, "login error message from effect")
-            return of(AuthActions.loginFailure({ error: error.message || 'Login failed' }))
+          catchError((error: HttpErrorResponse) => {
+            let message = ''
+            if (error.status === 401) {
+              message = 'Unable to log in. Check your email and password.';
+            }else if (error.status === 404) {
+              message = 'Login service not found. Please contact support.';
+            } else if (error.status === 0) {
+              message = 'Cannot connect to the server. Please check your internet connection.';
+            }
+
+            this.messages.showMessage({
+              text: message,
+              severity: MessageSeverity.Error,
+              duration: 5000
+            });
+            return of(AuthActions.loginFailure({ error: message }))
           })
         )
       )
     )
   );
-
- 
 
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(logout),

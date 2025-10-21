@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { LoginCredentials, LoginResponse, RegisterUserRequest, RegisterUserResponse } from "../types/user";
+import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse } from "../types/user";
 import { AuthFacade } from "./authFacade";
 import { TokenStorageService } from "./token.service";
 
@@ -16,7 +16,7 @@ export class AuthService {
   tokenStorageService = inject(TokenStorageService)
   authFacade = inject(AuthFacade);
   
-  registerUser(user: RegisterUserRequest): Observable<RegisterUserResponse> {
+  registerUser(user: RegisterCredentionals): Observable<RegisterUserResponse> {
     return this.authFacade.registerUser(user)
   }
       

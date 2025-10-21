@@ -22,10 +22,10 @@ export const AuthReducer = createReducer(
         loading: false,
         response,
     })),
-    on(registerFailure, (state, { response }) => ({
+    on(registerFailure, (state, { error }) => ({
         ...state,
         loading: false,
-        response
+        error
     })),
     on(login, (state) => ({
         ...state,

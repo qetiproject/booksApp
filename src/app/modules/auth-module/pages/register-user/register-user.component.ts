@@ -8,8 +8,8 @@ import { DynamicValidatorMessage } from '@features/custom-form/validators';
 import { Store } from '@ngrx/store';
 import { MessageSeverity } from '@types';
 import { AuthService } from 'modules/auth-module/services/auth.service';
-import { selectuserRegistered } from 'modules/auth-module/store/auth.selector';
-import { RegisterUserRequest } from 'modules/auth-module/types/user';
+import { selectUserResponse } from 'modules/auth-module/store/auth.selector';
+import { RegisterCredentionals } from 'modules/auth-module/types/user';
 import { filter, take } from 'rxjs';
 import * as AuthActions from '../../store/auth.action';
 
@@ -51,11 +51,11 @@ export class RegisterUserComponent {
   })
   
   onSubmit(e: Event): void {
-    const credentials: RegisterUserRequest = this.form.value as RegisterUserRequest
+    const credentials: RegisterCredentionals = this.form.value as RegisterCredentionals
     
     this.store.dispatch(AuthActions.register({user: credentials}))
     
-    this.store.select(selectuserRegistered).pipe(
+    this.store.select(selectUserResponse).pipe(
       filter(response => !!response),
       take(1),
     ).subscribe({
