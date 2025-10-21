@@ -28,7 +28,7 @@ export class AuthService {
     return this.authFacade.sendResetOtp(emailId);
   }
 
-  resetPassword(data: ResetPassword): Observable<any> {
+  resetPassword(data: ResetPassword): Observable<string> {
     return this.authFacade.resetPassword(data);
   }
   

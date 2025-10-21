@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '@auth-services/auth.service';
+import { AuthService } from '@auth-services/index';
 import { MessagesService } from '@core/services/messages.service';
 import { InputComponent, InputType } from '@features/custom-form';
 import { DynamicValidatorMessage } from '@features/custom-form/validators';
@@ -37,18 +37,15 @@ export class ForgotPasswordComponent  {
   }
 
   onSubmit(event: Event) {
-    event.preventDefault();
-    if (this.form.valid) {
-      this.authService.sendResetotp(this.form.value.email).subscribe({
-        next: (response) => {
-          this.messages.showMessage({
-            text: response.message,
-            severity: MessageSeverity.Success,
-          });
-          this.router.navigate(['/reset-password'])
-        },
-        error: (err) => console.log(err)
-      })
-    }
+    if (this.form.invalid) return;
+    this.authService.sendResetotp(this.form.value.email).subscribe({
+      next: (response) => {
+        this.messages.showMessage({
+          text: response.message,
+          severity: MessageSeverity.Success,
+        });
+        this.router.navigate(['/reset-password'])
+      },
+    })
   }
 }

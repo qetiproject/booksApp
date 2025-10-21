@@ -22,8 +22,12 @@ export class AuthFacade {
         return this.http.post<{message: string}>(`/UserApp/send-reset-otp?emailId=${emailId}`, null)
     }
 
-    resetPassword(data: ResetPassword): Observable<any> {
-        return this.http.post<any>(`/UserApp/verify-otp-reset-password`, data)
+    resetPassword(data: ResetPassword): Observable<string> {
+        return this.http.post<string>(
+            `/UserApp/verify-otp-reset-password`, 
+            data,
+            { responseType: 'text' as 'json' }
+        )
     }
     
     // getProfile(): Observable<UserProfileResponse> {

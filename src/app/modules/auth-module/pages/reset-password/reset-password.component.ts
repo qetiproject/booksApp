@@ -39,18 +39,16 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   onSubmit(event: Event) {
-    event.preventDefault();
-    if (this.form.valid) {
-      this.authService.resetPassword(this.form.value).subscribe({
+    if (this.form.invalid) return;
+    this.authService.resetPassword(this.form.value)
+      .subscribe({
         next: (response) => {
           this.messages.showMessage({
-            text: response.message,
+            text: response,
             severity: MessageSeverity.Success,
           });
           this.router.navigate(['/login'])
-        },
-        error: (err) => console.log(err)
+        }
       })
-    }
   }
 }
