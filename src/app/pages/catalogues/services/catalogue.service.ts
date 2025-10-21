@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BooksView } from '@book-module/types/book';
 import { BookDetails } from '@book-module/types/book-details';
-import { MessagesService } from '@core/services/messages.service';
+import { MessagesService } from '@core';
 import { MessageSeverity } from '@types';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';

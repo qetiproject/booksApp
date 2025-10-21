@@ -6,13 +6,11 @@ import { AuthEffects } from '@auth-store/auth.effects';
 import { AuthReducer } from '@auth-store/auth.reducer';
 import { BookEffect } from '@book-module/store/book.effect';
 import { BookReducer } from '@book-module/store/book.reducer';
-import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
+import { AuthInterceptor, GlobalHttpErrorInterceptor, LoadingInterceptor } from '@core';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from "@ngrx/store-devtools";
 import { routes } from './app.routes';
-import { GlobalHttpErrorInterceptor } from './core/interceptors/global-http-error-interceptor';
-import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

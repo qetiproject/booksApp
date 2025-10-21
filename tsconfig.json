@@ -26,8 +26,8 @@
     "baseUrl": "src/app",
     "paths": {
       "@components": ["components/index.ts"],
-      "@core/*": ["core/*"],
-      "@features/*": ["features/*"],
+      "@core": ["core/index.ts"],
+      "@features": ["features/index.ts"],
       "@pages/*": ["pages/*"],
       "@types": ["types/index.ts"],
       "@utils/*": ["utils/*"],

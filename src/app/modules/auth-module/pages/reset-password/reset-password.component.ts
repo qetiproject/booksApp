@@ -3,9 +3,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@auth-services/auth.service';
-import { MessagesService } from '@core/services/messages.service';
-import { InputComponent, InputType } from '@features/custom-form';
-import { DynamicValidatorMessage } from '@features/custom-form/validators';
+import { MessagesService } from '@core';
+import { DynamicValidatorMessage, InputComponent, InputType } from '@features';
 import { MessageSeverity } from '@types';
 
 @Component({

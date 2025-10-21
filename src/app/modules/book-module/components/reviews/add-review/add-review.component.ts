@@ -4,9 +4,8 @@ import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsM
 import { canUserAddReview } from '@book-module/services/canuserAddReview';
 import { ReviewService } from '@book-module/services/review.service';
 import { Readly, Review, ReviewForm } from '@book-module/types';
-import { MessagesService } from '@core/services/messages.service';
-import { TextareaComponent } from "@features/custom-form/textarea.component";
-import { DynamicValidatorMessage } from '@features/custom-form/validators';
+import { MessagesService } from '@core';
+import { DynamicValidatorMessage, TextareaComponent } from '@features';
 import { MessageSeverity, TabKey } from '@types';
 import { createReviewForm } from '@utils/review-form.factory';
 import { exhaustMap, from } from 'rxjs';

@@ -2,9 +2,7 @@ import { Routes } from '@angular/router';
 import { ForgotPasswordComponent } from '@auth-pages/forget-password/forget-password.component';
 import { ResetPasswordComponent } from '@auth-pages/reset-password/reset-password.component';
 import { bookRoutes } from '@book-module/book.router';
-import { IsUserAuthenticated } from '@core/guards/auth.guard';
-import { LoginRedirectGuard } from '@core/guards/loginRedirect.guard';
-import { RedirectBasedOnAuth } from '@core/guards/redirectBasedOnAuth.guard';
+import { IsUserAuthenticated, LoginRedirectGuard, RedirectBasedOnAuth } from '@core';
 import { RegisterUserComponent } from 'modules/auth-module/pages/register-user/register-user.component';
 
 export const routes: Routes = [

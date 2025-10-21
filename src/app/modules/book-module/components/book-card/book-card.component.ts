@@ -2,7 +2,7 @@
 import { Component, EventEmitter, inject, input, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { BooksView } from '@book-module/types';
-import { MessagesService } from '@core/services/messages.service';
+import { MessagesService } from '@core';
 import { MessageSeverity } from '@types';
 
 @Component({

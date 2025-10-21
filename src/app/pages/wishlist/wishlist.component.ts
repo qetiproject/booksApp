@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { BookCardComponent } from '@book-module/components/book-card/book-card.component';
 import { BooksView } from '@book-module/types/book';
 import { BackButtonComponent } from '@components';
-import { MessagesService } from '@core/services/messages.service';
+import { MessagesService } from '@core';
 import { MessageSeverity } from '@types';
 import { FavouriteBookService } from './services/favouriteBook.service';
 
