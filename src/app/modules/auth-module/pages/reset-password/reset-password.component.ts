@@ -9,7 +9,7 @@ import { DynamicValidatorMessage } from '@features/custom-form/validators';
 import { MessageSeverity } from '@types';
 
 @Component({
-  selector: 'send-reset-otp',
+  selector: 'reset-password',
   standalone: true,
   imports:[
     CommonModule,
@@ -19,9 +19,9 @@ import { MessageSeverity } from '@types';
     InputComponent,
     DynamicValidatorMessage
   ],
-  templateUrl: './send-reset-otp.component.html',
+  templateUrl: './reset-password.component.html',
 })
-export class SendResetOtpComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit {
   form!: FormGroup;
   InputType = InputType
   authService = inject(AuthService);
@@ -32,24 +32,25 @@ export class SendResetOtpComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      otp: ['', [Validators.required]],
+      newPassword: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
   onSubmit(event: Event) {
     event.preventDefault();
     if (this.form.valid) {
-      this.authService.sendResetotp(this.form.value.email).subscribe({
+      this.authService.resetPassword(this.form.value).subscribe({
         next: (response) => {
           this.messages.showMessage({
             text: response.message,
             severity: MessageSeverity.Success,
           });
-          this.router.navigate(['/reset-password'])
+          this.router.navigate(['/login'])
         },
         error: (err) => console.log(err)
       })
-      console.log('Reset email sent to:', this.form.value.email);
     }
   }
 }

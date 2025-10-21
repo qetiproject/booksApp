@@ -29,6 +29,6 @@ export interface LoginResponse {
 
 export interface ResetPassword {
   email: string;
-  otp: number;
+  otp: string;
   newPassword: string;
 }
