@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { RegisterCredentionals } from '@auth-types/auth';
 import { MessagesService } from '@core/services/messages.service';
 import { InputComponent, InputType } from '@features/custom-form';
 import { DynamicValidatorMessage } from '@features/custom-form/validators';
+import { UniqueEmailValidator } from '@features/custom-form/validators/unique-email.validator';
 import { Store } from '@ngrx/store';
 import { MessageSeverity } from '@types';
 import { AuthService } from 'modules/auth-module/services/auth.service';
 import { selectUserResponse } from 'modules/auth-module/store/auth.selector';
-import { RegisterCredentionals } from 'modules/auth-module/types/user';
 import { filter, take } from 'rxjs';
 import * as AuthActions from '../../store/auth.action';
 
@@ -18,6 +19,7 @@ import * as AuthActions from '../../store/auth.action';
     standalone: true,
     imports: [
       CommonModule,
+      RouterModule,
       ReactiveFormsModule,
       FormsModule,
       InputComponent,
@@ -31,23 +33,21 @@ export class RegisterUserComponent {
   authService = inject(AuthService);
   messages = inject(MessagesService);
   store = inject(Store);
-  // uniqueEmailValidator = inject(UniqueEmailValidator);
+  uniqueEmailValidator = inject(UniqueEmailValidator);
 
   InputType = InputType;
   @ViewChild(FormGroupDirective, { static: false }) private formDir!: FormGroupDirective;
   
   form = this.fb.nonNullable.group({
-    emailId: ['', [Validators.required, Validators.email]],
+    emailId: ['', {
+      Validators: [Validators.required, Validators.email],
+      asyncValidators: [
+          this.uniqueEmailValidator.validate.bind(this.uniqueEmailValidator)
+        ],
+        updateOn: 'blur'
+    }],
     fullName: ['', [Validators.required, Validators.minLength(8)]],
-    password: ['', 
-      {
-        validators: [Validators.required, Validators.minLength(8)],
-        // asyncValidators: [
-        //   this.uniqueEmailValidator.validate.bind(this.uniqueEmailValidator)
-        // ],
-        // updateOn: 'blur'
-      }
-    ]
+    password: ['', [Validators.required, Validators.minLength(8)]]
   })
   
   onSubmit(e: Event): void {

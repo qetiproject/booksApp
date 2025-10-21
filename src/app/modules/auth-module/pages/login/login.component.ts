@@ -1,6 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MessagesService } from '@core/services/messages.service';
 import { InputComponent, InputType } from "@features/custom-form";
 import { DynamicValidatorMessage } from '@features/custom-form/validators';
@@ -8,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { MessageSeverity } from '@types';
 import { AuthService } from 'modules/auth-module/services/auth.service';
 import { selectUserResponse } from 'modules/auth-module/store/auth.selector';
-import { LoginCredentials } from 'modules/auth-module/types/user';
+import { LoginCredentials } from 'modules/auth-module/types/auth';
 import { filter, take, tap } from 'rxjs';
 import * as AuthActions from '../../store/auth.action';
 
@@ -16,11 +17,13 @@ import * as AuthActions from '../../store/auth.action';
     selector: 'login',
     standalone: true,
     imports: [
-    ReactiveFormsModule,
-    InputComponent,
-    FormsModule,
-    DynamicValidatorMessage
-  ],
+      CommonModule,
+      ReactiveFormsModule,
+      InputComponent,
+      FormsModule,
+      DynamicValidatorMessage,
+      RouterModule
+    ],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css'
 })

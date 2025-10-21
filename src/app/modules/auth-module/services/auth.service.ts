@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse } from "../types/user";
+import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse } from "../types/auth";
 import { AuthFacade } from "./authFacade";
 import { TokenStorageService } from "./token.service";
 

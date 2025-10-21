@@ -1,18 +1,52 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
   <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Sign Up </h2>
-    <form  [formGroup]="form" (ngSubmit)="onSubmit($event)">
-      <app-input 
-        name="email" label="Email" [type] = InputType.Text formControlName="emailId"></app-input>
-      <app-input name="fullName" label="FullName" [type] = InputType.Text formControlName="fullName"></app-input>
-      <app-input name="password" label="Password" [type] = InputType.Password formControlName="password"></app-input>
-      <button type="submit" [disabled]="!form.valid"
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
+      Register
+    </h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit($event)" class="space-y-4">
+      <app-input
+        name="email"
+        label="Email"
+        [type]="InputType.Text"
+        formControlName="emailId"
+      ></app-input>
+
+      <app-input
+        name="fullName"
+        label="Full Name"
+        [type]="InputType.Text"
+        formControlName="fullName"
+      ></app-input>
+
+      <app-input
+        name="password"
+        label="Password"
+        [type]="InputType.Password"
+        formControlName="password"
+      ></app-input>
+
+      <button
+        type="submit"
+        [disabled]="!form.valid"
         [ngClass]="{
           'bg-blue-600 hover:bg-blue-700 text-white': form.valid,
           'bg-gray-200 text-gray-500 cursor-not-allowed opacity-70': form.invalid
         }"
-        class="w-full mt-3 bg-blue-600 text-white  px-4 py-2 text-sm font-medium rounded-lg transition shadow"
-      >Sign Up</button>
+        class="w-full mt-3 px-4 py-2 text-sm font-medium rounded-lg transition shadow"
+      >
+        Register
+      </button>
     </form>
+
+    <div class="flex justify-center items-center pt-6">
+      <span class="text-gray-600 text-sm">Already have an account?</span>
+      <a
+        [routerLink]="['/login']"
+        class="ml-2 text-sm text-blue-600 font-medium hover:text-blue-800 transition cursor-pointer"
+      >
+        Login
+      </a>
+    </div>
   </div>
 </div>

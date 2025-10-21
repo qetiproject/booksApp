@@ -1,28 +1,32 @@
-export interface RegisterCredentionals {
+export enum Role {
+  'Agent' = 'Agent',
+  'Customer' = 'Customer'
+}
+
+export interface UserData {
   userId: number,
+  userName: string,
   emailId: string,
   fullName: string,
-  password: string
+  role: Role,
+  createdDate: string,
+  password: number,
+  projectName: string,
+  refreshToken: string,
+  refreshTokenExpiryTime: string
+}
+export type SafeUserData = Omit<UserData, 'password' | 'refreshToken' | 'refreshTokenExpiryTime'>;
+
+export interface UserResponse {
+  totalRecords: number,
+  pageNumber: number,
+  pageSize: number,
+  data: UserData[];
 }
 
-export interface RegisterUserResponse {
-  message: string,
-  result: boolean,
-  data: Omit<RegisterCredentionals, 'password'>
-}
-
-export interface LoginCredentials {
-  emailId: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  message: string,
-  result: boolean,
-  data: {
-    userId: number,
-    emailId: string,
-    token: string,
-    refreshToken: string
-  }
+export interface Users {
+  totalRecords: number,
+  pageNumber: number,
+  pageSize: number,
+  data: SafeUserData[];
 }

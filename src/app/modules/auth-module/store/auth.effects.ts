@@ -3,7 +3,7 @@ import { TokenStorageService } from "@auth-services/token.service";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { AuthService } from "../services/auth.service";
-import { LoginCredentials, LoginResponse, RegisterCredentionals } from "../types/user";
+import { LoginCredentials, LoginResponse, RegisterCredentionals } from "../types/auth";
 import * as AuthActions from './auth.action';
 import { logout } from "./auth.action";
 
