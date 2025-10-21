@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { environment } from "../../../../environments/environment";
 import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse } from "../types/user";
 
 @Injectable({
@@ -10,7 +9,6 @@ import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserRes
 
 export class AuthFacade {
     private http = inject(HttpClient);
-    readonly  AUTH_API = environment.AUTH_API;
     
     registerUser(user: RegisterCredentionals): Observable<RegisterUserResponse> {
         return this.http.post<RegisterUserResponse>(`/UserApp/CreateNewUser`, user)
@@ -22,9 +20,5 @@ export class AuthFacade {
 
     // getProfile(): Observable<UserProfileResponse> {
     //     return this.http.get<UserProfileResponse>(`${this.AUTH_API}/me`, );
-    // }
-
-    // refresh(refreshToken: string): Observable<AuthTokens> {
-    //     return this.http.post<AuthTokens>(`${this.AUTH_API}/refresh`, refreshToken);
     // }
 }

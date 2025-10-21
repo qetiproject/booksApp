@@ -1,5 +1,5 @@
 import { Injectable, inject } from "@angular/core";
-import { MessagesService } from "@core/services/messages.service";
+import { TokenStorageService } from "@auth-services/token.service";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { AuthService } from "../services/auth.service";
@@ -11,7 +11,7 @@ import { logout } from "./auth.action";
 export class AuthEffects {
   actions$ = inject(Actions);
   authService = inject(AuthService);
-  messages = inject(MessagesService);
+  tokeService = inject(TokenStorageService);
   
   register$ = createEffect(() =>
     this.actions$.pipe(
@@ -34,7 +34,10 @@ export class AuthEffects {
       ofType(AuthActions.login),
       switchMap((user: LoginCredentials) =>
         this.authService.login(user).pipe(
-          map((response: LoginResponse) => AuthActions.loginSuccess({response})),
+          map((response: LoginResponse) => {
+            this.tokeService.saveTokens(response.data.token)
+            return AuthActions.loginSuccess({response})
+          }),
           catchError(error =>  of(AuthActions.loginFailure({ error })))
         )
       )

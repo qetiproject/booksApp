@@ -38,11 +38,10 @@ export class AppComponent{
 
     init() {
         const accessToken = this.tokenStorageService.getAccessToken();
-        const refreshToken = this.tokenStorageService.getRefreshToken();
         const userData = sessionStorage.getItem(environment.USER_STORAGE_KEY);
         const user = userData ? JSON.parse(userData) : null;
 
-        if (accessToken && refreshToken && user) {
+        if (accessToken && user) {
             this.store.dispatch(AuthActions.loginSuccess({ response: user}));
         }
     }

@@ -51,11 +51,6 @@ export const AuthReducer = createReducer(
         loading: false,
         error: null
     })),
-
-    // on(updateTokensSuccess, (state, { tokens}) => ({
-    //     ...state,
-    //     tokens
-    // })),
     // on(userProfileSuccess, (state, { user }) => ({
     //     ...state,
     //     userProfile: user,

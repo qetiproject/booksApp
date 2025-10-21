@@ -32,8 +32,3 @@ export const selectAuthError = createSelector(
 //     selectAuthState,
 //     (state: AuthState) => state.userProfile
 // )
-
-// export const selectTokens = createSelector(
-//     selectAuthState,
-//     (state: AuthState) => state.tokens
-// )
