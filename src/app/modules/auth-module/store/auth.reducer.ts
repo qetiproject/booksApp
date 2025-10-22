@@ -7,7 +7,7 @@ export const initialAuthState: AuthState = {
     loading: false,
     isLoggedIn: false,
     response: null,
-    error: null      
+    error: null ,
 };
 
 export const AuthReducer = createReducer(
@@ -50,16 +50,5 @@ export const AuthReducer = createReducer(
         isLoggedIn: false,
         loading: false,
         error: null
-    })),
-    // on(userProfileSuccess, (state, { user }) => ({
-    //     ...state,
-    //     userProfile: user,
-    //     isLoggedIn: true,
-    // })),
-    // on(userProfileFailure, (state, { error }) => ({
-    //     ...state,
-    //     error,
-    //     isLoggedIn: false,
-    //     user: null
-    // }))
+    }))
 )

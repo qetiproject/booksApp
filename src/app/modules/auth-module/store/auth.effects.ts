@@ -46,14 +46,4 @@ export class AuthEffects {
     tap(() => this.authService.logout())
   ),{dispatch: false})
 
-
-  // userProfile$ = createEffect(() => this.actions$.pipe(
-  //   ofType(userProfile),
-  //   switchMap(() => 
-  //     this.authService.getProfile().pipe(
-  //       map((userProfileResponse) => userProfileSuccess({user: userProfileResponse})),
-  //       catchError(error => of(userProfileFailure({ error: error.message || 'Failed to fetch profile' })))
-  //     )
-  //   )
-  // ))
 }
