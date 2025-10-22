@@ -39,7 +39,7 @@ export class AppComponent{
         const userData = sessionStorage.getItem(environment.USER_STORAGE_KEY);
         const user = userData ? JSON.parse(userData) : null;
 
-        if (accessToken && user) {
+        if (accessToken) {
             this.store.dispatch(AuthActions.loginSuccess({ response: user}));
         }
     }

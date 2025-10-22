@@ -1,52 +1,43 @@
 import { Routes } from '@angular/router';
-import { ForgotPasswordComponent, RegisterUserComponent, ResetPasswordComponent } from '@auth-module';
 import { IsUserAuthenticated, LoginRedirectGuard, RedirectBasedOnAuth } from '@core';
+import { authRoutes } from 'modules/auth-module/auth.routes';
 import { bookRoutes } from 'modules/book-module/book.router';
 
 export const routes: Routes = [
   {
     path: '',
     canActivate: [RedirectBasedOnAuth],
+    pathMatch: 'full',
     loadComponent: () => 
       import('@auth-module').then(c => c.LoginComponent),
-    pathMatch: 'full'
   },
-  {
-    path: '',
+  { 
+    path: 'books', 
+    canActivateChild: [IsUserAuthenticated], 
+    children: bookRoutes,  
+  },
+   { path: 'catalogue', 
     canActivate: [IsUserAuthenticated],
-    children: [
-      { path: 'books', children: bookRoutes },
-      { path: 'favourites', 
-        loadComponent: () => 
-          import('@pages/wishlist/wishlist.component').then(c => c.WishlistComponent) },
-      { path: 'catalogue', 
-        loadComponent: () => 
-          import('@pages/catalogues/catalogues.component').then(c => c.CataloguesComponent)
-      },
-      // { path: 'profile', 
-      //   loadComponent: () => 
-      //     import('@auth-module/pages/profile/profile.component').then(c => c.ProfileComponent)
-      // }
-    ],
-  },
-  {
-    path: 'register',
-    component: RegisterUserComponent
-  },
-  {
-    path: 'send-reset-otp',
-    component: ForgotPasswordComponent
-  },
-  {
-    path: 'reset-password',
-    component: ResetPasswordComponent
-  },
-  {
-    path: 'login',
     loadComponent: () => 
-      import('@auth-module').then(c => c.LoginComponent),
-    canActivate: [LoginRedirectGuard]
+          import('@pages/catalogues/catalogues.component').then(c => c.CataloguesComponent), 
+  },
+  { path: 'favourites', 
+    canActivate: [IsUserAuthenticated],
+    loadComponent: () => 
+      import('@pages/wishlist/wishlist.component').then(c => c.WishlistComponent), 
+  },
+  { 
+    path: '', 
+    canActivate: [LoginRedirectGuard], 
+    children: authRoutes
+  },
+   { 
+    path: 'profile', 
+    canActivate: [IsUserAuthenticated], 
+    loadComponent: () => 
+      import('@auth-module').then(c => c.ProfileComponent)
   },
   { path: '**', redirectTo: '' }
 ];
+
 

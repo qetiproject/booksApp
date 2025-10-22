@@ -1,22 +1,21 @@
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
-import { AbstractControl, AsyncValidator, ValidationErrors } from "@angular/forms";
-import { SafeUserData, UserResponse, Users } from "@auth-module";
-import { catchError, map, Observable, of } from "rxjs";
+import { Injectable, inject } from '@angular/core';
+import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
+import { AuthService, Users } from '@auth-module';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class UniqueEmailValidator implements AsyncValidator {
-  http = inject(HttpClient);
-  
+  private userService = inject(AuthService);
+
   validate(control: AbstractControl<string | null>): Observable<ValidationErrors | null> {
-    return this.http.get<UserResponse>(`/UserApp/searchUsers?searchText=${control.value}`).pipe(
+    const email = control.value?.trim();
+    if (!email) return of(null);
+
+    return this.userService.searchUsers(email).pipe(
       map(response => {
-        const users: Users = {
-          ...response,
-          data: response.data.map(({ password, refreshToken, refreshTokenExpiryTime, ...rest }) => rest as SafeUserData)
-        };
+        const users: Users = { ...response };
+
         return users.totalRecords === 0
           ? null
           : { uniqueEmail: { isTaken: true } };

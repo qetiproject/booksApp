@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
+import { UserResponse, Users } from "@auth-module";
 import { Observable } from "rxjs";
 import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse, ResetPassword } from "../types/auth";
 
@@ -30,7 +31,7 @@ export class AuthFacade {
         )
     }
     
-    // getProfile(): Observable<UserProfileResponse> {
-    //     return this.http.get<UserProfileResponse>(`${this.AUTH_API}/me`, );
-    // }
+    searchUsers(searchText: string): Observable<Users> {
+        return this.http.get<UserResponse>(`UserApp/searchUsers?searchText=${searchText}`, );
+    }
 }

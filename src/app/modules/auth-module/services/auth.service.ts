@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import { Users } from "@auth-module";
 import { Observable } from "rxjs";
 import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse, ResetPassword } from "../types/auth";
 import { AuthFacade } from "./authFacade";
@@ -37,7 +38,7 @@ export class AuthService {
     await this.router.navigateByUrl('/login')
   }
 
-  // getProfile(): Observable<UserProfileResponse> {
-  //   return this.authFacade.getProfile();
-  // }
+  searchUsers(searchText: string): Observable<Users> {
+    return this.authFacade.searchUsers(searchText);
+  }
 }
