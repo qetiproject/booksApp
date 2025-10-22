@@ -1,7 +1,7 @@
 
 import { Component, effect, inject, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BookCardComponent, BookFacadeService, BooksView } from '@book-module';
+import { BookCardComponent, BookFacadeService, BookService, BooksView } from '@book-module';
 
 @Component({
   selector: 'app-book-list',
@@ -12,6 +12,7 @@ import { BookCardComponent, BookFacadeService, BooksView } from '@book-module';
 })
 export class BookListComponent {
   #bookFacadeService = inject(BookFacadeService)
+  #bookService = inject(BookService);
 
   // signals
   searchQuery = input<string>('');
@@ -25,19 +26,19 @@ export class BookListComponent {
   initEffects() {
     effect(() => {
       if(this.searchQuery()){
-        this.#bookFacadeService.getBooks(this.searchQuery(), null)
+        this.#bookService.getBooks(this.searchQuery(), null)
       }
     });
 
     effect(() => {
       if(this.categorySelected() != null){
-        this.#bookFacadeService.getBooks(null, this.categorySelected())
+        this.#bookService.getBooks(null, this.categorySelected())
       }
     });
   }
 
   onAddInFavouriteEvent(book: BooksView) {
-    this.#bookFacadeService.onAddInFavouriteEvent(book);
+    this.#bookService.onAddInFavouriteEvent(book);
   }
 
 }
