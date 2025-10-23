@@ -4,7 +4,7 @@ export * from './pages/profile/profile.component';
 export * from './pages/register-user/register-user.component';
 export * from './pages/reset-password/reset-password.component';
 export * from './services/index';
-export * from './store/auth/index';
+export * from './store/index';
 export * from './types/auth';
 export * from './types/user';
 
