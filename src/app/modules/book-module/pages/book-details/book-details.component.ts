@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { UserSafeInSystem, UserService } from '@auth-module';
 import { BookActionsComponent, BookContentComponent, BookDetails, BookDetailsService, BookInfoComponent, ReviewsTabComponent } from '@book-module';
 import { BackButtonComponent } from '@components';
 
@@ -14,20 +15,24 @@ import { BackButtonComponent } from '@components';
   styleUrls: ['./book-details.component.css'],
 })
 export class BookDetailsComponent {
-  private route = inject(ActivatedRoute);
+  #route = inject(ActivatedRoute);
   #bookDetailsService = inject(BookDetailsService);
+  #userService = inject(UserService);
+  user: UserSafeInSystem | null = this.#userService.getCurrentUser();
   
-  readonly book: WritableSignal<BookDetails> = signal(this.route.snapshot.data['book']);
+  readonly book: WritableSignal<BookDetails> = signal(this.#route.snapshot.data['book']);
 
   goBack(): void {
     this.#bookDetailsService.goBack()
   }
 
   addToFavouritesEvent(): void {
-    this.#bookDetailsService.addToFavouritesEvent(this.book())
+    if (!this.user) return;
+    this.#bookDetailsService.addToFavouritesEvent(this.book(), this.user.userId)
   }
   
   addToCatalogueEvent(): void {
-    this.#bookDetailsService.addToCatalogueEvent(this.book())
+    if (!this.user) return;
+    this.#bookDetailsService.addToCatalogueEvent(this.book(), this.user.userId)
   }
 }

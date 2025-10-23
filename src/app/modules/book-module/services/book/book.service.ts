@@ -26,8 +26,8 @@ export class BookService {
     return this.bookFacade.loadBooksByCategory(category, maxResults, startIndex);
   }
 
-  bookById(id: string): Observable<BookDetails> {
-    return this.bookFacade.bookById(id);
+  bookById(id: string, userId: number): Observable<BookDetails> {
+    return this.bookFacade.bookById(id, userId);
   }
 
   getBooks(query: string | null, category: string | null): void {

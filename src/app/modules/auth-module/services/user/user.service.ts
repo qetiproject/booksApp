@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { SafeUserData, Users } from "@auth-module";
+import { Users, UserSafeInSystem } from "@auth-module";
 import { STORAGE_KEYS } from "@core";
 import { Observable } from "rxjs";
 import { TokenStorageService } from "../token.service";
@@ -25,7 +25,7 @@ export class UserService {
     return this.userFacade.getUserbyEmail();
   }
 
-  getCurrentUser(): SafeUserData | null {
+  getCurrentUser(): UserSafeInSystem | null {
     const userData = localStorage.getItem(STORAGE_KEYS.USER);
     return userData ? JSON.parse(userData) : null;
   }

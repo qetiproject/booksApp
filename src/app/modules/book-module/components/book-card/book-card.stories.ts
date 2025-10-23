@@ -33,7 +33,8 @@ const mockBook: BooksView = {
     smallThumbnail:
       'https://books.google.com/books/content?id=kt9xxgEACAAJ&printsec=frontcover&img=1&zoom=1',
   },
-  categories: ['category']
+  categories: ['category'],
+  userId: 0
 };
 
 export const Default: Story = {

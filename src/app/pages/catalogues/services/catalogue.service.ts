@@ -19,15 +19,15 @@ export class CatalogueService {
     this.loadBooks();
   }
   
-  addBook(book: BookDetails): void {
-    const view = this.mapToBookView(book);
+  addBook(book: BookDetails, userId: number): void {
+    const view = this.mapToBookView(book, userId);
     const current = this.books.value;
-    if(!current.some(b => b.id == view.id)){
+    if(!current.some(b => b.id == view.id && book.userId === userId)){
       this.updateBooks([view, ...current]);
     }
   }
 
-  private mapToBookView(details: BookDetails): BooksView {
+  private mapToBookView(details: BookDetails, userId: number): BooksView {
     return {
       id: details.id,
       title: details.volumeInfo.title,
@@ -37,7 +37,8 @@ export class CatalogueService {
         thumbnail: details.volumeInfo.imageLinks.thumbnail || 'assets/no-image.png',
         smallThumbnail: details.volumeInfo.imageLinks.smallThumbnail || 'assets/no-image.png',
       },
-      categories: details.volumeInfo.categories
+      categories: details.volumeInfo.categories,
+      userId
     };
   }
   

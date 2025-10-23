@@ -20,12 +20,12 @@ export class BookDetailsService {
         return this.#bookDetailsFacade.tabs(reviewsTemplate, addReviewTemplate)
     }
 
-    addToFavouritesEvent(book: BookDetails): void {
-        this.#bookDetailsFacade.addToFavouritesEvent(book);
+    addToFavouritesEvent(book: BookDetails, userId: number): void {
+        this.#bookDetailsFacade.addToFavouritesEvent(book, userId);
     }
 
-     addToCatalogueEvent(book: BookDetails): void {
-        this.#bookDetailsFacade.addToCatalogueEvent(book);
+     addToCatalogueEvent(book: BookDetails, userId: number): void {
+        this.#bookDetailsFacade.addToCatalogueEvent(book, userId);
      }
 
 }

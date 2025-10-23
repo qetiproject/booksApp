@@ -1,6 +1,7 @@
 import { HttpClient, HttpContext } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { UserSafeInSystem, UserService } from "@auth-module";
 import { BookDetails, BookDetailsResult, BookResult, BooksView, LoadBooks, LoadBooksFailure } from "@book-module";
 import { SkipLoading } from "@features";
 import { Store } from "@ngrx/store";
@@ -13,10 +14,12 @@ import { selectBooks } from "../../store/book.selector";
     providedIn: 'root'
 })
 export class BookFacadeService {
-     http = inject(HttpClient);
+    http = inject(HttpClient);
     #favouriteService = inject(FavouriteBookService);
     #store = inject(Store);
     #pagingService = inject(PagingService);
+    #userService = inject(UserService);
+    user: UserSafeInSystem | null = this.#userService.getCurrentUser();
     
     books = toSignal(this.#store.select(selectBooks), { initialValue: [] });
 
@@ -38,7 +41,8 @@ export class BookFacadeService {
                 authors: item.volumeInfo.authors || [],
                 imageLinks: item.volumeInfo.imageLinks || { thumbnail: '', smallThumbnail: '' },
                 language: item.volumeInfo.language || '',
-                categories: item.volumeInfo.categories
+                categories: item.volumeInfo.categories,
+                userId: this.user!.userId
             }));
 
             return {
@@ -64,7 +68,8 @@ export class BookFacadeService {
                 authors: item.volumeInfo.authors || [],
                 imageLinks: item.volumeInfo.imageLinks || { thumbnail: '', smallThumbnail: '' },
                 language: item.volumeInfo.language || '',
-                categories: item.volumeInfo.categories
+                categories: item.volumeInfo.categories,
+                userId:1
             }));
 
             return {
@@ -76,7 +81,7 @@ export class BookFacadeService {
         );
     }
     
-    bookById(id: string): Observable<BookDetails> {
+    bookById(id: string, userId: number): Observable<BookDetails> {
         return this.http.get<BookDetailsResult>(`/volumes/${id}`, {
             context: new HttpContext().set(SkipLoading, true)
         }).pipe(
@@ -88,15 +93,16 @@ export class BookFacadeService {
                 ...response.saleInfo
                 },
                 volumeInfo: {
-                ...response.volumeInfo,
-                publisher: volumeInfo?.publisher || '',
-                publishedDate: volumeInfo?.publishedDate || '',
-                description: volumeInfo?.description || '',
-                pageCount: volumeInfo?.pageCount || 0,
-                printType: volumeInfo?.printType || '',
-                categories: volumeInfo?.categories || [],
-                previewLink: volumeInfo?.previewLink || ''
-                }
+                    ...response.volumeInfo,
+                    publisher: volumeInfo?.publisher || '',
+                    publishedDate: volumeInfo?.publishedDate || '',
+                    description: volumeInfo?.description || '',
+                    pageCount: volumeInfo?.pageCount || 0,
+                    printType: volumeInfo?.printType || '',
+                    categories: volumeInfo?.categories || [],
+                    previewLink: volumeInfo?.previewLink || ''
+                },
+                userId
             };
             })
         );

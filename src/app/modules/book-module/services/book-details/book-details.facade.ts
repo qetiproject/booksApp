@@ -33,17 +33,18 @@ export class BookDetailsFacade {
         (canGoBack ? () => this.#location.back() : () => this.#router.navigate(['/books']))();
     }
 
-    addToFavouritesEvent(book: BookDetails): void {
+    addToFavouritesEvent(book: BookDetails, userId: number): void {
         const booksView: BooksView = {
             id: book.id,
             title: book.volumeInfo.title,
             authors: book.volumeInfo.authors,
             language: book.volumeInfo.language,
             imageLinks: {
-            thumbnail: book.volumeInfo.imageLinks.thumbnail,
-            smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail
+                thumbnail: book.volumeInfo.imageLinks.thumbnail,
+                smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail
             },
-            categories: book.volumeInfo.categories
+            categories: book.volumeInfo.categories,
+            userId
         }
         this.#favouriteService.addBookInFavourite(booksView);
         this.#router.navigateByUrl('/favourites')
@@ -53,8 +54,8 @@ export class BookDetailsFacade {
         })
     }
 
-    addToCatalogueEvent(book: BookDetails): void {
-        this.#catalogueService.addBook(book);
+    addToCatalogueEvent(book: BookDetails, userId: number): void {
+        this.#catalogueService.addBook(book, userId);
         this.#router.navigateByUrl('/catalogue')
         this.#messages.showMessage({
         text: `📚 "${book.volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`,

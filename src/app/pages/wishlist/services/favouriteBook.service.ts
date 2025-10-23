@@ -1,4 +1,5 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { UserSafeInSystem, UserService } from '@auth-module';
 import { BooksView } from '@book-module';
 import { STORAGE_KEYS } from '@core';
 
@@ -9,14 +10,22 @@ export class FavouriteBookService {
   private readonly STORAGE_KEY =  STORAGE_KEYS.FAVOURITE;
   
   favouriteBooks: WritableSignal<BooksView[]> = signal([]);
-  
+  #userService = inject(UserService);
+  user: UserSafeInSystem | null = this.#userService.getCurrentUser();
+
   constructor() {
-    this.favouriteBooks.set(this.loadFavouriteBooks());
+    if (!this.user) return;
+    this.favouriteBooks.set(this.loadFavouriteBooks(this.user?.userId));
   }
 
-  loadFavouriteBooks(): BooksView[] {
+  loadFavouriteBooks(userId: number): BooksView[] {
     const currentBooks = localStorage.getItem(this.STORAGE_KEY);
-    return currentBooks ? JSON.parse(currentBooks) : [];
+    if (!currentBooks) return [];
+
+    const parsedBooks = JSON.parse(currentBooks) as BooksView[];
+    const books = parsedBooks.filter(x => x.userId === userId);
+    console.log(books, "books")
+    return books;
   }
 
   addBookInFavourite(book: BooksView) {
