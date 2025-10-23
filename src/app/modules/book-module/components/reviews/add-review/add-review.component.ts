@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { canUserAddReview, Readly, Review, ReviewForm, ReviewService } from '@book-module';
+import { SafeUserData, UserService } from '@auth-module';
+import { Readly, Review, ReviewForm, ReviewService } from '@book-module';
 import { MessagesService } from '@core';
 import { DynamicValidatorMessage, TextareaComponent } from '@features';
+import { Store } from '@ngrx/store';
 import { MessageSeverity, TabKey } from '@types';
 import { createReviewForm } from '@utils/review-form.factory';
-import { exhaustMap, from } from 'rxjs';
-import { environment } from '../../../../../../environments/environment.development';
+import { EMPTY, exhaustMap, filter, map, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-add-review',
@@ -19,11 +20,13 @@ import { environment } from '../../../../../../environments/environment.developm
 export class AddReviewComponent {
   fb = inject(FormBuilder);
   #reviewService = inject(ReviewService);
+  #messages = inject(MessagesService);
+  #store = inject(Store);
   bookId = input.required<string>();
-
+  #userService = inject(UserService);
+  
   @ViewChild(FormGroupDirective, { static: false })
   private formDir!: FormGroupDirective;
-  #messages = inject(MessagesService);
   
   form: FormGroup<ReviewForm> = createReviewForm(this.fb);
   reviewAdded = output();
@@ -35,41 +38,41 @@ export class AddReviewComponent {
   currentTab = TabKey.reviews;
 
   onSubmit(e: Event): void {
-    const userString = sessionStorage.getItem(environment.USER_STORAGE_KEY);
-    const user: any = userString ? JSON.parse(userString) : null;
+    this.#userService.getUserbyEmail().pipe(
+      map(users => users.data[0]),
+      take(1),
+      filter(user => !!user),
+      exhaustMap((user: SafeUserData) => {
+        const { comment, star } = this.form.getRawValue();
 
-    if(!user) return;
+        const addReviewValue: Review = {
+          userId: user.userId,
+          userFullname: `${user.fullName}`,
+          comment: comment,
+          rating: star,
+          bookId: this.bookId()
+        };
 
-    const { comment, star } = this.form.getRawValue();
+        if(this.#reviewService.canUserAddReview(this.bookId())) {
+          this.#messages.showMessage({
+            text: 'უკვე დამატებულია კომენტარი ამ წიგნზე!',
+            severity: MessageSeverity.Info,
+          });
+          return EMPTY;
+        };
+        return this.#reviewService.addReview(addReviewValue).pipe(
+          tap(() => {
+            this.formDir.resetForm(this.form.value);
+            this.reviewAdded.emit();
+            this.#messages.showMessage({
+              text: `${addReviewValue.userFullname} წარმატებით დაამატა კომენტარი!`,
+              severity: MessageSeverity.Success
+            });
+          })
+        );
+      })
+    ).subscribe();
 
-    const addReviewValue: Review = {
-      userId: user.id,
-      userFullname: `${user.firstName} ${user.lastName}`,
-      comment: comment,
-      rating: star,
-      bookId: this.bookId()
-    } 
-
-    if(canUserAddReview(this.bookId())) {
-      this.#messages.showMessage({
-        text: 'უკვე დამატებულია კომენტარი ამ წიგნზე!',
-        severity: MessageSeverity.Info,
-      });
-      return;
-    };
-
-    from([addReviewValue]).pipe(
-      exhaustMap(() => this.#reviewService.addReview(addReviewValue))
-    ).subscribe({
-      next: () => {
-        this.formDir.resetForm(this.form.value);
-        this.reviewAdded.emit();
-        this.#messages.showMessage({
-          text: ` ${addReviewValue.userFullname} წარმატებით დაამატა კომენტარი!`,
-          severity: MessageSeverity.Success,
-        });
-      }
-    })
   }
 
   onReset(e: Event) {

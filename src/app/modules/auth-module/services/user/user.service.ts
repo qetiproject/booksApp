@@ -19,4 +19,8 @@ export class UserService {
   searchUsers(searchText: string): Observable<Users> {
     return this.userFacade.searchUsers(searchText);
   }
+
+  getUserbyEmail(): Observable<Users> {
+    return this.userFacade.getUserbyEmail();
+  }
 }
