@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment";
+import { STORAGE_KEYS } from "@core";
 
 @Injectable({
     providedIn: 'root'
@@ -7,14 +7,14 @@ import { environment } from "../../../../environments/environment";
 
 export class TokenStorageService {
     saveTokens(access: string) {
-        sessionStorage.setItem(environment.ACCESS_TOKEN_KEY, access);
+        sessionStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, access);
     }
 
     getAccessToken(): string | null {
-        return sessionStorage.getItem(environment.ACCESS_TOKEN_KEY);
+        return sessionStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
     }
 
     clear(): void {
-        sessionStorage.removeItem(environment.ACCESS_TOKEN_KEY);
+        sessionStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
     }
 }

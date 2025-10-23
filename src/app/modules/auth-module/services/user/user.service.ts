@@ -2,8 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { SafeUserData, Users } from "@auth-module";
+import { STORAGE_KEYS } from "@core";
 import { Observable } from "rxjs";
-import { environment } from "../../../../../environments/environment.development";
 import { TokenStorageService } from "../token.service";
 import { UserFacade } from "./user.facade";
 
@@ -26,7 +26,7 @@ export class UserService {
   }
 
   getCurrentUser(): SafeUserData | null {
-    const userData = localStorage.getItem(environment.USER_STORAGE_KEY);
+    const userData = localStorage.getItem(STORAGE_KEYS.USER);
     return userData ? JSON.parse(userData) : null;
   }
 }

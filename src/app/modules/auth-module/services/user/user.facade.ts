@@ -3,9 +3,9 @@ import { inject, Injectable } from "@angular/core";
 import * as UserActions from '@auth-module';
 import * as UserSelectors from '@auth-module';
 import { SafeUserData, UserResponse, Users } from "@auth-module";
+import { STORAGE_KEYS } from "@core";
 import { Store } from "@ngrx/store";
 import { filter, Observable, take } from "rxjs";
-import { environment } from "../../../../../environments/environment.development";
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +20,7 @@ export class UserFacade {
     }
 
     getUserbyEmail(): Observable<Users> {
-       const userData = localStorage.getItem(environment.USER_STORAGE_KEY);
+       const userData = localStorage.getItem(STORAGE_KEYS.USER);
         const user: SafeUserData = userData ? JSON.parse(userData) : null;
         const email = user.emailId;
 

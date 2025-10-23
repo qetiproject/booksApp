@@ -1,15 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { BookDetails, BooksView } from '@book-module';
-import { MessagesService } from '@core';
+import { MessagesService, STORAGE_KEYS } from '@core';
 import { MessageSeverity } from '@types';
 import { BehaviorSubject } from 'rxjs';
-import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CatalogueService {
-  private readonly STORAGE_KEY = environment.CATALOGUE_STORAGE_KEY;
+  private readonly STORAGE_KEY = STORAGE_KEYS.CATALOGUE;
   private messages = inject(MessagesService);
   private errorMessage = 'Failed to save catalogue to localStorage';
 

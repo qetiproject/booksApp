@@ -1,14 +1,14 @@
 import { inject, Injectable } from "@angular/core";
 import { Review } from "@book-module";
+import { STORAGE_KEYS } from "@core";
 import { BehaviorSubject, map, Observable, of } from "rxjs";
-import { environment } from "../../../../environments/environment.development";
 import { ReviewFacade } from "./review.facade";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ReviewService {
-    private REVIEWS_KEY = environment.BOOK_REVIEWS;
+    private BOOK_REVIEWS = STORAGE_KEYS.BOOK_REVIEWS;
     #reviewFacade = inject(ReviewFacade);
 
     reviews = new BehaviorSubject<Review[]>([]);
@@ -19,7 +19,7 @@ export class ReviewService {
     }
 
     private loadReviews(): Review[] {
-        const currentReviews = sessionStorage.getItem(this.REVIEWS_KEY);
+        const currentReviews = sessionStorage.getItem(this.BOOK_REVIEWS);
         return currentReviews ? JSON.parse(currentReviews) : []
     }
 
@@ -33,7 +33,7 @@ export class ReviewService {
         const currentReviews = this.reviews.value;
         const updated = [review, ...currentReviews];
         this.reviews.next(updated);
-        sessionStorage.setItem(this.REVIEWS_KEY, JSON.stringify(updated));
+        sessionStorage.setItem(this.BOOK_REVIEWS, JSON.stringify(updated));
         return of(true);
     }
 

@@ -1,12 +1,12 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { BooksView } from '@book-module';
-import { environment } from '../../../../environments/environment';
+import { STORAGE_KEYS } from '@core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FavouriteBookService {
-  private readonly STORAGE_KEY =  environment.FAVOURITE_STORAGE_KEY;
+  private readonly STORAGE_KEY =  STORAGE_KEYS.FAVOURITE;
   
   favouriteBooks: WritableSignal<BooksView[]> = signal([]);
   

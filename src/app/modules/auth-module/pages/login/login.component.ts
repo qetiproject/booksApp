@@ -4,12 +4,11 @@ import { FormBuilder, FormGroupDirective, FormsModule, ReactiveFormsModule, Vali
 import { Router, RouterModule } from '@angular/router';
 import * as AuthActions from '@auth-module';
 import { LoginCredentials, selectUserResponse, UserSafeInSystem } from '@auth-module';
-import { MessagesService } from '@core';
+import { MessagesService, STORAGE_KEYS } from '@core';
 import { DynamicValidatorMessage, InputComponent, InputType } from '@features';
 import { Store } from '@ngrx/store';
 import { MessageSeverity } from '@types';
 import { filter, take, tap } from 'rxjs';
-import { environment } from '../../../../../environments/environment.development';
 
 @Component({
     selector: 'login',
@@ -58,7 +57,7 @@ export class LoginComponent {
                 emailId: response.data.emailId
               }
 
-              localStorage.setItem(environment.USER_STORAGE_KEY, JSON.stringify(user))
+              localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user))
 
               this.#messages.showMessage({
                 text: response.message,

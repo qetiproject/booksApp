@@ -3,8 +3,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import * as AuthActions from '@auth-module';
 import { AuthService, TokenStorageService, UserService } from '@auth-module';
+import { STORAGE_KEYS } from '@core';
 import { Store } from '@ngrx/store';
-import { environment } from '../environments/environment.development';
 import { HeaderComponent } from './components/header/header.component';
 import { MessagesComponent } from "./components/messages/messages.component";
 import { LoadingComponent } from "./features/loading/loading.component";
@@ -37,7 +37,7 @@ export class AppComponent{
     
     init() {
         const accessToken = this.tokenStorageService.getAccessToken();
-        const userData = localStorage.getItem(environment.USER_STORAGE_KEY);
+        const userData = localStorage.getItem(STORAGE_KEYS.USER);
         const user = userData ? JSON.parse(userData) : null;
 
         if (accessToken && user) {

@@ -21,7 +21,7 @@ export class BookDetailsService {
     }
 
     addToFavouritesEvent(book: BookDetails): void {
-        this.#bookDetailsFacade.addToCatalogueEvent(book);
+        this.#bookDetailsFacade.addToFavouritesEvent(book);
     }
 
      addToCatalogueEvent(book: BookDetails): void {
