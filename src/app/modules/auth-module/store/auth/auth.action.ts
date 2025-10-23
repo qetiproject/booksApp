@@ -1,5 +1,5 @@
+import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse } from "@auth-module";
 import { createAction, props } from "@ngrx/store";
-import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse } from "../types/auth";
 
 export const register = createAction(
   '[Auth] Register',

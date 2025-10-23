@@ -1,8 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { logout, TokenStorageService } from '@auth-module';
 import { Store } from '@ngrx/store';
-import { TokenStorageService } from 'modules/auth-module/services/token.service';
-import { logout } from 'modules/auth-module/store/auth.action';
 import { environment } from '../../../environments/environment';
 
 @Component({

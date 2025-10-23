@@ -1,7 +1,6 @@
+import * as AuthActions from '@auth-module';
+import { AuthState, login, loginFailure, loginSuccess, logout, registerFailure, registerSuccess } from "@auth-module";
 import { createReducer, on } from "@ngrx/store";
-import * as AuthActions from './auth.action';
-import { login, loginFailure, loginSuccess, logout, registerFailure, registerSuccess } from "./auth.action";
-import { AuthState } from "./auth.store";
 
 export const initialAuthState: AuthState = {
     loading: false,
