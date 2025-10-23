@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { BookActionsComponent, BookContentComponent, BookDetails, BookDetailsFacade, BookInfoComponent, ReviewsTabComponent } from '@book-module';
+import { BookActionsComponent, BookContentComponent, BookDetails, BookDetailsService, BookInfoComponent, ReviewsTabComponent } from '@book-module';
 import { BackButtonComponent } from '@components';
 
 @Component({
@@ -15,19 +15,19 @@ import { BackButtonComponent } from '@components';
 })
 export class BookDetailsComponent {
   private route = inject(ActivatedRoute);
-  #bookDetailsFacade = inject(BookDetailsFacade);
+  #bookDetailsService = inject(BookDetailsService);
   
   readonly book: WritableSignal<BookDetails> = signal(this.route.snapshot.data['book']);
 
   goBack(): void {
-    this.#bookDetailsFacade.goBack()
+    this.#bookDetailsService.goBack()
   }
 
   addToFavouritesEvent(): void {
-    this.#bookDetailsFacade.addToFavouritesEvent(this.book())
+    this.#bookDetailsService.addToFavouritesEvent(this.book())
   }
   
   addToCatalogueEvent(): void {
-    this.#bookDetailsFacade.addToCatalogueEvent(this.book())
+    this.#bookDetailsService.addToCatalogueEvent(this.book())
   }
 }

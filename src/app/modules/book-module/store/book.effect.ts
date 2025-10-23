@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, of, switchMap } from "rxjs";
-import { BookService } from "../services/book.service";
+import { BookService } from "../services/book/book.service";
 import { LoadBooks, LoadBooksFailure, LoadBooksSuccess } from "./book.action";
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Review } from "@book-module";
-import { environment } from "../../../../environments/environment.development";
+import { environment } from "../../../../../environments/environment.development";
 
 @Injectable({
   providedIn: 'root'

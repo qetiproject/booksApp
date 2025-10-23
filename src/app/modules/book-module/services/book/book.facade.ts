@@ -1,14 +1,13 @@
 import { HttpClient, HttpContext } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { BookDetails, BookDetailsResult, BookResult, BooksView } from "@book-module";
+import { BookDetails, BookDetailsResult, BookResult, BooksView, LoadBooks, LoadBooksFailure } from "@book-module";
 import { SkipLoading } from "@features";
 import { Store } from "@ngrx/store";
 import { FavouriteBookService } from "@pages/wishlist/services/favouriteBook.service";
 import { PagingService } from "components/paging/paging.service";
 import { map, Observable, shareReplay } from "rxjs";
-import { LoadBooks, LoadBooksFailure } from "../store/book.action";
-import { selectBooks } from "../store/book.selector";
+import { selectBooks } from "../../store/book.selector";
 
 @Injectable({
     providedIn: 'root'
