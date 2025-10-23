@@ -1,8 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Users } from "@auth-module";
+import { SafeUserData, Users } from "@auth-module";
 import { Observable } from "rxjs";
+import { environment } from "../../../../../environments/environment.development";
 import { TokenStorageService } from "../token.service";
 import { UserFacade } from "./user.facade";
 
@@ -22,5 +23,10 @@ export class UserService {
 
   getUserbyEmail(): Observable<Users> {
     return this.userFacade.getUserbyEmail();
+  }
+
+  getCurrentUser(): SafeUserData | null {
+    const userData = localStorage.getItem(environment.USER_STORAGE_KEY);
+    return userData ? JSON.parse(userData) : null;
   }
 }

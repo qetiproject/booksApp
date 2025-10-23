@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { logout, TokenStorageService } from '@auth-module';
+import { logout, TokenStorageService, UserService } from '@auth-module';
 import { Store } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
 
@@ -17,7 +17,8 @@ export class HeaderComponent {
   isMobileMenu = signal(false);
   private tokenStorageService = inject(TokenStorageService);
   private router = inject(Router);
-  
+  userService = inject(UserService)
+
   navLinks = [
     { path: '/books', label: 'Books' },
     { path: '/favourites', label: 'Favourites' },

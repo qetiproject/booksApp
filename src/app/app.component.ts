@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import * as AuthActions from '@auth-module';
-import { AuthService, TokenStorageService } from '@auth-module';
+import { AuthService, TokenStorageService, UserService } from '@auth-module';
 import { Store } from '@ngrx/store';
 import { environment } from '../environments/environment.development';
 import { HeaderComponent } from './components/header/header.component';
@@ -33,7 +33,8 @@ export class AppComponent{
 
     authService = inject(AuthService);
     tokenStorageService = inject(TokenStorageService);
-
+    userService = inject(UserService);
+    
     init() {
         const accessToken = this.tokenStorageService.getAccessToken();
         const userData = localStorage.getItem(environment.USER_STORAGE_KEY);
