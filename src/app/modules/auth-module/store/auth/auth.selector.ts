@@ -8,11 +8,6 @@ export const selectUserResponse = createSelector(
     (state: AuthState) => state.response
 )
 
-export const selectUserInSystem = createSelector(
-    selectAuthState,
-    (state: AuthState) => state.response?.data
-)
-
 export const selectIsLoggedIn = createSelector(
     selectAuthState,
     (state: AuthState) => state.isLoggedIn

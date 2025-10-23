@@ -38,7 +38,7 @@ export class HeaderComponent {
 
   onLogout() {
     this.tokenStorageService.clear();
-    sessionStorage.removeItem(environment.USER_STORAGE_KEY);
+    localStorage.removeItem(environment.USER_STORAGE_KEY);
     this.store.dispatch(logout());
     this.router.navigate(['/login']);
   }

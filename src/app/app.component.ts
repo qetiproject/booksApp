@@ -36,10 +36,10 @@ export class AppComponent{
 
     init() {
         const accessToken = this.tokenStorageService.getAccessToken();
-        const userData = sessionStorage.getItem(environment.USER_STORAGE_KEY);
+        const userData = localStorage.getItem(environment.USER_STORAGE_KEY);
         const user = userData ? JSON.parse(userData) : null;
 
-        if (accessToken) {
+        if (accessToken && user) {
             this.store.dispatch(AuthActions.loginSuccess({ response: user}));
         }
     }

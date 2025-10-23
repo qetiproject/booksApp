@@ -1,41 +1,31 @@
 import { inject, Injectable } from '@angular/core';
 import {
-  ActivatedRouteSnapshot,
-  Resolve,
-  RouterStateSnapshot
+  Resolve
 } from '@angular/router';
-import * as AuthSelectors from '@auth-module';
 import * as UserActions from '@auth-module';
 import * as UserSelectors from '@auth-module';
+import { SafeUserData, Users } from '@auth-module';
 import { Store } from '@ngrx/store';
-import { filter, first, map, Observable, switchMap, take } from 'rxjs';
+import { filter, Observable, take } from 'rxjs';
+import { environment } from '../../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileResolver implements Resolve<boolean> {
+export class ProfileResolver implements Resolve<Users> {
   #store = inject(Store);
 
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<any> {
-    return this.#store.select(AuthSelectors.selectUserInSystem).pipe(
-      first(user => !!user?.emailId),
-      map(user => ({
-        userId: user!.userId,
-        emailId: user!.emailId
-      })),
-      switchMap((user) => {
-        const email = user!.emailId;
-        this.#store.dispatch(UserActions.searchUsers({ searchText: email }));
-        return this.#store.select(UserSelectors.selectSearchUsers).pipe(
-          filter(searchResult =>
-            !!searchResult && searchResult.data.some(u => u.emailId === email)
-          ),
-          take(1)
-        );
-      })
-    );
+  resolve(): Observable<Users> {
+    const userData = localStorage.getItem(environment.USER_STORAGE_KEY);
+    const user: SafeUserData = userData ? JSON.parse(userData) : null;
+    const email = user.emailId;
+
+    this.#store.dispatch(UserActions.searchUsers({ searchText: email }));
+    return this.#store.select(UserSelectors.selectSearchUsers).pipe(
+      filter(searchResult =>
+        !!searchResult && searchResult.data.some(u => u.emailId === email)
+      ),
+      take(1)
+    )
   }
 }
