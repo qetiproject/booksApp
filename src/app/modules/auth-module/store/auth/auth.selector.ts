@@ -8,7 +8,7 @@ export const selectUserResponse = createSelector(
     (state: AuthState) => state.response
 )
 
-export const selectUser = createSelector(
+export const selectUserInSystem = createSelector(
     selectAuthState,
     (state: AuthState) => state.response?.data
 )

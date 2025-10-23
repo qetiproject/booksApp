@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { IsUserAuthenticated, LoginRedirectGuard, RedirectBasedOnAuth } from '@core';
 import { authRoutes } from 'modules/auth-module/auth.routes';
+import { ProfileResolver } from 'modules/auth-module/pages/profile/profile.resolver';
 import { bookRoutes } from 'modules/book-module/book.router';
 
 export const routes: Routes = [
@@ -34,8 +35,8 @@ export const routes: Routes = [
    { 
     path: 'profile', 
     canActivate: [IsUserAuthenticated], 
-    loadComponent: () => 
-      import('@auth-module').then(c => c.ProfileComponent)
+    loadComponent: () => import('@auth-module').then(c => c.ProfileComponent),
+    resolve: { user: ProfileResolver },
   },
   { path: '**', redirectTo: '' }
 ];

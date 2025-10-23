@@ -1,8 +1,9 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService, SafeUserData } from '@auth-module';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'profile',
@@ -14,7 +15,8 @@ export class ProfileComponent implements OnInit{
   store = inject(Store);
   authService = inject(AuthService)
   user$!: Observable<SafeUserData>;
-  
+  private route = inject(ActivatedRoute);
+
   profileFields = [
     { label: '📧 Email', value: (u: SafeUserData) => u.emailId },
     { label: '👤 Username', value: (u: SafeUserData) => u.userName },
@@ -22,11 +24,9 @@ export class ProfileComponent implements OnInit{
     { label: '🧩 Role', value: (u: SafeUserData) => u.role },
     { label: '🏠 Project', value: (u: SafeUserData) => u.projectName },
   ];
+
   ngOnInit() {
-    const email = "keti.xecuriani@gmail.com"
-    this.user$ = this.authService.searchUsers(email).pipe(
-      map(response => response.data[0])
-    )
+    this.user$ = of(this.route.snapshot.data['user'].data[0]);
   }
 
 }

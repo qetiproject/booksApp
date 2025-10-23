@@ -1,12 +1,12 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
-import { AuthService, Users } from '@auth-module';
+import { Users, UserService } from '@auth-module';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UniqueEmailValidator implements AsyncValidator {
-  private userService = inject(AuthService);
+  private userService = inject(UserService);
 
   validate(control: AbstractControl<string | null>): Observable<ValidationErrors | null> {
     const email = control.value?.trim();

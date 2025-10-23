@@ -16,7 +16,23 @@ export class UserEffects {
             ofType(UserActions.searchUsers),
             switchMap((action) =>
             this.userService.searchUsers(action.searchText).pipe(
-                map((response: Users) => UserActions.searchUsersSuccess({ response })),
+                map((response: Users) => {
+                    const safeUsers: Users = {
+                        totalRecords: response.totalRecords,
+                        pageNumber: response.pageNumber,
+                        pageSize: response.pageSize,
+                        data: response.data.map(u => ({
+                            userId: u.userId,
+                            userName: u.userName,
+                            emailId: u.emailId,
+                            fullName: u.fullName,
+                            role: u.role,
+                            createdDate: u.createdDate,
+                            projectName: u.projectName
+                        }))
+                    }
+                   return UserActions.searchUsersSuccess({ response: safeUsers })
+                }),
                 catchError((error: HttpErrorResponse) => of(UserActions.searchUsersFailure({ error: error.message }))))
             )
         )

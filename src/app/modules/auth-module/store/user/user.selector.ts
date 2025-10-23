@@ -3,7 +3,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export const selectUserState = createFeatureSelector<UserState>('user');
 
-export const selectUsers = createSelector(
+export const selectSearchUsers = createSelector(
     selectUserState,
     (state: UserState) => state.response
 )

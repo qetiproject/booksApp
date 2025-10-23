@@ -30,3 +30,8 @@ export interface Users {
   pageSize: number,
   data: SafeUserData[];
 }
+
+export interface UserSafeInSystem {
+  userId: number,
+  emailId: string,
+}
