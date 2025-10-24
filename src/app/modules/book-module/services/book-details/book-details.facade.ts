@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { BookDetails, BooksView } from '@book-module';
 import { MessagesService } from '@core';
 import { CatalogueService } from '@pages/catalogues/services/catalogue.service';
-import { FavouriteBookService } from '@pages/wishlist/services/favouriteBook.service';
+import { FavouriteBookService } from '@pages/wishlist/services/favourite-book.service';
 import { MessageSeverity, Tab, TabKey } from '@types';
 
 @Injectable({

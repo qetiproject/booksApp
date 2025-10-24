@@ -5,7 +5,7 @@ import { UserSafeInSystem, UserService } from "@auth-module";
 import { BookDetails, BookDetailsResult, BookResult, BooksView, LoadBooks, LoadBooksFailure } from "@book-module";
 import { SkipLoading } from "@features";
 import { Store } from "@ngrx/store";
-import { FavouriteBookService } from "@pages/wishlist/services/favouriteBook.service";
+import { FavouriteBookService } from "@pages/wishlist/services/favourite-book.service";
 import { PagingService } from "components/paging/paging.service";
 import { map, Observable, shareReplay } from "rxjs";
 import { selectBooks } from "../../store/book.selector";
