@@ -19,9 +19,14 @@ export class UserFacade {
         return this.http.get<UserResponse>(`UserApp/searchUsers?searchText=${searchText}`, );
     }
 
-    getUserbyEmail(): Observable<Users> {
-       const userData = localStorage.getItem(STORAGE_KEYS.USER);
+    getSafeUserData(): SafeUserData {
+        const userData = localStorage.getItem(STORAGE_KEYS.USER);
         const user: SafeUserData = userData ? JSON.parse(userData) : null;
+        return user;
+    }
+    getUserbyEmail(): Observable<Users> {
+        const user: SafeUserData = this.getSafeUserData();
+
         const email = user.emailId;
 
         this.#store.dispatch(UserActions.searchUsers({ searchText: email }));

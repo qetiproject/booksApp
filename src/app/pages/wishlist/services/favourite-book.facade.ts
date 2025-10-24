@@ -3,7 +3,9 @@ import { UserService } from '@auth-module';
 import { BooksView } from '@book-module';
 import { STORAGE_KEYS } from '@core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class FavouriteBookFacade {
   private readonly STORAGE_KEY = STORAGE_KEYS.FAVOURITE;
   private readonly userService = inject(UserService);
