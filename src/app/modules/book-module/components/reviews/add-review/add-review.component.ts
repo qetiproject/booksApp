@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SafeUserData, UserService } from '@auth-module';
-import { Readly, Review, ReviewForm, ReviewService } from '@book-module';
-import { MessagesService } from '@core';
+import { Readly, ReviewForm, ReviewService } from '@book-module';
 import { DynamicValidatorMessage, TextareaComponent } from '@features';
-import { MessageSeverity, TabKey } from '@types';
+import { TabKey } from '@types';
 import { createReviewForm } from '@utils/review-form.factory';
-import { EMPTY, exhaustMap, filter, map, take, tap } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-review',
@@ -19,9 +17,7 @@ import { EMPTY, exhaustMap, filter, map, take, tap } from 'rxjs';
 export class AddReviewComponent {
   fb = inject(FormBuilder);
   #reviewService = inject(ReviewService);
-  #messages = inject(MessagesService);
   bookId = input.required<string>();
-  #userService = inject(UserService);
   
   @ViewChild(FormGroupDirective, { static: false })
   private formDir!: FormGroupDirective;
@@ -36,39 +32,16 @@ export class AddReviewComponent {
   currentTab = TabKey.reviews;
 
   onSubmit(e: Event): void {
-    this.#userService.getUserbyEmail().pipe(
-      map(users => users.data[0]),
-      take(1),
-      filter(user => !!user),
-      exhaustMap((user: SafeUserData) => {
-        const { comment, star } = this.form.getRawValue();
-        const addReviewValue: Review = {
-          userId: user.userId,
-          userFullname: `${user.fullName}`,
-          comment: comment,
-          rating: star,
-          bookId: this.bookId()
-        };
+    const { comment, star } = this.form.getRawValue();
 
-        if(this.#reviewService.canUserAddReview(this.bookId(), user.userId)) {
-          this.#messages.showMessage({
-            text: 'უკვე დამატებულია კომენტარი ამ წიგნზე!',
-            severity: MessageSeverity.Info,
-          });
-          return EMPTY;
-        };
-        return this.#reviewService.addReview(addReviewValue).pipe(
-          tap(() => {
-            this.formDir.resetForm(this.form.value);
-            this.reviewAdded.emit();
-            this.#messages.showMessage({
-              text: `${addReviewValue.userFullname} წარმატებით დაამატა კომენტარი!`,
-              severity: MessageSeverity.Success
-            });
-          })
-        );
-      })
-    ).subscribe();
+    this.#reviewService.addReviewFromForm({ comment, star }, this.bookId())
+      .pipe(
+        tap(() => {
+          this.formDir.resetForm(this.form.value);
+          this.reviewAdded.emit();
+        })
+      )
+    .subscribe();
 
   }
 

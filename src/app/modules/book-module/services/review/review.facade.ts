@@ -16,9 +16,8 @@ export class ReviewFacade {
     sessionStorage.setItem(STORAGE_KEYS.BOOK_REVIEWS, JSON.stringify(review));
   }
   canUserAddReview(bookId: string, userId: number): boolean {
-      const reviews = sessionStorage.getItem(STORAGE_KEYS.BOOK_REVIEWS);
-      const reviewList: Review[] = reviews ? JSON.parse(reviews) : null;
-
-      return reviewList?.some(r => r.bookId === bookId && r.userId === userId);
+      const reviews: Review[] = this.loadReviews();
+      const reviewsFiltered = reviews?.some(r => r.bookId === bookId && r.userId === userId);
+      return reviewsFiltered
   }
 }
