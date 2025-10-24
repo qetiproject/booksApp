@@ -37,8 +37,8 @@ export class ReviewService {
         return of(true);
     }
 
-    canUserAddReview(bookId: string): boolean {
-        return this.#reviewFacade.canUserAddReview(bookId);
+    canUserAddReview(bookId: string, userId: number): boolean {
+        return this.#reviewFacade.canUserAddReview(bookId, userId);
         
     }
 }

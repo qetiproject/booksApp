@@ -5,7 +5,6 @@ import { SafeUserData, UserService } from '@auth-module';
 import { Readly, Review, ReviewForm, ReviewService } from '@book-module';
 import { MessagesService } from '@core';
 import { DynamicValidatorMessage, TextareaComponent } from '@features';
-import { Store } from '@ngrx/store';
 import { MessageSeverity, TabKey } from '@types';
 import { createReviewForm } from '@utils/review-form.factory';
 import { EMPTY, exhaustMap, filter, map, take, tap } from 'rxjs';
@@ -21,7 +20,6 @@ export class AddReviewComponent {
   fb = inject(FormBuilder);
   #reviewService = inject(ReviewService);
   #messages = inject(MessagesService);
-  #store = inject(Store);
   bookId = input.required<string>();
   #userService = inject(UserService);
   
@@ -44,7 +42,6 @@ export class AddReviewComponent {
       filter(user => !!user),
       exhaustMap((user: SafeUserData) => {
         const { comment, star } = this.form.getRawValue();
-
         const addReviewValue: Review = {
           userId: user.userId,
           userFullname: `${user.fullName}`,
@@ -53,7 +50,7 @@ export class AddReviewComponent {
           bookId: this.bookId()
         };
 
-        if(this.#reviewService.canUserAddReview(this.bookId())) {
+        if(this.#reviewService.canUserAddReview(this.bookId(), user.userId)) {
           this.#messages.showMessage({
             text: 'უკვე დამატებულია კომენტარი ამ წიგნზე!',
             severity: MessageSeverity.Info,
