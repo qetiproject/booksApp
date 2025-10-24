@@ -27,7 +27,7 @@
             src="https://dummyjson.com/icon/emilys/128" 
             alt="User Avatar"
           >
-          @let user = userService.getCurrentUser();
+          @let user = userService.getCurrentUserFromStorage();
           <span class="hidden md:inline text-gray-700 font-medium">{{ user?.emailId }}</span>
           <svg class="w-4 h-4 text-gray-500 transition-transform duration-200"
                [class.rotate-180]="isOpen()" 

@@ -18,7 +18,7 @@ export class BookDetailsComponent {
   #route = inject(ActivatedRoute);
   #bookDetailsService = inject(BookDetailsService);
   #userService = inject(UserService);
-  user: UserSafeInSystem | null = this.#userService.getCurrentUser();
+  user: UserSafeInSystem | null = this.#userService.getCurrentUserFromStorage();
   
   readonly book: WritableSignal<BookDetails> = signal(this.#route.snapshot.data['book']);
 

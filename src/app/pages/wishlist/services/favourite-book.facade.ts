@@ -14,7 +14,7 @@ export class FavouriteBookFacade {
 
   constructor() {
     effect(() => {
-      const user = this.userService.getCurrentUser();
+      const user = this.userService.getCurrentUserFromStorage();
       if (user) {
         this.loadFavouriteBooks(user.userId);
       } else {
@@ -34,7 +34,7 @@ export class FavouriteBookFacade {
   }
 
   private saveToStorage(): void {
-    const user = this.userService.getCurrentUser();
+    const user = this.userService.getCurrentUserFromStorage();
     if (!user) return;
     localStorage.setItem(this.getKey(user.userId), JSON.stringify(this.favouriteBooks()));
   }
@@ -54,7 +54,7 @@ export class FavouriteBookFacade {
 
   clearFavourites(): void {
     this.favouriteBooks.set([]);
-    const user = this.userService.getCurrentUser();
+    const user = this.userService.getCurrentUserFromStorage();
     if (user) localStorage.removeItem(this.getKey(user.userId));
   }
 

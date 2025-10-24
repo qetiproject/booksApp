@@ -19,7 +19,7 @@ export class BookFacadeService {
     #store = inject(Store);
     #pagingService = inject(PagingService);
     #userService = inject(UserService);
-    user: UserSafeInSystem | null = this.#userService.getCurrentUser();
+    user: UserSafeInSystem | null = this.#userService.getCurrentUserFromStorage();
     
     books = toSignal(this.#store.select(selectBooks), { initialValue: [] });
 

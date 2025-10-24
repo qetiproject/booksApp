@@ -10,7 +10,7 @@ export const BookDetailsResolver: ResolveFn<BookDetails > =
         const bookService = inject(BookService);
         const router = inject(Router);
         const userService = inject(UserService);
-        const user: UserSafeInSystem | null = userService.getCurrentUser();
+        const user: UserSafeInSystem | null = userService.getCurrentUserFromStorage();
         
         if(!user || !bookId) {
             router.navigate(['/books']);

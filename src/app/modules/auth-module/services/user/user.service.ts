@@ -25,7 +25,7 @@ export class UserService {
     return this.userFacade.getUserbyEmail();
   }
 
-  getCurrentUser(): UserSafeInSystem | null {
+  getCurrentUserFromStorage(): UserSafeInSystem | null {
     const userData = localStorage.getItem(STORAGE_KEYS.USER);
     return userData ? JSON.parse(userData) : null;
   }
