@@ -46,7 +46,7 @@ export class BookDetailsFacade {
             categories: book.volumeInfo.categories,
             userId
         }
-        this.#favouriteService.addBookInFavourite(booksView);
+        this.#favouriteService.addBookToFavourite(booksView);
         this.#router.navigateByUrl('/favourites')
         this.#messages.showMessage({
             text: `📚 "${book.volumeInfo.title}" წარმატებით დაემატა თქვენს ფავორიტებში!`,

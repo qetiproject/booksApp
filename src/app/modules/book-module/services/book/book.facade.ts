@@ -129,7 +129,7 @@ export class BookFacadeService {
     }
    
     onAddInFavouriteEvent(book: BooksView): void {
-        this.#favouriteService.addBookInFavourite(book);
+        this.#favouriteService.addBookToFavourite(book);
     }
 
     resetPage() {
