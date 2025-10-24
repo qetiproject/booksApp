@@ -15,12 +15,11 @@ export class ReviewService {
     reviews$ = this.reviews.asObservable();
 
     constructor() {
-        this.reviews.next(this.loadReviews())
+        this.refreshReviews()
     }
 
-    private loadReviews(): Review[] {
-        const currentReviews = sessionStorage.getItem(this.BOOK_REVIEWS);
-        return currentReviews ? JSON.parse(currentReviews) : []
+    refreshReviews(): void {
+        this.reviews.next( this.#reviewFacade.loadReviews())
     }
 
     loadReviewsByBookid(bookId: string) {
@@ -33,7 +32,7 @@ export class ReviewService {
         const currentReviews = this.reviews.value;
         const updated = [review, ...currentReviews];
         this.reviews.next(updated);
-        sessionStorage.setItem(this.BOOK_REVIEWS, JSON.stringify(updated));
+        this.#reviewFacade.saveReview(updated);
         return of(true);
     }
 
