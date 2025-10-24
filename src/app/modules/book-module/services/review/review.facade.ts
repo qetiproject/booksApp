@@ -12,9 +12,10 @@ export class ReviewFacade {
     return currentReviews ? JSON.parse(currentReviews) : []
   }
 
-  saveReview(review: Review[]) {
+  saveReviewToStorage(review: Review[]) {
     sessionStorage.setItem(STORAGE_KEYS.BOOK_REVIEWS, JSON.stringify(review));
   }
+  
   canUserAddReview(bookId: string, userId: number): boolean {
       const reviews: Review[] = this.loadReviews();
       const reviewsFiltered = reviews?.some(r => r.bookId === bookId && r.userId === userId);

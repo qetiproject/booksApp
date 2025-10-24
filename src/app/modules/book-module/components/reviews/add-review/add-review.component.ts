@@ -5,7 +5,7 @@ import { Readly, ReviewForm, ReviewService } from '@book-module';
 import { DynamicValidatorMessage, TextareaComponent } from '@features';
 import { TabKey } from '@types';
 import { createReviewForm } from '@utils/review-form.factory';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-review',
@@ -18,31 +18,31 @@ export class AddReviewComponent {
   fb = inject(FormBuilder);
   #reviewService = inject(ReviewService);
   bookId = input.required<string>();
-  
-  @ViewChild(FormGroupDirective, { static: false })
-  private formDir!: FormGroupDirective;
+  reviewAdded = output<void>();
+  hoveredStar: number = 0;
+  currentTab = TabKey.reviews;
+
+  @ViewChild(FormGroupDirective, { static: false }) private formDir!: FormGroupDirective;
   
   form: FormGroup<ReviewForm> = createReviewForm(this.fb);
-  reviewAdded = output();
 
   get starCtrl() { return this.form.controls.star; }
   get Readly() { return Readly; }
   
-  hoveredStar = 0;
-  currentTab = TabKey.reviews;
-
   onSubmit(e: Event): void {
+    if(this.form.invalid) return;
+
     const { comment, star } = this.form.getRawValue();
 
     this.#reviewService.addReviewFromForm({ comment, star }, this.bookId())
       .pipe(
+        take(1),
         tap(() => {
           this.formDir.resetForm(this.form.value);
           this.reviewAdded.emit();
         })
       )
     .subscribe();
-
   }
 
   onReset(e: Event) {
