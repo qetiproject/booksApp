@@ -39,7 +39,6 @@ export class BookListComponent {
   }
 
   onAddInFavouriteEvent(book: BooksView) {
-
     this.#bookService.onAddInFavouriteEvent(book, this.userId);
   }
 

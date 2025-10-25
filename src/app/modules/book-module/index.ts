@@ -1,5 +1,5 @@
 export * from './components/index';
-export * from './pages/book-details/book-details.component';
+// export * from './pages/book-details/book-details.component';
 export * from './pages/book-details/book-details.resolver';
 export * from './services/book-details/book-details.facade';
 export * from './services/book-details/book-details.service';

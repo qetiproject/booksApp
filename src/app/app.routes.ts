@@ -17,11 +17,11 @@ export const routes: Routes = [
     canActivateChild: [IsUserAuthenticated], 
     children: bookRoutes,  
   },
-   { path: 'catalogue', 
-    canActivate: [IsUserAuthenticated],
-    loadComponent: () => 
-          import('@pages/catalogues/catalogues.component').then(c => c.CataloguesComponent), 
-  },
+  // { path: 'catalogue', 
+  //   canActivate: [IsUserAuthenticated],
+  //   loadComponent: () => 
+  //         import('@pages/catalogues/catalogues.component').then(c => c.CataloguesComponent), 
+  // },
   { path: 'favourites', 
     canActivate: [IsUserAuthenticated],
     loadComponent: () => 
