@@ -4,17 +4,14 @@ import { Router } from "@angular/router";
 import { SafeUserData, Users, UserSafeInSystem } from "@auth-module";
 import { STORAGE_KEYS } from "@core";
 import { filter, map, Observable, take } from "rxjs";
-import { TokenStorageService } from "../token.service";
 import { UserFacade } from "./user.facade";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
   http = inject(HttpClient);
   router = inject(Router);
-  tokenStorageService = inject(TokenStorageService)
   userFacade = inject(UserFacade);
   
   searchUsers(searchText: string): Observable<Users> {

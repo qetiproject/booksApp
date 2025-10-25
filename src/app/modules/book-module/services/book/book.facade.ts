@@ -138,8 +138,8 @@ export class BookFacadeService {
         }
     }
    
-    onAddInFavouriteEvent(book: BooksView): void {
-        this.#favouriteService.addBookToFavourite(book);
+    onAddInFavouriteEvent(book: BooksView, userId: number): void {
+        this.#favouriteService.addBookToFavourite(book, userId);
     }
 
     resetPage() {

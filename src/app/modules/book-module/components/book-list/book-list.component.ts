@@ -18,7 +18,8 @@ export class BookListComponent {
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
   books = this.#bookFacadeService.books;
-
+  userId!: number;
+  
   constructor() {
     this.initEffects();
   }
@@ -38,7 +39,8 @@ export class BookListComponent {
   }
 
   onAddInFavouriteEvent(book: BooksView) {
-    this.#bookService.onAddInFavouriteEvent(book);
+
+    this.#bookService.onAddInFavouriteEvent(book, this.userId);
   }
 
 }

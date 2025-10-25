@@ -34,8 +34,8 @@ export class BookService {
     return this.bookFacade.getBooks(query, category);
   }
 
-  onAddInFavouriteEvent(book: BooksView): void {
-    return this.bookFacade.onAddInFavouriteEvent(book);
+  onAddInFavouriteEvent(book: BooksView, userId: number): void {
+    return this.bookFacade.onAddInFavouriteEvent(book, userId);
   }
 
   resetPage() {

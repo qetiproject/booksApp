@@ -1,64 +1,48 @@
-import { effect, inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { UserService } from '@auth-module';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { BooksView } from '@book-module';
-import { STORAGE_KEYS } from '@core';
+import { MessagesService, STORAGE_KEYS } from '@core';
+import { MessageSeverity } from '@types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavouriteBookFacade {
-  private readonly STORAGE_KEY = STORAGE_KEYS.FAVOURITE;
-  private readonly userService = inject(UserService);
+  #messages = inject(MessagesService);
 
   favouriteBooks: WritableSignal<BooksView[]> = signal([]);
 
-  constructor() {
-    effect(() => {
-      const user = this.userService.getCurrentUserFromStorage();
-      if (user) {
-        this.loadFavouriteBooks(user.userId);
-      } else {
-        this.favouriteBooks.set([]);
-      }
-    });
-  }
-
-  private getKey(userId: number): string {
-    return `${this.STORAGE_KEY}_${userId}`;
-  }
-
-  private loadFavouriteBooks(userId: number): void {
+  loadFavouriteBooks(userId: number): void {
     const stored = localStorage.getItem(this.getKey(userId));
     const books = stored ? (JSON.parse(stored) as BooksView[]) : [];
     this.favouriteBooks.set(books);
   }
 
-  private saveToStorage(): void {
-    const user = this.userService.getCurrentUserFromStorage();
-    if (!user) return;
-    localStorage.setItem(this.getKey(user.userId), JSON.stringify(this.favouriteBooks()));
-  }
-
-  addBookToFavourite(book: BooksView): void {
+  addBookToFavourite(book: BooksView, userId: number): void {
     const exists = this.favouriteBooks().some(b => b.id === book.id);
     if (!exists) {
       this.favouriteBooks.update(current => [book, ...current]);
-      this.saveToStorage();
+      this.saveToStorage(userId);
     }
   }
 
-  removeBookFromFavourite(book: BooksView): void {
+  removeBookFromFavourite(book: BooksView, userId: number): void {
     this.favouriteBooks.update(current => current.filter(b => b.id !== book.id));
-    this.saveToStorage();
+    this.saveToStorage(userId);
+    this.#messages.showMessage({
+      text: `📚 "${book.title}" წარმატებით წაიშალა სიიდან!`,
+      severity: MessageSeverity.Success
+    })
   }
 
-  clearFavourites(): void {
-    this.favouriteBooks.set([]);
-    const user = this.userService.getCurrentUserFromStorage();
-    if (user) localStorage.removeItem(this.getKey(user.userId));
+  // getFavourites(): BooksView[] {
+  //   return this.favouriteBooks();
+  // }
+
+  private getKey(userId: number): string {
+    return `${STORAGE_KEYS.FAVOURITE}_${userId}`;
   }
 
-  getFavourites(): BooksView[] {
-    return this.favouriteBooks();
+  private saveToStorage(userId: number): void {
+    localStorage.setItem(this.getKey(userId), JSON.stringify(this.favouriteBooks()));
   }
 }

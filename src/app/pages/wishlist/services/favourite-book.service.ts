@@ -12,19 +12,15 @@ export class FavouriteBookService {
     return this.facade.favouriteBooks;
   }
 
-  addBookToFavourite(book: BooksView): void {
-    this.facade.addBookToFavourite(book);
+  loadFavouriteBooks(userId: number): void {
+    this.facade.loadFavouriteBooks(userId)
   }
 
-  removeBookFromFavourite(book: BooksView): void {
-    this.facade.removeBookFromFavourite(book);
+  addBookToFavourite(book: BooksView, userId: number): void {
+    this.facade.addBookToFavourite(book, userId);
   }
 
-  clearFavourites(): void {
-    this.facade.clearFavourites();
-  }
-
-  getFavourites(): BooksView[] {
-    return this.facade.getFavourites();
+  removeBookFromFavourite(book: BooksView, userId: number): void {
+    this.facade.removeBookFromFavourite(book, userId);
   }
 }
