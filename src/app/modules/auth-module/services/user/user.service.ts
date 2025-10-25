@@ -29,9 +29,9 @@ export class UserService {
 
   getCuurentUserSafeData(): Observable<SafeUserData> {
     return this.getUserbyEmail().pipe(
-        map(users => users.data[0]),
-        take(1),
-        filter(user => !!user),
+      map(users => users?.data?.[0]),
+      filter(user => !!user),
+      take(1),
     );
   }
       

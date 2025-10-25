@@ -6,21 +6,21 @@ import { FavouriteBookFacade } from './favourite-book.facade';
   providedIn: 'root',
 })
 export class FavouriteBookService {
-  private readonly facade = inject(FavouriteBookFacade);
+  private readonly bookFacade = inject(FavouriteBookFacade);
 
   get favouriteBooks() {
-    return this.facade.favouriteBooks;
+    return this.bookFacade.favouriteBooks;
   }
 
   loadFavouriteBooks(userId: number): void {
-    this.facade.loadFavouriteBooks(userId)
+    this.bookFacade.loadFavouriteBooks(userId)
   }
 
   addBookToFavourite(book: BooksView, userId: number): void {
-    this.facade.addBookToFavourite(book, userId);
+    this.bookFacade.addBookToFavourite(book, userId);
   }
 
   removeBookFromFavourite(book: BooksView, userId: number): void {
-    this.facade.removeBookFromFavourite(book, userId);
+    this.bookFacade.removeBookFromFavourite(book, userId);
   }
 }

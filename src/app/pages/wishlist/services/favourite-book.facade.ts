@@ -34,10 +34,6 @@ export class FavouriteBookFacade {
     })
   }
 
-  // getFavourites(): BooksView[] {
-  //   return this.favouriteBooks();
-  // }
-
   private getKey(userId: number): string {
     return `${STORAGE_KEYS.FAVOURITE}_${userId}`;
   }

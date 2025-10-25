@@ -138,9 +138,9 @@ export class BookFacadeService {
         }
     }
    
-    onAddInFavouriteEvent(book: BooksView, userId: number): void {
-        this.#favouriteService.addBookToFavourite(book, userId);
-    }
+    // onAddInFavouriteEvent(book: BooksView, userId: number): void {
+    //     this.#favouriteService.addBookToFavourite(book, userId);
+    // }
 
     resetPage() {
         this.#pagingService.setCurrentPage();

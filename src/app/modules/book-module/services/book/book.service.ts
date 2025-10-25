@@ -34,9 +34,9 @@ export class BookService {
     return this.bookFacade.getBooks(query, category);
   }
 
-  onAddInFavouriteEvent(book: BooksView, userId: number): void {
-    return this.bookFacade.onAddInFavouriteEvent(book, userId);
-  }
+  // onAddInFavouriteEvent(book: BooksView, userId: number): void {
+  //   return this.bookFacade.onAddInFavouriteEvent(book, userId);
+  // }
 
   resetPage() {
     return this.bookFacade.resetPage();
