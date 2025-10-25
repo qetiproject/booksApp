@@ -28,6 +28,9 @@ export class FavouriteBookFacade {
   removeBookFromFavourite(book: BooksView, userId: number): void {
     this.favouriteBooks.update(current => current.filter(b => b.id !== book.id));
     this.saveToStorage(userId);
+    if(this.favouriteBooks().length === 0) {
+      localStorage.removeItem(this.getKey(userId))
+    }
     this.#messages.showMessage({
       text: `📚 "${book.title}" წარმატებით წაიშალა სიიდან!`,
       severity: MessageSeverity.Success

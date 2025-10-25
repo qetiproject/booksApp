@@ -29,8 +29,11 @@ export class UserService {
 
   getCuurentUserSafeData(): Observable<SafeUserData> {
     return this.getUserbyEmail().pipe(
-      map(users => users?.data?.[0]),
-      filter(user => !!user),
+      map(users => {
+        const data = (users && 'data' in users && Array.isArray(users.data)) ? users.data : [];
+        return data[0];
+      }),
+      filter((user): user is SafeUserData => !!user),
       take(1),
     );
   }

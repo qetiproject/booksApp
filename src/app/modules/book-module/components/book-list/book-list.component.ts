@@ -1,10 +1,10 @@
 
-import { Component, effect, inject, input, OnInit } from '@angular/core';
+import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '@auth-module';
 import { BookCardComponent, BookFacadeService, BookService, BooksView } from '@book-module';
 import { FavouriteBookService } from '@pages/wishlist/services/favourite-book.service';
-import { take, tap } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-list',
@@ -22,17 +22,20 @@ export class BookListComponent implements OnInit{
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
   books = this.#bookFacadeService.books;
-  userId!: number;
+  readonly userId = signal<number | null>(null);
 
   constructor() {
     this.initEffects();
   }
 
+
   ngOnInit(): void {
-     this.#userService.getCuurentUserSafeData().pipe(
-      take(1), 
-      tap(user => this.userId = user.userId),
-    ).subscribe();
+    this.#userService.getCuurentUserSafeData().pipe(
+      take(1)
+    ).subscribe(user => {
+      this.userId.set(user.userId);
+      this.#favouriteBookService.loadFavouriteBooks(user.userId);
+    });
   }
 
   initEffects() {
@@ -50,7 +53,9 @@ export class BookListComponent implements OnInit{
   }
 
   onAddInFavouriteEvent(book: BooksView) {
-    this.#favouriteBookService.addBookToFavourite(book, this.userId);
+    const id = this.userId();
+    if (!id) return;
+    this.#favouriteBookService.addBookToFavourite(book, id);
   }
 
 }

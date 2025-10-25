@@ -1,9 +1,9 @@
 
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { UserService } from '@auth-module';
 import { BookCardComponent, BooksView } from '@book-module';
 import { BackButtonComponent } from '@components';
-import { take, tap } from 'rxjs';
+import { take } from 'rxjs';
 import { FavouriteBookService } from './services/favourite-book.service';
 
 @Component({
@@ -17,19 +17,22 @@ export class WishlistComponent implements OnInit{
 
   readonly favouriteBookService = inject(FavouriteBookService);
   userService = inject(UserService);
-  userId!: number;
+  readonly userId = signal<number | null>(null);
 
   ngOnInit(): void {
     this.userService.getCuurentUserSafeData().pipe(
-      take(1), 
-      tap(user => this.userId = user.userId),
-      tap(user => this.favouriteBookService.loadFavouriteBooks(user.userId)),
-    ).subscribe();
+      take(1)
+    ).subscribe(user => {
+      if (!user) return;
+      this.userId.set(user.userId);
+      this.favouriteBookService.loadFavouriteBooks(user.userId);
+    });
   }
 
   onBookDeleteFromFavouritesEvent(book: BooksView): void {
-    if(!this.userId) return;
-    this.favouriteBookService.removeBookFromFavourite(book, this.userId);
+    const id = this.userId();
+    if (!id) return;
+    this.favouriteBookService.removeBookFromFavourite(book, id);
   }
 
 }
