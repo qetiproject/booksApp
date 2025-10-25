@@ -9,7 +9,8 @@ export class ReviewFacade {
 
   loadReviews(): Review[] {
     const currentReviews = sessionStorage.getItem(STORAGE_KEYS.BOOK_REVIEWS);
-    return currentReviews ? JSON.parse(currentReviews) : []
+    const reviews = currentReviews ? JSON.parse(currentReviews) : [];
+    return reviews;
   }
 
   saveReviewToStorage(review: Review[]) {

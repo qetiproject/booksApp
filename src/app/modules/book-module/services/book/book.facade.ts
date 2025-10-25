@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { UserSafeInSystem, UserService } from "@auth-module";
+import { SafeUserData, UserService } from "@auth-module";
 import { BookDetails, BookDetailsResult, BookResult, BooksView, LoadBooks, LoadBooksFailure } from "@book-module";
 import { SkipLoading } from "@features";
 import { Store } from "@ngrx/store";
@@ -19,9 +19,18 @@ export class BookFacadeService {
     #store = inject(Store);
     #pagingService = inject(PagingService);
     #userService = inject(UserService);
-    user: UserSafeInSystem | null = this.#userService.getCurrentUserFromStorage();
-    
+    user: SafeUserData | null = null;
     books = toSignal(this.#store.select(selectBooks), { initialValue: [] });
+
+    constructor() {
+        this.getUser();
+    }
+
+    private getUser() {
+        this.#userService.getCuurentUserSafeData().pipe(
+            map(user => this.user = user)
+        ).subscribe()
+    }
 
     private getStartIndex() {
         return this.#pagingService.currentPage() - 1;
@@ -35,6 +44,7 @@ export class BookFacadeService {
         return this.http.get<BookResult>(`/volumes?q=${name}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
             map(response => {
             const items = response.items || [];
+            
             const mappedItems: BooksView[] = items.map(item => ({
                 id: item.id,
                 title: item.volumeInfo.title,
