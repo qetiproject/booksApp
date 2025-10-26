@@ -19,8 +19,8 @@ export class CatalogueService {
     this.#catalogueFacade.loadCatalogueBooks(userId)
   }
 
-  removeBook(book: BooksView): void {
-    // this.updateBooks(this.books.value.filter(x => x.id !== book.id));
+  removeBook(book: BooksView, id: number): void {
+    this.#catalogueFacade.removeBook(book, id);
   }
 
 }

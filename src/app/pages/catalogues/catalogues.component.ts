@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, signal, TemplateRef } from '@angular/core';
+import { Component, inject, signal, TemplateRef } from '@angular/core';
 import { UserService } from '@auth-module';
 import { BookCardComponent, BooksView } from '@book-module';
 import { BackButtonComponent } from '@components';
@@ -23,19 +23,19 @@ export class CataloguesComponent {
   readonly userId = signal<number | null>(null);
 
   constructor() {
-    this.#userService.getCurrentUserSafeData().pipe(take(1)).subscribe(user => {
+    this.#userService.getCurrentUserSafeData().pipe(
+      take(1)
+    ).subscribe(user => {
+      if(!user) return;
       if (user) this.userId.set(user.userId);
+      this.#catalogueService.loadCatalogueBooks(user.userId);
     });
-  }
-
-  readonly loadBooksEffect = effect(() => {
-    const id = this.userId();
-    if (!id) return;
-    this.#catalogueService.loadCatalogueBooks(id);
-  });
+  };
 
   onDeleteBookEvent(book: BooksView) {
-    this.#catalogueService.removeBook(book)
+    const id = this.userId();
+    if(!id) return;
+    this.#catalogueService.removeBook(book, id);
   }
 
 }

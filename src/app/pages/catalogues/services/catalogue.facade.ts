@@ -44,20 +44,19 @@ export class CatalogueFacade {
     };
   }
   
-  removeBook(book: BooksView): void {
-    // this.updateBooks(this.books.value.filter(x => x.id !== book.id));
+  removeBook(book: BooksView, userId: number): void {
+    const curBooks = this.books.value.filter(b => b.id  !== book.id);
+    this.updateBooks(curBooks, userId);
   }
-
-//   remove(book: BooksView, userId: number): void {
-//     const curBooks = this.books.value.filter(b => b.id  !== book.id);
-//     if(!curBooks) localStorage.removeItem(this.getKey(userId));
-//     this.updateBooks(curBooks, userId);
-//   }
 
   private updateBooks(updated: BooksView[], userId: number): void {
     this.books.next(updated);
     try{
-        localStorage.setItem(this.getKey(userId), JSON.stringify(updated));
+      if (updated.length === 0) {
+        localStorage.removeItem(this.getKey(userId));
+        return;
+      }
+      localStorage.setItem(this.getKey(userId), JSON.stringify(this.books.value));
     }
     catch(err){
       this.messages.showMessage({
