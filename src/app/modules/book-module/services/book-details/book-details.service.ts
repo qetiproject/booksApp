@@ -1,4 +1,5 @@
 import { inject, Injectable, TemplateRef } from "@angular/core";
+import { BookDetails } from "@book-module";
 import { Tab, } from "@types";
 import { BookDetailsFacade } from "./book-details.facade";
 
@@ -19,9 +20,9 @@ export class BookDetailsService {
         return this.#bookDetailsFacade.tabs(reviewsTemplate, addReviewTemplate)
     }
 
-    // addToFavouritesEvent(book: BookDetails, userId: number): void {
-    //     this.#bookDetailsFacade.addToFavouritesEvent(book, userId);
-    // }
+    addToFavouritesEvent(book: BookDetails, userId: number): void {
+        this.#bookDetailsFacade.addToFavouritesEvent(book, userId);
+    }
 
     // addToCatalogueEvent(book: BookDetails, userId: number): void {
     //     this.#bookDetailsFacade.addToCatalogueEvent(book, userId);

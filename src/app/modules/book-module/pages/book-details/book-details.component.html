@@ -1,4 +1,4 @@
-<!-- <app-back-button/>
+<app-back-button/>
 
 <div 
     class="max-w-6xl mx-auto my-10 bg-white shadow-xl rounded-2xl border border-slate-100 overflow-hidden"
@@ -7,11 +7,12 @@
     <app-book-info [book]="book()"></app-book-info>
     <div class="flex-1 p-8">
       <app-book-content [book]="book()"></app-book-content>
+      <!-- (addToCatalogue)="addToCatalogueEvent()" -->
       <app-book-actions 
-        (addToCatalogue)="addToCatalogueEvent()"
+        
         (addToFavourites)="addToFavouritesEvent()"
       ></app-book-actions>
       <app-reviews-tab [bookId]="book().id"></app-reviews-tab>
     </div>
   </div>
-</div> -->
+</div>
