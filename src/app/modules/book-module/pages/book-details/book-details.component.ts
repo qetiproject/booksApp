@@ -32,7 +32,6 @@ export class BookDetailsComponent {
             ).subscribe(user => {
                 if (!user) return;
                 this.userId.set(user.userId);
-                // this.favouriteBookService.loadFavouriteBooks(user.userId);
             });
     }
     
@@ -41,13 +40,14 @@ export class BookDetailsComponent {
     }
 
     addToFavouritesEvent(): void {
-        const id = this.userId();
-        if (!id) return;
-        this.#bookDetailsService.addToFavouritesEvent(this.book(), id)
+      const id = this.userId();
+      if (!id) return;
+      this.#bookDetailsService.addToFavouritesEvent(this.book(), id)
     }
     
-    // addToCatalogueEvent(): void {
-    //   if (!this.user) return;
-    //   this.#bookDetailsService.addToCatalogueEvent(this.book(), this.user.userId)
-    // }
+    addToCatalogueEvent(): void {
+      const id = this.userId();
+      if (!id) return;
+      this.#bookDetailsService.addToCatalogueEvent(this.book(), id)
+    }
 }

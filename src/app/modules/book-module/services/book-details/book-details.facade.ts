@@ -3,6 +3,7 @@ import { inject, Injectable, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { BookDetails, BooksView } from '@book-module';
 import { MessagesService } from '@core';
+import { CatalogueService } from '@pages/catalogues/services/catalogue.service';
 import { FavouriteBookService } from '@pages/wishlist/services/favourite-book.service';
 import { MessageSeverity, Tab, TabKey } from '@types';
 
@@ -14,7 +15,8 @@ export class BookDetailsFacade {
     #router = inject(Router);
     #favouriteService = inject(FavouriteBookService);
     #messages = inject(MessagesService);
-
+    #catalogueService = inject(CatalogueService)
+    
     tabs(
         reviewsTemplate: TemplateRef<unknown>, 
         addReviewTemplate: TemplateRef<unknown>
@@ -52,12 +54,12 @@ export class BookDetailsFacade {
         })
     }
 
-    // addToCatalogueEvent(book: BookDetails, userId: number): void {
-    //     this.#catalogueService.addBook(book, userId);
-    //     this.#router.navigateByUrl('/catalogue')
-    //     this.#messages.showMessage({
-    //         text: `📚 "${book.volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`,
-    //         severity: MessageSeverity.Success
-    //     })
-    // }
+    addToCatalogueEvent(book: BookDetails, userId: number): void {
+        this.#catalogueService.addBook(book, userId);
+        this.#router.navigateByUrl('/catalogue')
+        this.#messages.showMessage({
+            text: `📚 "${book.volumeInfo.title}" წარმატებით დაემატა თქვენს კატალოგში!`,
+            severity: MessageSeverity.Success
+        })
+    }
 }

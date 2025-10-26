@@ -24,8 +24,8 @@ export class BookDetailsService {
         this.#bookDetailsFacade.addToFavouritesEvent(book, userId);
     }
 
-    // addToCatalogueEvent(book: BookDetails, userId: number): void {
-    //     this.#bookDetailsFacade.addToCatalogueEvent(book, userId);
-    // }
+    addToCatalogueEvent(book: BookDetails, userId: number): void {
+        this.#bookDetailsFacade.addToCatalogueEvent(book, userId);
+    }
 
 }
