@@ -45,7 +45,7 @@ export class ReviewService {
     }
 
     addReviewFromForm(formValue: { comment: string; star: number }, bookId: string) {
-        return this.#userService.getCuurentUserSafeData().pipe(
+        return this.#userService.getCurrentUserSafeData().pipe(
             switchMap(user => {
                 if (this.canUserAddReview(bookId, user.userId)) {
                     this.#messages.showMessage({

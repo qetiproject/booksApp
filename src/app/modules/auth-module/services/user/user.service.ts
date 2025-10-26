@@ -27,7 +27,7 @@ export class UserService {
     return userData ? JSON.parse(userData) : null;
   }
 
-  getCuurentUserSafeData(): Observable<SafeUserData> {
+  getCurrentUserSafeData(): Observable<SafeUserData> {
     return this.getUserbyEmail().pipe(
       map(users => {
         const data = (users && 'data' in users && Array.isArray(users.data)) ? users.data : [];

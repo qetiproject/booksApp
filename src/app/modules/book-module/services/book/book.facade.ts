@@ -27,7 +27,7 @@ export class BookFacadeService {
     }
 
     private getUser() {
-        this.#userService.getCuurentUserSafeData().pipe(
+        this.#userService.getCurrentUserSafeData().pipe(
             map(user => this.user = user)
         ).subscribe()
     }

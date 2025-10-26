@@ -27,7 +27,7 @@ export class BookDetailsComponent {
     readonly userId = signal<number | null>(null);
   
     ngOnInit(): void {
-        this.userService.getCuurentUserSafeData().pipe(
+        this.userService.getCurrentUserSafeData().pipe(
             take(1)
             ).subscribe(user => {
                 if (!user) return;

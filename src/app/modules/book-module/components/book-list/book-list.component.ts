@@ -30,7 +30,7 @@ export class BookListComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.#userService.getCuurentUserSafeData().pipe(
+    this.#userService.getCurrentUserSafeData().pipe(
       take(1)
     ).subscribe(user => {
       this.userId.set(user.userId);
