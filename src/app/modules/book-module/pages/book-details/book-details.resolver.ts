@@ -14,7 +14,7 @@ export const BookDetailsResolver: ResolveFn<BookDetails > =
         
         if(!user || !bookId) {
             router.navigate(['/books']);
-            return Promise.reject("No BookId"); // not happen resolve
+            return Promise.reject("No BookId");
         }
 
         try{

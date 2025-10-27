@@ -5,7 +5,6 @@ import { SafeUserData, UserService } from "@auth-module";
 import { BookDetails, BookDetailsResult, BookResult, BooksView, LoadBooks, LoadBooksFailure } from "@book-module";
 import { SkipLoading } from "@features";
 import { Store } from "@ngrx/store";
-import { FavouriteBookService } from "@pages/wishlist/services/favourite-book.service";
 import { PagingService } from "components/paging/paging.service";
 import { map, Observable, shareReplay } from "rxjs";
 import { selectBooks } from "../../store/book.selector";
@@ -15,7 +14,6 @@ import { selectBooks } from "../../store/book.selector";
 })
 export class BookFacadeService {
     http = inject(HttpClient);
-    #favouriteService = inject(FavouriteBookService);
     #store = inject(Store);
     #pagingService = inject(PagingService);
     #userService = inject(UserService);
@@ -35,11 +33,12 @@ export class BookFacadeService {
     private getStartIndex() {
         return this.#pagingService.currentPage() - 1;
     }
-    
-    searchBooksByName(
+    searchBooksByName
+    (
         name: string | null, 
         maxResults: number, 
-        startIndex: number
+        startIndex: number,
+        userId: number
         ): Observable<{ items: BooksView[]; totalItems: number }> {
         return this.http.get<BookResult>(`/volumes?q=${name}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
             map(response => {
@@ -52,7 +51,7 @@ export class BookFacadeService {
                 imageLinks: item.volumeInfo.imageLinks || { thumbnail: '', smallThumbnail: '' },
                 language: item.volumeInfo.language || '',
                 categories: item.volumeInfo.categories,
-                userId: this.user!.userId
+                userId
             }));
 
             return {
@@ -66,7 +65,8 @@ export class BookFacadeService {
     loadBooksByCategory(
         category: string | null, 
         maxResults: number, 
-        startIndex: number
+        startIndex: number,
+        userId: number
         ): Observable<{ items: BooksView[]; totalItems: number }> {
 
         return this.http.get<BookResult>(`/volumes?q=${category}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
@@ -79,7 +79,7 @@ export class BookFacadeService {
                 imageLinks: item.volumeInfo.imageLinks || { thumbnail: '', smallThumbnail: '' },
                 language: item.volumeInfo.language || '',
                 categories: item.volumeInfo.categories,
-                userId:1
+                userId
             }));
 
             return {
@@ -137,10 +137,6 @@ export class BookFacadeService {
             this.#store.dispatch(LoadBooksFailure({ error: 'No query or category selected' }));
         }
     }
-   
-    // onAddInFavouriteEvent(book: BooksView, userId: number): void {
-    //     this.#favouriteService.addBookToFavourite(book, userId);
-    // }
 
     resetPage() {
         this.#pagingService.setCurrentPage();

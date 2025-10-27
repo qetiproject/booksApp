@@ -12,18 +12,20 @@ export class BookService {
   searchBooksByName(
     name: string | null, 
     maxResults: number, 
-    startIndex: number
+    startIndex: number,
+    userId: number
   ): Observable<{ items: BooksView[]; totalItems: number }> {
-    return this.bookFacade.searchBooksByName(name, maxResults,startIndex);
+    return this.bookFacade.searchBooksByName(name, maxResults,startIndex, userId);
   }
 
   loadBooksByCategory(
     category: string | null, 
     maxResults: number, 
-    startIndex: number
+    startIndex: number,
+    userId: number
   ): Observable<{ items: BooksView[]; totalItems: number }> {
 
-    return this.bookFacade.loadBooksByCategory(category, maxResults, startIndex);
+    return this.bookFacade.loadBooksByCategory(category, maxResults, startIndex, userId);
   }
 
   bookById(id: string, userId: number): Observable<BookDetails> {
@@ -33,10 +35,6 @@ export class BookService {
   getBooks(query: string | null, category: string | null): void {
     return this.bookFacade.getBooks(query, category);
   }
-
-  // onAddInFavouriteEvent(book: BooksView, userId: number): void {
-  //   return this.bookFacade.onAddInFavouriteEvent(book, userId);
-  // }
 
   resetPage() {
     return this.bookFacade.resetPage();
