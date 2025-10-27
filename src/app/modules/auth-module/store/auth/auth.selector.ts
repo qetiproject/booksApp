@@ -8,6 +8,11 @@ export const selectUserResponse = createSelector(
     (state: AuthState) => state.response
 )
 
+export const selectActiveUserId = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.activeUserId
+);
+
 export const selectIsLoggedIn = createSelector(
     selectAuthState,
     (state: AuthState) => state.isLoggedIn

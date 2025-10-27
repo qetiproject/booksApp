@@ -7,6 +7,7 @@ export const initialAuthState: AuthState = {
     isLoggedIn: false,
     response: null,
     error: null ,
+    activeUserId: null
 };
 
 export const AuthReducer = createReducer(
@@ -14,7 +15,7 @@ export const AuthReducer = createReducer(
     on(AuthActions.register, (state) => ({
         ...state,
         loading: true,
-        response: null
+        response: null,
     })),
     on(registerSuccess, (state, {response}) =>({
         ...state,
@@ -31,11 +32,12 @@ export const AuthReducer = createReducer(
         isLoggedIn: false,
         loading: true,
     })),
-    on(loginSuccess, (state, {response,}) =>({
+    on(loginSuccess, (state, {response, userId}) =>({
         ...state,
         response,
         isLoggedIn: true,
         loading: false,
+        activeUserId: userId
     })),
     on(loginFailure, (state, { error }) => ({
         ...state,

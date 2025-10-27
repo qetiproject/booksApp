@@ -6,7 +6,7 @@ import * as UserSelectors from '@auth-module';
 import { BookCardComponent, BookService, BooksView } from '@book-module';
 import { Store } from '@ngrx/store';
 import { FavouriteBookService } from '@pages/wishlist/services/favourite-book.service';
-import { map } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-list',
@@ -22,25 +22,20 @@ export class BookListComponent {
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
   books = this.#bookService.books;
-  userId: Signal<number | null>;
+  userId: Signal<number | undefined> ;
   #store = inject(Store);
   
   constructor(){
-    this.userId = toSignal(
-      this.#store.select(UserSelectors.selectUserResponse).pipe(
-        map(user => user?.data?.userId ?? null)
-      ),
-      { initialValue: null }
-    );
-
+    this.userId = toSignal(this.#store.select(UserSelectors.selectActiveUserId).pipe(
+        filter((id): id is number => id !== null),
+        take(1))
+    )
     effect(() => {
       const search = this.searchQuery();
       const category = this.categorySelected();
       const id = this.userId();
 
       if ((!search && !category) || !id) return;
-
-      console.log('UserId:', id, 'Search:', search, 'Category:', category);
 
       this.#bookService.getBooks(search ?? null, category ?? null);
     });

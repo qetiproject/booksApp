@@ -41,7 +41,7 @@ export class AppComponent{
         const user = userData ? JSON.parse(userData) : null;
 
         if (accessToken && user) {
-            this.store.dispatch(AuthActions.loginSuccess({ response: user}));
+            this.store.dispatch(AuthActions.loginSuccess({ response: user, userId: user.userId}));
         }
     }
 }

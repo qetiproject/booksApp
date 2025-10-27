@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import * as UserSelectors from '@auth-module';
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { catchError, EMPTY, map, of, switchMap, withLatestFrom } from "rxjs";
+import { catchError, filter, map, of, switchMap, take, withLatestFrom } from "rxjs";
 import { BookService } from "../services/book/book.service";
 import { LoadBooks, LoadBooksFailure, LoadBooksSuccess } from "./book.action";
 
@@ -15,12 +15,11 @@ export class BookEffect {
     loadBooks$ = createEffect(() =>
         this.actions$.pipe(
             ofType(LoadBooks),
-            withLatestFrom(this.#store.select(UserSelectors.selectUserResponse)),
-            switchMap(([action, userResponse]) => {
-                if(!userResponse?.data) return EMPTY;
-
-                const userId = userResponse.data.userId;
-                
+            withLatestFrom(this.#store.select(UserSelectors.selectActiveUserId).pipe(
+                filter((id): id is number => id !== null),
+                take(1),
+            )),
+            switchMap(([action, userId]) => {                
                 const apiCall$ =
                     action.query.length > 3
                     ? this.#bookService.searchBooksByName(

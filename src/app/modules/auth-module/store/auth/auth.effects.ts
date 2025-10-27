@@ -33,7 +33,7 @@ export class AuthEffects {
         this.authService.login(user).pipe(
           map((response: AuthActions.LoginResponse) => {
             this.tokeService.saveTokens(response.data.token)
-            return AuthActions.loginSuccess({response})
+            return AuthActions.loginSuccess({response, userId: response.data.userId})
           }),
           catchError(error =>  of(AuthActions.loginFailure({ error })))
         )

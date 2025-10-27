@@ -5,4 +5,5 @@ export interface AuthState {
   isLoggedIn: boolean;
   error: string | null;
   response: RegisterUserResponse | LoginResponse | null;
+  activeUserId: number | null;
 }
