@@ -9,13 +9,13 @@ import { catchError, map, switchMap } from "rxjs/operators";
 @Injectable()
 export class UserEffects {
     actions$ = inject(Actions);
-    userService = inject(UserService);
+    #userService = inject(UserService);
 
     searchUsers$ = createEffect(() =>
         this.actions$.pipe(
             ofType(UserActions.searchUsers),
             switchMap((action) =>
-            this.userService.searchUsers(action.searchText).pipe(
+            this.#userService.searchUsers(action.searchText).pipe(
                 map((response: Users) => {
                     const safeUsers: Users = {
                         totalRecords: response.totalRecords,

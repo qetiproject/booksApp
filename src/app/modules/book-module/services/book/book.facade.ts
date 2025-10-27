@@ -91,7 +91,7 @@ export class BookFacadeService {
         );
     }
     
-    bookById(id: string, userId: number): Observable<BookDetails> {
+    bookById(id: string): Observable<BookDetails> {
         return this.http.get<BookDetailsResult>(`/volumes/${id}`, {
             context: new HttpContext().set(SkipLoading, true)
         }).pipe(
@@ -112,7 +112,6 @@ export class BookFacadeService {
                     categories: volumeInfo?.categories || [],
                     previewLink: volumeInfo?.previewLink || ''
                 },
-                userId
             };
             })
         );

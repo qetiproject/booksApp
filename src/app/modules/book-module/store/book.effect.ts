@@ -9,13 +9,13 @@ import { LoadBooks, LoadBooksFailure, LoadBooksSuccess } from "./book.action";
 @Injectable()
 export class BookEffect {
     actions$ = inject(Actions);
-    store = inject(Store);
-    bookService = inject(BookService);
+    #store = inject(Store);
+    #bookService = inject(BookService);
 
     loadBooks$ = createEffect(() =>
         this.actions$.pipe(
             ofType(LoadBooks),
-            withLatestFrom(this.store.select(UserSelectors.selectUserResponse)),
+            withLatestFrom(this.#store.select(UserSelectors.selectUserResponse)),
             switchMap(([action, userResponse]) => {
                 if(!userResponse?.data) return EMPTY;
 
@@ -23,13 +23,13 @@ export class BookEffect {
                 
                 const apiCall$ =
                     action.query.length > 3
-                    ? this.bookService.searchBooksByName(
+                    ? this.#bookService.searchBooksByName(
                         action.query,
                         action.maxResults,
                         action.startIndex,
                         userId
                     )
-                    : this.bookService.loadBooksByCategory(
+                    : this.#bookService.loadBooksByCategory(
                         action.query,
                         action.maxResults,
                         action.startIndex,

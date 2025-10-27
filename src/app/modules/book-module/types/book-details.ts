@@ -6,7 +6,7 @@ export type BookDetailsResult = Pick<BookData, "id" | "accessInfo" | "searchInfo
 
 export type BookDetails = Pick<BookData, "id" | "saleInfo"> & {
   volumeInfo: BookDetailsVolumeInfo;
-  userId: number;
+  // userId: number;
 };
 
 export interface BookDetailsRouteData {

@@ -1,6 +1,5 @@
 import { inject } from "@angular/core";
 import { ActivatedRouteSnapshot, ResolveFn, Router } from "@angular/router";
-import { UserSafeInSystem, UserService } from "@auth-module";
 import { BookDetails, BookService } from "@book-module";
 import { firstValueFrom } from "rxjs";
 
@@ -9,16 +8,14 @@ export const BookDetailsResolver: ResolveFn<BookDetails > =
         const bookId = route.paramMap.get("id");
         const bookService = inject(BookService);
         const router = inject(Router);
-        const userService = inject(UserService);
-        const user: UserSafeInSystem | null = userService.getCurrentUserFromStorage();
         
-        if(!user || !bookId) {
+        if(!bookId) {
             router.navigate(['/books']);
             return Promise.reject("No BookId");
         }
 
         try{
-            const book = await firstValueFrom(bookService.bookById(bookId, user.userId));
+            const book = await firstValueFrom(bookService.bookById(bookId));
             if(!book) {
                 router.navigate(['/books']);
                 return Promise.reject("Book not found");
