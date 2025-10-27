@@ -1,10 +1,10 @@
 
 import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserService } from '@auth-module';
-import { BookCardComponent, BookFacadeService, BookService, BooksView } from '@book-module';
+import * as UserSelectors from '@auth-module';
+import { BookCardComponent, BookService, BooksView } from '@book-module';
+import { Store } from '@ngrx/store';
 import { FavouriteBookService } from '@pages/wishlist/services/favourite-book.service';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-list',
@@ -14,28 +14,27 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent implements OnInit{
-  #bookFacadeService = inject(BookFacadeService)
   #bookService = inject(BookService);
   #favouriteBookService = inject(FavouriteBookService);
-  #userService = inject(UserService);
+  #store = inject(Store);
 
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
-  books = this.#bookFacadeService.books;
+  books = this.#bookService.books;
   readonly userId = signal<number | null>(null);
 
   constructor() {
     this.initEffects();
   }
 
-
-  ngOnInit(): void {
-    this.#userService.getCurrentUserSafeData().pipe(
-      take(1)
-    ).subscribe(user => {
-      this.userId.set(user.userId);
-      this.#favouriteBookService.loadFavouriteBooks(user.userId);
-    });
+  ngOnInit(): void {    
+    this.#store.select(UserSelectors.selectUserResponse)
+      .subscribe(user => {
+        if(!user?.data) return;
+        const userId = user?.data.userId;
+        this.userId.set(userId);
+        this.#favouriteBookService.loadFavouriteBooks(userId);
+      })
   }
 
   initEffects() {

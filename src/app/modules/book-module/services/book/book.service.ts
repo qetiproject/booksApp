@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 export class BookService {
 
   bookFacade = inject(BookFacadeService);
-
+  books = this.bookFacade.books;
+  
   searchBooksByName(
     name: string | null, 
     maxResults: number, 

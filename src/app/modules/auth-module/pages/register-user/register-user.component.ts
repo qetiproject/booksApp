@@ -5,7 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import * as AuthActions from '@auth-module';
 import { AuthService, RegisterCredentionals, selectUserResponse } from '@auth-module';
 import { MessagesService } from '@core';
-import { DynamicValidatorMessage, InputComponent, InputType, UniqueEmailValidator } from '@features';
+import { DynamicValidatorMessage, InputComponent, InputType } from '@features';
 import { Store } from '@ngrx/store';
 import { MessageSeverity } from '@types';
 import { filter, take } from 'rxjs';
@@ -29,19 +29,12 @@ export class RegisterUserComponent {
   authService = inject(AuthService);
   messages = inject(MessagesService);
   store = inject(Store);
-  uniqueEmailValidator = inject(UniqueEmailValidator);
 
   InputType = InputType;
   @ViewChild(FormGroupDirective, { static: false }) private formDir!: FormGroupDirective;
   
   form = this.fb.nonNullable.group({
-    emailId: ['', {
-      Validators: [Validators.required, Validators.email],
-      asyncValidators: [
-          this.uniqueEmailValidator.validate.bind(this.uniqueEmailValidator)
-        ],
-        updateOn: 'blur'
-    }],
+    emailId: ['', [Validators.required, Validators.email]],
     fullName: ['', [Validators.required, Validators.minLength(8)]],
     password: ['', [Validators.required, Validators.minLength(8)]]
   })
