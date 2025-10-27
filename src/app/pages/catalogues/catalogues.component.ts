@@ -2,12 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, inject, Signal, TemplateRef } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import * as UserSelectors from '@auth-module';
-import { UserService } from '@auth-module';
 import { BookCardComponent, BooksView } from '@book-module';
 import { BackButtonComponent } from '@components';
 import { Store } from '@ngrx/store';
 import { CatalogueService } from '@pages/catalogues/services/catalogue.service';
-import { map } from 'rxjs';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-catalogues',
@@ -19,36 +18,22 @@ import { map } from 'rxjs';
 export class CataloguesComponent {
   
   #catalogueService = inject(CatalogueService);
-  #userService = inject(UserService);
   books$ = this.#catalogueService.books$;
 
   bookCardTemplate = TemplateRef<BooksView>
-  // readonly userId = signal<number | null>(null);
 
-  // constructor() {
-  //   this.#userService.getCurrentUserSafeData().pipe(
-  //     take(1)
-  //   ).subscribe(user => {
-  //     if(!user) return;
-  //     if (user) this.userId.set(user.userId);
-  //     this.#catalogueService.loadCatalogueBooks(user.userId);
-  //   });
-  // };
-
-  userId: Signal<number | null>;
+  userId: Signal<number | undefined>;
   #store = inject(Store);
   
   constructor(){
-    this.userId = toSignal(
-      this.#store.select(UserSelectors.selectUserResponse).pipe(
-        map(user => user?.data?.userId ?? null)
-      ),
-      { initialValue: null }
-    );
+    this.userId = toSignal(this.#store.select(UserSelectors.selectActiveUserId).pipe(
+      filter((id): id is number => id !== null),
+      take(1))
+    )
     effect(() => {
       const id = this.userId();
-      if (id !== null) {
-        console.log('UserId is available:', id);
+      if (id) {
+        console.log(id, "id")
         this.#catalogueService.loadCatalogueBooks(id);
       }
     });

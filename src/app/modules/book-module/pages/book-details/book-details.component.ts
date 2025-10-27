@@ -8,7 +8,7 @@ import { UserSafeInSystem, UserService } from '@auth-module';
 import { BookActionsComponent, BookContentComponent, BookDetails, BookDetailsService, BookInfoComponent, ReviewsTabComponent } from '@book-module';
 import { BackButtonComponent } from '@components';
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-details',
@@ -27,26 +27,14 @@ export class BookDetailsComponent {
     readonly book: WritableSignal<BookDetails> = signal(this.#route.snapshot.data['book']);
 
     userService = inject(UserService);
-    // readonly userId = signal<number | null>(null);
-  
-    // ngOnInit(): void {
-    //     this.userService.getCurrentUserSafeData().pipe(
-    //         take(1)
-    //         ).subscribe(user => {
-    //             if (!user) return;
-    //             this.userId.set(user.userId);
-    //         });
-    // }
-    userId: Signal<number | null>;
+    userId: Signal<number | undefined>;
     #store = inject(Store);
     
     constructor(){
-      this.userId = toSignal(
-        this.#store.select(UserSelectors.selectUserResponse).pipe(
-          map(user => user?.data?.userId ?? null)
-        ),
-        { initialValue: null }
-      );
+      this.userId = toSignal(this.#store.select(UserSelectors.selectActiveUserId).pipe(
+        filter((id): id is number => id !== null),
+        take(1))
+      )
     }
     
     goBack(): void {

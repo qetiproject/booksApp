@@ -6,7 +6,7 @@ import { UserService } from '@auth-module';
 import { BookCardComponent, BooksView } from '@book-module';
 import { BackButtonComponent } from '@components';
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs';
+import { filter, take } from 'rxjs';
 import { FavouriteBookService } from './services/favourite-book.service';
 
 @Component({
@@ -20,30 +20,17 @@ export class WishlistComponent {
 
   readonly favouriteBookService = inject(FavouriteBookService);
   userService = inject(UserService);
-  // readonly userId = signal<number | null>(null);
-  userId: Signal<number | null>;
+  userId: Signal<number | undefined>;
   #store = inject(Store);
-  // ngOnInit(): void {
-  //   this.userService.getCurrentUserSafeData().pipe(
-  //     take(1)
-  //   ).subscribe(user => {
-  //     if (!user) return;
-  //     this.userId.set(user.userId);
-  //     this.favouriteBookService.loadFavouriteBooks(user.userId);
-  //   });
-  // }
 
   constructor(){
-    this.userId = toSignal(
-      this.#store.select(UserSelectors.selectUserResponse).pipe(
-        map(user => user?.data?.userId ?? null)
-      ),
-      { initialValue: null }
-    );
+    this.userId = toSignal(this.#store.select(UserSelectors.selectActiveUserId).pipe(
+      filter((id): id is number => id !== null),
+      take(1))
+    )
     effect(() => {
       const id = this.userId();
-      if (id !== null) {
-        console.log('UserId is available:', id);
+      if (id) {
         this.favouriteBookService.loadFavouriteBooks(id);
       }
     });
