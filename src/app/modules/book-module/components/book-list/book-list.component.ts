@@ -1,10 +1,12 @@
 
-import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, input, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import * as UserSelectors from '@auth-module';
 import { BookCardComponent, BookService, BooksView } from '@book-module';
 import { Store } from '@ngrx/store';
 import { FavouriteBookService } from '@pages/wishlist/services/favourite-book.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-book-list',
@@ -13,41 +15,34 @@ import { FavouriteBookService } from '@pages/wishlist/services/favourite-book.se
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.css']
 })
-export class BookListComponent implements OnInit{
+export class BookListComponent {
   #bookService = inject(BookService);
   #favouriteBookService = inject(FavouriteBookService);
-  #store = inject(Store);
 
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
   books = this.#bookService.books;
-  readonly userId = signal<number | null>(null);
-
-  constructor() {
-    this.initEffects();
-  }
-
-  ngOnInit(): void {    
-    this.#store.select(UserSelectors.selectUserResponse)
-      .subscribe(user => {
-        if(!user?.data) return;
-        const userId = user?.data.userId;
-        this.userId.set(userId);
-        this.#favouriteBookService.loadFavouriteBooks(userId);
-      })
-  }
-
-  initEffects() {
-    effect(() => {
-      if(this.searchQuery()){
-        this.#bookService.getBooks(this.searchQuery(), null)
-      }
-    });
+  userId: Signal<number | null>;
+  #store = inject(Store);
+  
+  constructor(){
+    this.userId = toSignal(
+      this.#store.select(UserSelectors.selectUserResponse).pipe(
+        map(user => user?.data?.userId ?? null)
+      ),
+      { initialValue: null }
+    );
 
     effect(() => {
-      if(this.categorySelected() != null){
-        this.#bookService.getBooks(null, this.categorySelected())
-      }
+      const search = this.searchQuery();
+      const category = this.categorySelected();
+      const id = this.userId();
+
+      if ((!search && !category) || !id) return;
+
+      console.log('UserId:', id, 'Search:', search, 'Category:', category);
+
+      this.#bookService.getBooks(search ?? null, category ?? null);
     });
   }
 

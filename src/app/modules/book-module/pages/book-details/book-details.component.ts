@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import * as UserSelectors from '@auth-module';
 import { UserSafeInSystem, UserService } from '@auth-module';
 import { BookActionsComponent, BookContentComponent, BookDetails, BookDetailsService, BookInfoComponent, ReviewsTabComponent } from '@book-module';
 import { BackButtonComponent } from '@components';
-import { take } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-details',
@@ -24,15 +27,26 @@ export class BookDetailsComponent {
     readonly book: WritableSignal<BookDetails> = signal(this.#route.snapshot.data['book']);
 
     userService = inject(UserService);
-    readonly userId = signal<number | null>(null);
+    // readonly userId = signal<number | null>(null);
   
-    ngOnInit(): void {
-        this.userService.getCurrentUserSafeData().pipe(
-            take(1)
-            ).subscribe(user => {
-                if (!user) return;
-                this.userId.set(user.userId);
-            });
+    // ngOnInit(): void {
+    //     this.userService.getCurrentUserSafeData().pipe(
+    //         take(1)
+    //         ).subscribe(user => {
+    //             if (!user) return;
+    //             this.userId.set(user.userId);
+    //         });
+    // }
+    userId: Signal<number | null>;
+    #store = inject(Store);
+    
+    constructor(){
+      this.userId = toSignal(
+        this.#store.select(UserSelectors.selectUserResponse).pipe(
+          map(user => user?.data?.userId ?? null)
+        ),
+        { initialValue: null }
+      );
     }
     
     goBack(): void {

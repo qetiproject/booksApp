@@ -4,7 +4,7 @@ import * as UserSelectors from '@auth-module';
 import { SafeUserData, UserResponse, Users } from "@auth-module";
 import { STORAGE_KEYS } from "@core";
 import { Store } from "@ngrx/store";
-import { filter, Observable, take } from "rxjs";
+import { EMPTY, filter, Observable, take } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -26,12 +26,17 @@ export class UserFacade {
     
     getUserbyEmail(): Observable<Users> {
         const email = this.getSafeUserData()?.emailId
-
+        console.log(email, "email")
+        if (!email) {
+            return EMPTY;
+        }
+        
         return this.#store.select(UserSelectors.selectSearchUsers).pipe(
             filter(searchResult =>
                 !!searchResult && searchResult.data.some(u => u.emailId === email)
             ),
             take(1)
         );
+        
     }
 }

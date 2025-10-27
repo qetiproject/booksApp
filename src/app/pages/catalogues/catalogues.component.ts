@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal, TemplateRef } from '@angular/core';
+import { Component, effect, inject, Signal, TemplateRef } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import * as UserSelectors from '@auth-module';
 import { UserService } from '@auth-module';
 import { BookCardComponent, BooksView } from '@book-module';
 import { BackButtonComponent } from '@components';
+import { Store } from '@ngrx/store';
 import { CatalogueService } from '@pages/catalogues/services/catalogue.service';
-import { take } from 'rxjs';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-catalogues',
@@ -20,17 +23,36 @@ export class CataloguesComponent {
   books$ = this.#catalogueService.books$;
 
   bookCardTemplate = TemplateRef<BooksView>
-  readonly userId = signal<number | null>(null);
+  // readonly userId = signal<number | null>(null);
 
-  constructor() {
-    this.#userService.getCurrentUserSafeData().pipe(
-      take(1)
-    ).subscribe(user => {
-      if(!user) return;
-      if (user) this.userId.set(user.userId);
-      this.#catalogueService.loadCatalogueBooks(user.userId);
+  // constructor() {
+  //   this.#userService.getCurrentUserSafeData().pipe(
+  //     take(1)
+  //   ).subscribe(user => {
+  //     if(!user) return;
+  //     if (user) this.userId.set(user.userId);
+  //     this.#catalogueService.loadCatalogueBooks(user.userId);
+  //   });
+  // };
+
+  userId: Signal<number | null>;
+  #store = inject(Store);
+  
+  constructor(){
+    this.userId = toSignal(
+      this.#store.select(UserSelectors.selectUserResponse).pipe(
+        map(user => user?.data?.userId ?? null)
+      ),
+      { initialValue: null }
+    );
+    effect(() => {
+      const id = this.userId();
+      if (id !== null) {
+        console.log('UserId is available:', id);
+        this.#catalogueService.loadCatalogueBooks(id);
+      }
     });
-  };
+  }
 
   onDeleteBookEvent(book: BooksView) {
     const id = this.userId();

@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit{
   ];
 
   ngOnInit() {
-    this.user$ = of(this.route.snapshot.data['user'].data[0]);
+    this.user$ = of(this.route.snapshot.data['user']!.data[0]);
   }
 
 }
