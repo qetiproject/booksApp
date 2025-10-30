@@ -6,4 +6,5 @@ export interface AuthState {
   error: string | null;
   response: RegisterUserResponse | LoginResponse | null;
   activeUserId: number | null;
+  email: string;
 }

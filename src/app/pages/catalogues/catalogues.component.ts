@@ -33,7 +33,6 @@ export class CataloguesComponent {
     effect(() => {
       const id = this.userId();
       if (id) {
-        console.log(id, "id")
         this.#catalogueService.loadCatalogueBooks(id);
       }
     });

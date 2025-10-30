@@ -18,8 +18,9 @@ export class ReviewFacade {
   }
   
   canUserAddReview(bookId: string, userId: number): boolean {
-      const reviews: Review[] = this.loadReviews();
-      const reviewsFiltered = reviews?.some(r => r.bookId === bookId && r.userId === userId);
-      return reviewsFiltered
+    const reviews: Review[] = this.loadReviews() || [];
+    const alreadyReviewed = reviews.some(r => r.bookId === bookId && r.userId === userId);
+
+    return !alreadyReviewed; 
   }
 }

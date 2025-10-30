@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { SafeUserData, Users, UserSafeInSystem } from "@auth-module";
+import { Users, UserSafeInSystem } from "@auth-module";
 import { STORAGE_KEYS } from "@core";
-import { filter, map, Observable, take } from "rxjs";
+import { Observable } from "rxjs";
 import { UserFacade } from "./user.facade";
 
 @Injectable({
@@ -27,15 +27,16 @@ export class UserService {
     return userData ? JSON.parse(userData) : null;
   }
 
-  getCurrentUserSafeData(): Observable<SafeUserData> {
-    return this.getUserbyEmail().pipe(
-      map(users => {
-        const data = (users && 'data' in users && Array.isArray(users.data)) ? users.data : [];
-        return data[0];
-      }),
-      filter((user): user is SafeUserData => !!user),
-      take(1),
-    );
-  }
+  // getCurrentUserSafeData(): Observable<SafeUserData> {
+  //   debugger
+  //   return this.getUserbyEmail().pipe(
+  //     map(users => {
+  //       const data = (users && 'data' in users && Array.isArray(users.data)) ? users.data : [];
+  //       return data[0];
+  //     }),
+  //     filter((user): user is SafeUserData => !!user),
+  //     take(1),
+  //   );
+  // }
       
 }

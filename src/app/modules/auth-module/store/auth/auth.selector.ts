@@ -13,6 +13,11 @@ export const selectActiveUserId = createSelector(
   (state: AuthState) => state.activeUserId
 );
 
+export const selectUserEmail = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.email
+);
+
 export const selectIsLoggedIn = createSelector(
     selectAuthState,
     (state: AuthState) => state.isLoggedIn

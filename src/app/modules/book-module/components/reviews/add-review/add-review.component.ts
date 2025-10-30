@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserSafeInSystem } from '@auth-module';
 import { Readly, ReviewForm, ReviewService } from '@book-module';
+import { STORAGE_KEYS } from '@core';
 import { DynamicValidatorMessage, TextareaComponent } from '@features';
 import { TabKey } from '@types';
 import { createReviewForm } from '@utils/review-form.factory';
@@ -28,18 +30,26 @@ export class AddReviewComponent {
 
   get starCtrl() { return this.form.controls.star; }
   get Readly() { return Readly; }
-  
+  userFromStorage: UserSafeInSystem | null = null;
+
+  constructor() {
+    const user = localStorage.getItem(STORAGE_KEYS.USER);
+    this.userFromStorage = user ? JSON.parse(user) : null;
+  }
+    
   onSubmit(e: Event): void {
-    if(this.form.invalid) return;
+    if(this.form.invalid || !this.userFromStorage?.emailId) return;
 
     const { comment, star } = this.form.getRawValue();
 
-    this.#reviewService.addReviewFromForm({ comment, star }, this.bookId())
+    console.log( this.userFromStorage?.emailId , "email from add review")
+
+    this.#reviewService.addReviewFromForm({ comment, star }, this.bookId(),  this.userFromStorage.emailId )
       .pipe(
         take(1),
         tap(() => {
-          this.formDir.resetForm(this.form.value);
           this.reviewAdded.emit();
+          this.formDir.resetForm(this.form.value);
         })
       )
     .subscribe();
