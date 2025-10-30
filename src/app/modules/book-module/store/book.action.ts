@@ -1,5 +1,5 @@
+import { BooksView } from "@book-module";
 import { createAction, props } from "@ngrx/store";
-import { BooksView } from "../types/book";
 
 export const LoadBooks = createAction(
     '[Books] Load Books',  

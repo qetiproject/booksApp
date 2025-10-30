@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BooksView } from '@book-module';
-import { FavouriteBookFacade } from './favourite-book.facade';
+import { FavouriteBookFacade } from '@pages';
 
 @Injectable({
   providedIn: 'root',

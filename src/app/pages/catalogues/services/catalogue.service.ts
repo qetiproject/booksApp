@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BookDetails, BooksView } from '@book-module';
+import { CatalogueFacade } from '@pages';
 import { Observable } from 'rxjs/internal/Observable';
-import { CatalogueFacade } from './catalogue.facade';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
+import { HomeComponent } from '@pages';
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { HomeComponent } from './home.component';
 
 import { BookCategoryDropdownComponent, BookListComponent } from '@book-module';
 import { DebounceSearchComponent } from '@components';

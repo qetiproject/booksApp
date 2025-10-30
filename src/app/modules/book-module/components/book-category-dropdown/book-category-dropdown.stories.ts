@@ -1,5 +1,5 @@
+import { BookCategoryDropdownComponent } from "@book-module";
 import { Meta, moduleMetadata, StoryObj } from "@storybook/angular";
-import { BookCategoryDropdownComponent } from "./book-category-dropdown.component";
 
 const meta: Meta<BookCategoryDropdownComponent> = {
     title: 'Components/Category Dropdown',

@@ -1,10 +1,9 @@
 import { inject, Injectable } from "@angular/core";
 import * as UserSelectors from '@auth-module';
+import { BookService, LoadBooks, LoadBooksFailure, LoadBooksSuccess } from "@book-module";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { catchError, filter, map, of, switchMap, take, withLatestFrom } from "rxjs";
-import { BookService } from "../services/book/book.service";
-import { LoadBooks, LoadBooksFailure, LoadBooksSuccess } from "./book.action";
 
 @Injectable()
 export class BookEffect {

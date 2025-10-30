@@ -7,4 +7,4 @@ export * from './book-list/book-list.component';
 export * from './reviews/add-review/add-review.component';
 export * from './reviews/review-list/review-list.component';
 export * from './reviews/reviews-tab/reviews-tab.component';
-
+export * from './reviews/tabs/tabs.component';

@@ -1,6 +1,5 @@
+import { BookState, LoadBooks, LoadBooksFailure, LoadBooksSuccess, setCurrentPage } from "@book-module";
 import { createReducer, on } from "@ngrx/store";
-import { LoadBooks, LoadBooksFailure, LoadBooksSuccess, setCurrentPage } from "./book.action";
-import { BookState } from "./book.store";
 
 export const initialBookState: BookState = {
     items: [],

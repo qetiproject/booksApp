@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { signal } from '@angular/core';
-import { BookCardComponent, BookFacadeService } from '@book-module';
+import { BookCardComponent, BookFacadeService, BookListComponent } from '@book-module';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-import { BookListComponent } from './book-list.component';
 
 const mockBooks = [
   {

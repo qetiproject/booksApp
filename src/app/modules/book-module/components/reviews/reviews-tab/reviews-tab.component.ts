@@ -1,9 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, input, OnInit, TemplateRef, ViewChild } from "@angular/core";
-import { AddReviewComponent, BookDetailsService, Review, ReviewListComponent, ReviewService } from "@book-module";
+import { AddReviewComponent, BookDetailsService, Review, ReviewListComponent, ReviewService, TabsComponent } from "@book-module";
 import { Tab, TabKey } from "@types";
 import { Observable, take } from "rxjs";
-import { TabsComponent } from "../tabs/tabs.component";
 
 @Component({
     selector: 'app-reviews-tab',

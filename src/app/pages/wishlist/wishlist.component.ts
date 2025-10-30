@@ -6,8 +6,8 @@ import { UserService } from '@auth-module';
 import { BookCardComponent, BooksView } from '@book-module';
 import { BackButtonComponent } from '@components';
 import { Store } from '@ngrx/store';
+import { FavouriteBookService } from '@pages';
 import { filter, take } from 'rxjs';
-import { FavouriteBookService } from './services/favourite-book.service';
 
 @Component({
   selector: 'app-wishlist',

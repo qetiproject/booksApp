@@ -28,10 +28,8 @@ export class SelectComponent<T = unknown> implements ControlValueAccessor {
   value = signal<T | null>(null);
   disabled = false;
 
-  // ControlValueAccessor callbacks
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange = (_: T | null) => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  
   onTouched = () => {};
 
   writeValue(value: T | null): void {

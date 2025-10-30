@@ -1,4 +1,4 @@
-import { BooksView } from "../types/book";
+import { BooksView } from "@book-module";
 
 export interface BookState {
   items: BooksView[];
