@@ -6,7 +6,7 @@ export const bookRoutes: Routes = [
    {
     path: '',
     loadComponent: () => 
-      import('@pages/home/home.component').then(c => c.HomeComponent)
+      import('@pages').then(c => c.HomeComponent)
   },
   {
     path: ':id',

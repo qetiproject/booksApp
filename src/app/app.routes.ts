@@ -20,12 +20,12 @@ export const routes: Routes = [
   { path: 'catalogue', 
     canActivate: [IsUserAuthenticated],
     loadComponent: () => 
-          import('@pages/catalogues/catalogues.component').then(c => c.CataloguesComponent), 
+          import('@pages').then(c => c.CataloguesComponent), 
   },
   { path: 'favourites', 
     canActivate: [IsUserAuthenticated],
     loadComponent: () => 
-      import('@pages/wishlist/wishlist.component').then(c => c.WishlistComponent), 
+      import('@pages').then(c => c.WishlistComponent), 
   },
   { 
     path: '', 

@@ -5,7 +5,7 @@ import * as UserSelectors from '@auth-module';
 import { BookCardComponent, BooksView } from '@book-module';
 import { BackButtonComponent } from '@components';
 import { Store } from '@ngrx/store';
-import { CatalogueService } from '@pages/catalogues/services/catalogue.service';
+import { CatalogueService } from '@pages';
 import { filter, take } from 'rxjs';
 
 @Component({

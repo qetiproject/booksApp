@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import * as UserSelectors from '@auth-module';
 import { BookCardComponent, BookService, BooksView } from '@book-module';
 import { Store } from '@ngrx/store';
-import { FavouriteBookService } from '@pages/wishlist/services/favourite-book.service';
+import { FavouriteBookService } from '@pages';
 import { filter, take } from 'rxjs/operators';
 
 @Component({

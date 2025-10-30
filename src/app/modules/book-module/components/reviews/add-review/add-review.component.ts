@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input, output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserSafeInSystem } from '@auth-module';
-import { Readly, ReviewForm, ReviewService } from '@book-module';
+import { ReviewForm, ReviewService } from '@book-module';
 import { STORAGE_KEYS } from '@core';
 import { DynamicValidatorMessage, TextareaComponent } from '@features';
 import { TabKey } from '@types';
-import { createReviewForm } from '@utils/review-form.factory';
+import { createReviewForm } from '@utils';
 import { take, tap } from 'rxjs/operators';
 
 @Component({
@@ -29,7 +29,6 @@ export class AddReviewComponent {
   form: FormGroup<ReviewForm> = createReviewForm(this.fb);
 
   get starCtrl() { return this.form.controls.star; }
-  get Readly() { return Readly; }
   userFromStorage: UserSafeInSystem | null = null;
 
   constructor() {

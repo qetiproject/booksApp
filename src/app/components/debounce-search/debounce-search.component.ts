@@ -2,7 +2,7 @@
 import { Component, effect, output, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debouncedSignal } from '@utils/debouncedSignal';
+import { debouncedSignal } from '@utils';
 
 @Component({
   selector: 'app-debounce-search',
@@ -13,17 +13,13 @@ import { debouncedSignal } from '@utils/debouncedSignal';
 export class DebounceSearchComponent {
   searchControl = new FormControl('');
 
-  // Writable signal რომ აიღოს შედეგები
   searchValue = output<string>();
 
-  // 1️⃣ query სიგნალი (writable)
   query: WritableSignal<string> = signal('');
   
-  // 2️⃣ debounce
   debouncedQuery = debouncedSignal(this.query, 400);
 
   constructor() {
-    // FormControl → Signal binding
     this.searchControl.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe(value => {
@@ -31,7 +27,6 @@ export class DebounceSearchComponent {
     });
 
     
-    // Effect უშვებს debounce-ს
     effect(() => {
       this.searchValue.emit(this.debouncedQuery());
     });
