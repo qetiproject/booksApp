@@ -1,11 +1,8 @@
 import { inject, Injectable } from "@angular/core";
-import * as UserActions from '@auth-module';
-import { SafeUserData, selectSearchUsers } from "@auth-module";
 import { Review } from "@book-module";
 import { MessagesService } from "@core";
-import { Store } from "@ngrx/store";
 import { MessageSeverity } from "@types";
-import { BehaviorSubject, EMPTY, filter, map, Observable, of, switchMap, take } from "rxjs";
+import { BehaviorSubject, EMPTY, map, of, switchMap, take } from "rxjs";
 import { ReviewFacade } from "./review.facade";
 
 @Injectable({
@@ -17,8 +14,6 @@ export class ReviewService {
 
     private readonly reviews = new BehaviorSubject<Review[]>([]);
     readonly reviews$ = this.reviews.asObservable();
-
-    #store = inject(Store);
     
     constructor() {
         this.refreshReviews()
@@ -43,28 +38,12 @@ export class ReviewService {
         });
     }
 
-    canUserAddReview(bookId: string, userId: number): boolean {
-        return this.#reviewFacade.canUserAddReview(bookId, userId);
-    }
-
-    private searchUserByEmail(email: string): Observable<SafeUserData | null> {
-        this.#store.dispatch(UserActions.searchUsers({ searchText: email }));
-
-        return this.#store.select(selectSearchUsers).pipe(
-            filter(response => response.data.length > 0), 
-            take(1),
-            map(response => {
-                const user = response.data.find(u => u.emailId === email);
-                return user ?? null;
-            })
-        );
-    }
     addReviewFromForm(formValue: { comment: string; star: number }, bookId: string, email: string) {
-        return this.searchUserByEmail(email).pipe(
+        return this.#reviewFacade.searchUserByEmail(email).pipe(
             take(1),
             switchMap(user => {
                 if (!user) return EMPTY;
-                if (!this.canUserAddReview(bookId, user.userId)) {
+                if (!this.#reviewFacade.canUserAddReview(bookId, user.userId)) {
                     this.#messages.showMessage({
                         text: 'უკვე დამატებულია კომენტარი ამ წიგნზე!',
                         severity: MessageSeverity.Info,
@@ -72,13 +51,7 @@ export class ReviewService {
                     return EMPTY;
                 }
 
-                const newReview: Review = {
-                    userId: user.userId,
-                    userFullname: user.fullName,
-                    comment: formValue.comment,
-                    rating: formValue.star,
-                    bookId
-                };
+                const newReview = this.#reviewFacade.createReview(formValue, bookId, user);
 
                 this.saveAndNotify(newReview);
                 return of(true);
