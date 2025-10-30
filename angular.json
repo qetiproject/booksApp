@@ -38,6 +38,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/qetiproject/",
               "budgets": [
                 {
                   "type": "initial",
