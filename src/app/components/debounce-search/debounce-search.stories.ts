@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { DebounceSearchComponent } from '@components';
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { DebounceSearchComponent } from './debounce-search.component';
 
 const meta: Meta<DebounceSearchComponent> = {
   title: 'Components/DebounceSearch',

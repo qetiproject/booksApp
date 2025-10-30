@@ -3,5 +3,6 @@ export * from './debounce-search/debounce-search.component';
 export * from './header/header.component';
 export * from './messages/messages.component';
 export * from './paging/paging.component';
+export * from './paging/paging.service';
 export * from './select/select.component';
 

@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { PagingService } from "./paging.service";
+import { PagingService } from "@components";
 
 @Component({
     selector: 'app-paging',

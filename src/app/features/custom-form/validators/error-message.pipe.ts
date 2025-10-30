@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from "@angular/core";
-import { VALIDATION_ERROR_MESSAGES } from ".";
+import { VALIDATION_ERROR_MESSAGES } from "@custom-form";
 
 @Pipe({
     name: 'errorMessage',

@@ -1,7 +1,7 @@
 import { ComponentRef, Directive, ElementRef, inject, Input, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { ControlContainer, FormGroupDirective, NgControl, NgForm, NgModel } from '@angular/forms';
+import { ErrorStateMatcher, InputErrorComponent } from '@custom-form';
 import { EMPTY, fromEvent, iif, merge, skip, startWith, Subscription } from 'rxjs';
-import { ErrorStateMatcher, InputErrorComponent } from '.';
 
 @Directive({
   selector: `
