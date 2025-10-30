@@ -2,12 +2,10 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       
-      <!-- Logo -->
-      <a routerLink="/" class="text-2xl font-bold text-blue-600 hover:text-blue-800 transition-colors">
+      <a [routerLink]="['/books']" class="text-2xl font-bold text-blue-600 hover:text-blue-800 transition-colors">
         BookApp
       </a>
 
-      <!-- Desktop Nav -->
       <nav class="hidden md:flex space-x-6">
         @for (link of navLinks; track link.path) {
           <a 
@@ -19,7 +17,6 @@
         }
       </nav>
 
-      <!-- User Dropdown -->
       <div class="relative hidden md:block">
         <button (click)="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
           <img 
@@ -55,7 +52,6 @@
         }
       </div>
 
-      <!-- Mobile Menu Toggle -->
       <button (click)="toggleMobileMenu()" class="md:hidden text-gray-700 focus:outline-none">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
              viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
@@ -65,7 +61,6 @@
     </div>
   </div>
 
-  <!-- Mobile Menu -->
   @if (isMobileMenu()) {
     <div class="md:hidden bg-white border-t animate-slideDown">
       <nav class="px-2 pt-2 pb-3 space-y-1">

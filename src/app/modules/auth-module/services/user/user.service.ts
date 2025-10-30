@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Users, UserSafeInSystem } from "@auth-module";
+import { SafeUserData, Users, UserSafeInSystem } from "@auth-module";
 import { STORAGE_KEYS } from "@core";
 import { Observable } from "rxjs";
 import { UserFacade } from "./user.facade";
@@ -18,25 +18,12 @@ export class UserService {
     return this.userFacade.searchUsers(searchText);
   }
 
-  getUserbyEmail(): Observable<Users> {
-    return this.userFacade.getUserbyEmail();
+  getUserbyEmail(email: string): Observable<SafeUserData | null> {
+    return this.userFacade.searchUserByEmail(email);
   }
 
   getCurrentUserFromStorage(): UserSafeInSystem | null {
     const userData = localStorage.getItem(STORAGE_KEYS.USER);
     return userData ? JSON.parse(userData) : null;
   }
-
-  // getCurrentUserSafeData(): Observable<SafeUserData> {
-  //   debugger
-  //   return this.getUserbyEmail().pipe(
-  //     map(users => {
-  //       const data = (users && 'data' in users && Array.isArray(users.data)) ? users.data : [];
-  //       return data[0];
-  //     }),
-  //     filter((user): user is SafeUserData => !!user),
-  //     take(1),
-  //   );
-  // }
-      
 }

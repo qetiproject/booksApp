@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import * as UserSelectors from '@auth-module';
-import { SafeUserData, UserResponse, Users } from "@auth-module";
+import * as UserActions from '@auth-module';
+import { SafeUserData, selectSearchUsers, UserResponse, Users } from "@auth-module";
 import { STORAGE_KEYS } from "@core";
 import { Store } from "@ngrx/store";
-import { EMPTY, filter, Observable, take } from "rxjs";
+import { filter, map, Observable, take } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -23,20 +23,13 @@ export class UserFacade {
         const user: SafeUserData = userData ? JSON.parse(userData) : null;
         return user;
     }
-    
-    getUserbyEmail(): Observable<Users> {
-        const email = this.getSafeUserData()?.emailId
-        console.log(email, "email")
-        if (!email) {
-            return EMPTY;
-        }
-        
-        return this.#store.select(UserSelectors.selectSearchUsers).pipe(
-            filter(searchResult =>
-                !!searchResult && searchResult.data.some(u => u.emailId === email)
-            ),
-            take(1)
+
+    searchUserByEmail(email: string): Observable<SafeUserData> {
+        this.#store.dispatch(UserActions.searchUsers({ searchText: email }));
+        return this.#store.select(selectSearchUsers).pipe(
+            filter(response => response.data.some(u => u.emailId === email)), 
+            take(1),
+            map(response => response.data.find(u => u.emailId === email)!) 
         );
-        
     }
 }
