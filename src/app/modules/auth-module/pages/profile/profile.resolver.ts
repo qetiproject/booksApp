@@ -4,7 +4,7 @@ import {
 } from '@angular/router';
 import { selectUserEmail, Users, UserService } from '@auth-module';
 import { Store } from '@ngrx/store';
-import { filter, Observable, switchMap, take } from 'rxjs';
+import { filter, Observable, switchMap, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,7 @@ export class ProfileResolver implements Resolve<Users> {
 
   resolve(): Observable<any> {
     return this.#store.select(selectUserEmail).pipe(
+      tap(email => console.log(email)),
       filter((email): email is string => !!email),
       take(1),
       switchMap(email => this.#userService.getUserbyEmail(email)), 

@@ -1,6 +1,6 @@
 import * as UserActions from '@auth-module';
+import { UserState } from "@auth-module";
 import { createReducer, on } from "@ngrx/store";
-import { UserState } from "./user.store";
 
 export const initialUserState: UserState = {
     loading: false,

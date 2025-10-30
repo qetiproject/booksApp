@@ -1,10 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import { AuthFacade, LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse, ResetPassword, TokenStorageService } from "@auth-module";
 import { Observable } from "rxjs";
-import { LoginCredentials, LoginResponse, RegisterCredentionals, RegisterUserResponse, ResetPassword } from "../types/auth";
-import { AuthFacade } from "./authFacade";
-import { TokenStorageService } from "./token.service";
 
 @Injectable({
   providedIn: 'root'

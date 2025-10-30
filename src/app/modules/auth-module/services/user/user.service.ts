@@ -1,10 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { SafeUserData, Users, UserSafeInSystem } from "@auth-module";
+import { SafeUserData, UserFacade, Users, UserSafeInSystem } from "@auth-module";
 import { STORAGE_KEYS } from "@core";
 import { Observable } from "rxjs";
-import { UserFacade } from "./user.facade";
 
 @Injectable({
   providedIn: 'root'
