@@ -1,4 +1,5 @@
 import { inject, Injectable } from "@angular/core";
+import { UserService } from "@auth-module";
 import { Review } from "@book-module";
 import { MessagesService } from "@core";
 import { MessageSeverity } from "@types";
@@ -11,7 +12,8 @@ import { ReviewFacade } from "./review.facade";
 export class ReviewService {
     #reviewFacade = inject(ReviewFacade);
     #messages = inject(MessagesService);
-
+    #userService = inject(UserService);
+    
     private readonly reviews = new BehaviorSubject<Review[]>([]);
     readonly reviews$ = this.reviews.asObservable();
     
@@ -39,7 +41,7 @@ export class ReviewService {
     }
 
     addReviewFromForm(formValue: { comment: string; star: number }, bookId: string, email: string) {
-        return this.#reviewFacade.searchUserByEmail(email).pipe(
+        return this.#userService.getUserbyEmail(email).pipe(
             take(1),
             switchMap(user => {
                 if (!user) return EMPTY;

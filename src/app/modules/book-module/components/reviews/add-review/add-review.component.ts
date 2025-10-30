@@ -42,8 +42,6 @@ export class AddReviewComponent {
 
     const { comment, star } = this.form.getRawValue();
 
-    console.log( this.userFromStorage?.emailId , "email from add review")
-
     this.#reviewService.addReviewFromForm({ comment, star }, this.bookId(),  this.userFromStorage.emailId )
       .pipe(
         take(1),

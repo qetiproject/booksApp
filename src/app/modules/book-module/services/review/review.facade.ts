@@ -1,17 +1,13 @@
-import { inject, Injectable } from "@angular/core";
-import * as UserActions from '@auth-module';
-import { SafeUserData, selectSearchUsers } from "@auth-module";
+import { Injectable } from "@angular/core";
+import { SafeUserData } from "@auth-module";
 import { Review } from "@book-module";
 import { STORAGE_KEYS } from "@core";
-import { Store } from "@ngrx/store";
-import { filter, map, Observable, take } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ReviewFacade {
-  #store = inject(Store);
-    
+export class ReviewFacade {    
+  
   loadReviews(): Review[] {
     const currentReviews = sessionStorage.getItem(STORAGE_KEYS.BOOK_REVIEWS);
     const reviews = currentReviews ? JSON.parse(currentReviews) : [];
@@ -20,19 +16,6 @@ export class ReviewFacade {
 
   saveReviewToStorage(review: Review[]) {
     sessionStorage.setItem(STORAGE_KEYS.BOOK_REVIEWS, JSON.stringify(review));
-  }
-  
-  searchUserByEmail(email: string): Observable<SafeUserData | null> {
-    this.#store.dispatch(UserActions.searchUsers({ searchText: email }));
-
-    return this.#store.select(selectSearchUsers).pipe(
-        filter(response => response.data.length > 0), 
-        take(1),
-        map(response => {
-            const user = response.data.find(u => u.emailId === email);
-            return user ?? null;
-        })
-    );
   }
 
   canUserAddReview(bookId: string, userId: number): boolean {
