@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { BackButtonDirective } from '@features/directives/back-button.directive';
+import { BackButtonDirective } from '@features';
 
 @Component({
   selector: 'app-back-button',

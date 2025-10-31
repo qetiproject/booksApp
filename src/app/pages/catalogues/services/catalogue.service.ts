@@ -1,69 +1,26 @@
 import { inject, Injectable } from '@angular/core';
-import { BooksView } from '@book-module/types/book';
-import { BookDetails } from '@book-module/types/book-details';
-import { MessagesService } from '@core/services/messages.service';
-import { MessageSeverity } from '@types';
-import { BehaviorSubject } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { BookDetails, BooksView } from '@book-module';
+import { Observable } from 'rxjs/internal/Observable';
+import { CatalogueFacade } from './catalogue.facade';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CatalogueService {
-  private readonly STORAGE_KEY = environment.CATALOGUE_STORAGE_KEY;
-  private messages = inject(MessagesService);
-  private errorMessage = 'Failed to save catalogue to localStorage';
+  #catalogueFacade = inject(CatalogueFacade);
 
-  books = new BehaviorSubject<BooksView[]>([]);
-  books$ = this.books.asObservable();
-
-  constructor() {
-    this.loadBooks();
-  }
+  books$: Observable<BooksView[]> = this.#catalogueFacade.books$;
   
-  addBook(book: BookDetails): void {
-    const view = this.mapToBookView(book);
-    const current = this.books.value;
-    if(!current.some(b => b.id == view.id)){
-      this.updateBooks([view, ...current]);
-    }
+  addBook(book: BookDetails, userId: number): void {
+    this.#catalogueFacade.addBook(book, userId);
   }
 
-  private mapToBookView(details: BookDetails): BooksView {
-    return {
-      id: details.id,
-      title: details.volumeInfo.title,
-      authors: details.volumeInfo.authors ?? [],
-      language: details.volumeInfo.language,
-      imageLinks: {
-        thumbnail: details.volumeInfo.imageLinks.thumbnail || 'assets/no-image.png',
-        smallThumbnail: details.volumeInfo.imageLinks.smallThumbnail || 'assets/no-image.png',
-      },
-      categories: details.volumeInfo.categories
-    };
-  }
-  
-  removeBook(book: BooksView): void {
-    this.updateBooks(this.books.value.filter(x => x.id !== book.id));
+  loadCatalogueBooks(userId: number) {
+    this.#catalogueFacade.loadCatalogueBooks(userId)
   }
 
-  private loadBooks() {
-    const currentBooks = localStorage.getItem(this.STORAGE_KEY);
-    this.books.next(currentBooks ? JSON.parse(currentBooks) : []);
-  }
-
-  private updateBooks(updated: BooksView[]): void {
-    this.books.next(updated);
-    try{
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updated));
-    }
-    catch(err){
-      this.messages.showMessage({
-        text: `📚 ${this.errorMessage}- ${err}`,
-        severity: MessageSeverity.Error,
-        duration: 5000
-      })
-    }
+  removeBook(book: BooksView, id: number): void {
+    this.#catalogueFacade.removeBook(book, id);
   }
 
 }

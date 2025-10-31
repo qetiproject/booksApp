@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { signal } from '@angular/core';
-import { BookCardComponent } from '@book-module-components/book-card/book-card.component';
-import { BookFacadeService } from '@book-module/services/book.facade';
+import { BookCardComponent, BookFacadeService } from '@book-module';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { BookListComponent } from './book-list.component';
 

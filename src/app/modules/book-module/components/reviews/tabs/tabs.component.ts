@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { TabActiveDirective } from "@features/directives/tabactive.directive";
+import { TabActiveDirective } from "@features";
 import { TabKey } from "@types";
 
 @Component({

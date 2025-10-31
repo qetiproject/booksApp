@@ -1,9 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, input, OnInit, TemplateRef, ViewChild } from "@angular/core";
-import { AddReviewComponent, ReviewListComponent } from "@book-module/components";
-import { BookDetailsFacade } from "@book-module/services/book-details.facade";
-import { ReviewService } from "@book-module/services/review.service";
-import { Review } from "@book-module/types";
+import { AddReviewComponent, BookDetailsService, Review, ReviewListComponent, ReviewService } from "@book-module";
 import { Tab, TabKey } from "@types";
 import { Observable, take } from "rxjs";
 import { TabsComponent } from "../tabs/tabs.component";
@@ -15,7 +12,7 @@ import { TabsComponent } from "../tabs/tabs.component";
     templateUrl: './reviews-tab.component.html'
 })
 export class ReviewsTabComponent implements OnInit{
-    #bookDetailsFacade = inject(BookDetailsFacade);
+    #bookDetailsService = inject(BookDetailsService);
     #reviewsService = inject(ReviewService);
     bookId = input.required<string>();
     
@@ -38,7 +35,7 @@ export class ReviewsTabComponent implements OnInit{
     }
 
     get tabs(): Tab[] {
-        return this.#bookDetailsFacade.tabs(this.reviewsTemplate, this.addReviewTemplate)
+        return this.#bookDetailsService.tabs(this.reviewsTemplate, this.addReviewTemplate)
     }
 
     selectTab(tabKey: TabKey) {

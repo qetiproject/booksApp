@@ -1,0 +1,18 @@
+{
+  "/UserApp": {
+    "target": "https://api.freeprojectapi.com/api",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/UserApp": "/UserApp"
+    }
+  },
+  "/volumes": {
+    "target": "https://www.googleapis.com/books/v1",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/volumes": "/volumes"
+    }
+  }
+}

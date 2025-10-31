@@ -1,5 +1,5 @@
 import { Directive, HostBinding, inject } from '@angular/core';
-import { MessagesService } from '@core/services/messages.service';
+import { MessagesService } from '@core';
 import { MessagePosition, MessageSeverity } from '@types';
 
 @Directive({

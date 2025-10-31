@@ -1,31 +1,46 @@
 import { HttpErrorResponse, HttpInterceptorFn } from "@angular/common/http";
 import { inject } from "@angular/core";
-import { MessageSeverity } from "@types";
-import { catchError, retry, tap, throwError } from "rxjs";
+import { ErrorMessages, MessageSeverity } from "@types";
+import { catchError, throwError } from "rxjs";
 import { MessagesService } from "../services/messages.service";
 
 export const GlobalHttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
     const messages = inject(MessagesService);
 
     return next(req).pipe(
-        retry({count: 3, delay: 1000}),
-        tap({
-            error: (error: HttpErrorResponse) => {
-                messages.showMessage({
-                    text: error.message, 
-                    severity: MessageSeverity.Error,
-                    duration: 5000
-                });
-            }
-        }),
         catchError((error: HttpErrorResponse) => {
-            const message = error.error?.message ?? 'Unexpected error';
+            if (error.status === 0 || error.status >= 400) {
+            let message = '';
+            switch (error.status) {
+                case 400:
+                message = error.error;
+                break;
+                case 401:
+                message = ErrorMessages.E401;
+                break;
+                case 403:
+                message = ErrorMessages.E403;
+                break;
+                case 404:
+                message = ErrorMessages.E404;
+                break;
+                case 500:
+                message = ErrorMessages.E500;
+                break;
+                default:
+                message = ErrorMessages.Unknown;
+                break;
+            }
+
             messages.showMessage({
-                text: message, 
+                text: message,
                 severity: MessageSeverity.Error,
                 duration: 5000
             });
+            }
+
             return throwError(() => error);
         })
     )
+
 }

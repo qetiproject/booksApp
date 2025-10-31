@@ -1,32 +1,45 @@
 
-import { Component, inject } from '@angular/core';
-import { BookCardComponent } from '@book-module/components/book-card/book-card.component';
-import { BooksView } from '@book-module/types/book';
+import { Component, effect, inject, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import * as UserSelectors from '@auth-module';
+import { UserService } from '@auth-module';
+import { BookCardComponent, BooksView } from '@book-module';
 import { BackButtonComponent } from '@components';
-import { MessagesService } from '@core/services/messages.service';
-import { MessageSeverity } from '@types';
-import { FavouriteBookService } from './services/favouriteBook.service';
+import { Store } from '@ngrx/store';
+import { filter, take } from 'rxjs';
+import { FavouriteBookService } from './services/favourite-book.service';
 
 @Component({
   selector: 'app-wishlist',
   standalone: true,
-  imports: [BookCardComponent, BackButtonComponent],
+  imports: [BackButtonComponent, BookCardComponent],
   templateUrl: './wishlist.component.html',
   styleUrl: './wishlist.component.css',
 })
-export class WishlistComponent{
+export class WishlistComponent {
 
-  private readonly favouriteBookService = inject(FavouriteBookService);
-  private messages = inject(MessagesService);
+  readonly favouriteBookService = inject(FavouriteBookService);
+  userService = inject(UserService);
+  userId: Signal<number | undefined>;
+  #store = inject(Store);
+
+  constructor(){
+    this.userId = toSignal(this.#store.select(UserSelectors.selectActiveUserId).pipe(
+      filter((id): id is number => id !== null),
+      take(1))
+    )
+    effect(() => {
+      const id = this.userId();
+      if (id) {
+        this.favouriteBookService.loadFavouriteBooks(id);
+      }
+    });
+  }
   
-  readonly favouriteBooks = this.favouriteBookService.favouriteBooks
-
   onBookDeleteFromFavouritesEvent(book: BooksView): void {
-    this.favouriteBookService.removeBookFromFavourite(book);
-    this.messages.showMessage({
-      text: `📚 "${book.title}" წარმატებით წაიშალა სიიდან!`,
-      severity: MessageSeverity.Success
-    })
+    const id = this.userId();
+    if (!id) return;
+    this.favouriteBookService.removeBookFromFavourite(book, id);
   }
 
 }

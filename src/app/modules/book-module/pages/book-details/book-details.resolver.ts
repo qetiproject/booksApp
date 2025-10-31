@@ -1,7 +1,6 @@
 import { inject } from "@angular/core";
 import { ActivatedRouteSnapshot, ResolveFn, Router } from "@angular/router";
-import { BookService } from "@book-module/services/book.service";
-import { BookDetails } from "@book-module/types";
+import { BookDetails, BookService } from "@book-module";
 import { firstValueFrom } from "rxjs";
 
 export const BookDetailsResolver: ResolveFn<BookDetails > =
@@ -9,10 +8,10 @@ export const BookDetailsResolver: ResolveFn<BookDetails > =
         const bookId = route.paramMap.get("id");
         const bookService = inject(BookService);
         const router = inject(Router);
-
+        
         if(!bookId) {
             router.navigate(['/books']);
-            return Promise.reject("No BookId"); // not happen resolve
+            return Promise.reject("No BookId");
         }
 
         try{

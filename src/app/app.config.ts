@@ -1,20 +1,14 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
 import { provideHttpClient, withFetch, withInterceptors } from "@angular/common/http";
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import { AuthEffects, AuthReducer, UserEffects, UserReducer } from "@auth-module";
+import { BookEffect, BookReducer } from "@book-module";
+import { AuthInterceptor, GlobalHttpErrorInterceptor, LoadingInterceptor } from '@core';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from "@ngrx/store-devtools";
-import { AuthEffects } from 'modules/auth/store/auth.effects';
-import { AuthReducer } from 'modules/auth/store/auth.reducer';
 import { routes } from './app.routes';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import { GlobalHttpErrorInterceptor } from './core/interceptors/global-http-error-interceptor';
-import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
-import { BookEffect } from './modules/book-module/store/book.effect';
-import { BookReducer } from './modules/book-module/store/book.reducer';
-
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,9 +26,10 @@ export const appConfig: ApplicationConfig = {
     ),
     provideStore({
       auth: AuthReducer,
+      user: UserReducer,
       books: BookReducer
     }),
-    provideEffects([AuthEffects, BookEffect]),
+    provideEffects([AuthEffects, UserEffects,  BookEffect]),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false

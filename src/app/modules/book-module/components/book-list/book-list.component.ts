@@ -1,9 +1,12 @@
 
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BookCardComponent } from '@book-module-components/book-card/book-card.component';
-import { BookFacadeService } from '@book-module/services/book.facade';
-import { BooksView } from '@book-module/types';
+import * as UserSelectors from '@auth-module';
+import { BookCardComponent, BookService, BooksView } from '@book-module';
+import { Store } from '@ngrx/store';
+import { FavouriteBookService } from '@pages/wishlist/services/favourite-book.service';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-list',
@@ -13,33 +16,35 @@ import { BooksView } from '@book-module/types';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent {
-  #bookFacadeService = inject(BookFacadeService)
+  #bookService = inject(BookService);
+  #favouriteBookService = inject(FavouriteBookService);
 
-  // signals
   searchQuery = input<string>('');
   categorySelected = input<string | null>(null);
-  books = this.#bookFacadeService.books;
-
-  constructor() {
-    this.initEffects();
-  }
-
-  initEffects() {
+  books = this.#bookService.books;
+  userId: Signal<number | undefined> ;
+  #store = inject(Store);
+  
+  constructor(){
+    this.userId = toSignal(this.#store.select(UserSelectors.selectActiveUserId).pipe(
+        filter((id): id is number => id !== null),
+        take(1))
+    )
     effect(() => {
-      if(this.searchQuery()){
-        this.#bookFacadeService.getBooks(this.searchQuery(), null)
-      }
-    });
+      const search = this.searchQuery();
+      const category = this.categorySelected();
+      const id = this.userId();
 
-    effect(() => {
-      if(this.categorySelected() != null){
-        this.#bookFacadeService.getBooks(null, this.categorySelected())
-      }
+      if ((!search && !category) || !id) return;
+
+      this.#bookService.getBooks(search ?? null, category ?? null);
     });
   }
 
   onAddInFavouriteEvent(book: BooksView) {
-    this.#bookFacadeService.onAddInFavouriteEvent(book);
+    const id = this.userId();
+    if (!id) return;
+    this.#favouriteBookService.addBookToFavourite(book, id);
   }
 
 }

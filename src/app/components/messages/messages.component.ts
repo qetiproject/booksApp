@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { MessagesService } from '@core/services/messages.service';
-import { MessageDirective } from '@features/directives/message.directive';
+import { MessagesService } from '@core';
+import { MessageDirective } from '@features';
 
 @Component({
   selector: 'app-messages',

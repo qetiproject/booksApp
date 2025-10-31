@@ -1,0 +1,34 @@
+import { AuthState } from "@auth-module";
+import { createFeatureSelector, createSelector } from "@ngrx/store";
+
+export const selectAuthState = createFeatureSelector<AuthState>('auth');
+
+export const selectUserResponse = createSelector(
+    selectAuthState,
+    (state: AuthState) => state.response
+)
+
+export const selectActiveUserId = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.activeUserId
+);
+
+export const selectUserEmail = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.email
+);
+
+export const selectIsLoggedIn = createSelector(
+    selectAuthState,
+    (state: AuthState) => state.isLoggedIn
+)
+
+export const selectAuthloading = createSelector(
+    selectAuthState,
+    (state: AuthState) => state.loading
+)
+
+export const selectAuthError = createSelector(
+    selectAuthState,
+    (state: AuthState) => state.response?.message
+)
