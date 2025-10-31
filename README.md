@@ -6,9 +6,10 @@
 
 ## Features
 - **User Authorization:** Register, Login, Forgot password, send otp to email
+- **User Profile:** Data about user
 - **Security:** Security user data in sessionstorage and ngrx
 - **Book Listing & Filtering:** Browse books and filter by **title** or **category**.
-- **Detailed View:** See detailed information about each book.
+- **Detailed View:** See detailed information about each book, add review and see all reviews about book.
 - **Favourites & Catalogue:** Add books to **Favourites** or a personal **Catalogue**.
 
 ---
