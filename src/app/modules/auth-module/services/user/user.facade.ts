@@ -5,6 +5,7 @@ import { SafeUserData, selectSearchUsers, UserResponse, Users } from "@auth-modu
 import { STORAGE_KEYS } from "@core";
 import { Store } from "@ngrx/store";
 import { filter, map, Observable, take } from "rxjs";
+import { environment } from "../../../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +16,7 @@ export class UserFacade {
     #store = inject(Store);
     
     searchUsers(searchText: string): Observable<Users> {
-        return this.http.get<UserResponse>(`UserApp/searchUsers?searchText=${searchText}`, );
+        return this.http.get<UserResponse>(`${environment.userUrl}/searchUsers?searchText=${searchText}`, );
     }
 
     getSafeUserData(): SafeUserData {

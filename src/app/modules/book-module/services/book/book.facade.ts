@@ -6,6 +6,7 @@ import { SkipLoading } from "@features";
 import { Store } from "@ngrx/store";
 import { PagingService } from "components/paging/paging.service";
 import { map, Observable, shareReplay } from "rxjs";
+import { environment } from "../../../../../environments/environment";
 import { selectBooks } from "../../store/book.selector";
 
 @Injectable({
@@ -27,7 +28,7 @@ export class BookFacadeService {
         startIndex: number,
         userId: number
         ): Observable<{ items: BooksView[]; totalItems: number }> {
-        return this.http.get<BookResult>(`/volumes?q=${name}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
+        return this.http.get<BookResult>(`${environment.volumesUrl}?q=${name}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
             map(response => {
             const items = response.items || [];
             
@@ -56,7 +57,7 @@ export class BookFacadeService {
         userId: number
         ): Observable<{ items: BooksView[]; totalItems: number }> {
 
-        return this.http.get<BookResult>(`/volumes?q=${category}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
+        return this.http.get<BookResult>(`${environment.volumesUrl}?q=${category}&maxResults=${maxResults}&startIndex=${startIndex}`).pipe(
             map(response => {
             const items = response.items || [];
             const mappedItems: BooksView[] = items.map(item => ({
@@ -79,7 +80,7 @@ export class BookFacadeService {
     }
     
     bookById(id: string): Observable<BookDetails> {
-        return this.http.get<BookDetailsResult>(`/volumes/${id}`, {
+        return this.http.get<BookDetailsResult>(`${environment.volumesUrl}/${id}`, {
             context: new HttpContext().set(SkipLoading, true)
         }).pipe(
             map(response => {
