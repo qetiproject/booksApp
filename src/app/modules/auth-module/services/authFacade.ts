@@ -16,7 +16,7 @@ export class AuthFacade {
     }
 
     login(user: LoginCredentials): Observable<LoginResponse> {
-        return this.http.post<LoginResponse>(`${environment.userUrl}/login`, user)
+        return this.http.post<LoginResponse>(`https://api.freeprojectapi.com/api/UserApp/login`, user)
     }
 
     sendResetOtp(emailId: string): Observable<{message: string}> {
