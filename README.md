@@ -5,22 +5,23 @@
 ---
 
 ## Features
-- **User Authorization:** Register, Login, Forgot password, send otp to email
-- **User Profile:** Data about user
-- **Security:** Security user data in sessionstorage and ngrx
-- **Book Listing & Filtering:** Browse books and filter by **title** or **category**.
-- **Detailed View:** See detailed information about each book, add review and see all reviews about book.
-- **Favourites & Catalogue:** Add books to **Favourites** or a personal **Catalogue**.
+- **User Authorization:** Register, Login, Forgot Password, and Email OTP verification
+- **User Profile:** View personal information (full name, email, preferences)
+- **Security:** Secure storage and management of user data using SessionStorage and NgRx
+- **Book Listing, Filtering & Paging:** Browse books with filtering by title or category, support pagination and manage state with NgRx
+- **Detailed Book View:** Access detailed information, read all reviews and submit new ones
+- **Favourites & Catalogue:** Add books to Favourites or a personal Catalogue for quick access
+- **Reusable Components:** Dynamic forms and UI components designed for reusability across the application, following modular architecture principles
 
 ---
 
 ## Technologies
-- **Framework:** Angular 20
+- **Framework:** Angular 20 with modular and scalable architecture
 - **Languages:** TypeScript, JavaScript (ES6+)
-- **State Management:** Angular Signals, Ngrx, RxJS
-- **Styling & UI:** Tailwind Css, Responsive Design
-- **Architecture:** Clean and modular
-- **UI Testing:** StoryBook
+- **State Management:** Reactive state management with Angular Signals, NgRx and RxJS for asynchronous data streams
+- **Styling & UI:** Tailwind CSS for styling and fully responsive design
+- **Architecture:** Follows clean architecture principles with modular, maintainable and scalable components
+- **UI Testing:** Storybook for isolated component testing and component documentation
 
 ---
 
