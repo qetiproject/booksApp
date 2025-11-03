@@ -5,7 +5,7 @@ import { SafeUserData, selectSearchUsers, UserResponse, Users } from "@auth-modu
 import { STORAGE_KEYS } from "@core";
 import { Store } from "@ngrx/store";
 import { filter, map, Observable, take } from "rxjs";
-import { environment } from "../../../../../environment/environment.development";
+import { environment } from "../../../../../environment/environment.prod";
 
 @Injectable({
     providedIn: 'root'

@@ -6,7 +6,7 @@ import { SkipLoading } from "@features";
 import { Store } from "@ngrx/store";
 import { PagingService } from "components/paging/paging.service";
 import { map, Observable, shareReplay } from "rxjs";
-import { environment } from "../../../../../environment/environment.development";
+import { environment } from "../../../../../environment/environment.prod";
 import { selectBooks } from "../../store/book.selector";
 
 @Injectable({
