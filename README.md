@@ -6,7 +6,6 @@
 
 ## Features
 - **User Authorization:** Register, Login, Forgot Password, and Email OTP verification
-- **User Profile:** View personal information (full name, email, preferences)
 - **Security:** Secure storage and management of user data using SessionStorage and NgRx
 - **Book Listing, Filtering & Paging:** Browse books with filtering by title or category, support pagination and manage state with NgRx
 - **Detailed Book View:** Access detailed information, read all reviews and submit new ones

@@ -29,11 +29,7 @@ export class HeaderComponent {
     this.isOpen.update(v => !v);
   }
 
-  closeDropdown() {
-    this.isOpen.set(false);
-  }
-
-   toggleMobileMenu() {
+  toggleMobileMenu() {
     this.isMobileMenu.update(v => !v);
   }
 
